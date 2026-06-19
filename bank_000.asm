@@ -338,7 +338,7 @@ Jump_000_0150:
     ld [$c012], a
     call Call_000_0365
     call Call_000_0374
-    call Call_000_02fc
+    call Game_SaveInput
     call Call_000_0c29
     ld a, $03
     ld [$c01b], a
@@ -361,12 +361,12 @@ jr_000_018f:
     or a
     jr z, jr_000_01a7
 
-    ld a, [$c016]
+    ld a, [wJoyPressed]
     and $08
     jr nz, jr_000_01ca
 
 jr_000_01a7:
-    call Call_000_02fc
+    call Game_SaveInput
     ld hl, $c011
     inc [hl]
     bit 0, [hl]
@@ -396,7 +396,7 @@ jr_000_01ca:
 
     ld a, $ff
     ld [$c033], a
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $07
     cp $07
     jp z, Jump_000_0150
@@ -612,13 +612,13 @@ Call_000_02ed:
     ret
 
 
-Call_000_02fc:
-    ld a, [$c015]
-    ld [$c017], a
-    ld a, [$c016]
-    ld [$c018], a
+Game_SaveInput:
+    ld a, [wJoyHeld]
+    ld [wUnusedC017], a
+    ld a, [wJoyPressed]
+    ld [wUnusedC018], a
 
-Jump_000_0308:
+Game_PollInput:
     ld a, $20
     ldh [rP1], a
     ldh a, [rP1]
@@ -645,12 +645,12 @@ Jump_000_0308:
     ld c, a
     ld a, $30
     ldh [rP1], a
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     xor c
     and c
-    ld [$c016], a
+    ld [wJoyPressed], a
     ld a, c
-    ld [$c015], a
+    ld [wJoyHeld], a
     ret
 
 
@@ -5775,7 +5775,7 @@ jr_000_1d96:
     ldh [$ffce], a
     ldh [$ffb1], a
     ldh [$ffb3], a
-    ld [$c016], a
+    ld [wJoyPressed], a
     ld [$c0fc], a
     ldh [$ffad], a
     ldh [$ffae], a
@@ -5884,7 +5884,7 @@ jr_000_1e7c:
 jr_000_1ec9:
     ld hl, $ffcd
     inc [hl]
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $0b
     ret z
 
@@ -5960,12 +5960,12 @@ jr_000_1f38:
     xor a
     ldh [$ff8a], a
     call Call_000_03ef
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $26
     cp $26
     jr z, jr_000_1f72
 
-    ld a, [$c016]
+    ld a, [wJoyPressed]
     cp $08
     jp z, Jump_000_1ff1
 
@@ -6138,7 +6138,7 @@ jr_000_203d:
     ldh [$ff9c], a
     call Call_000_187d
     xor a
-    ld [$c016], a
+    ld [wJoyPressed], a
     ld [$c160], a
     call Call_000_0e65
     call Call_000_1a49
@@ -7171,7 +7171,7 @@ Call_000_28ca:
     or a
     ret z
 
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $04
     ret z
 
@@ -7188,7 +7188,7 @@ Call_000_28ca:
     dec a
     add b
     ld b, a
-    ld a, [$c016]
+    ld a, [wJoyPressed]
     bit 6, a
     jr nz, jr_000_28f3
 
@@ -8499,7 +8499,7 @@ Call_000_300f:
     and b
     nop
     and b
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     bit 6, a
     jr nz, jr_000_30c4
 
@@ -8587,7 +8587,7 @@ jr_000_30ec:
 
 
 Jump_000_30f8:
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     bit 5, a
     jr nz, jr_000_3145
 
@@ -9093,7 +9093,7 @@ jr_000_3339:
 
 Jump_000_3351:
     ld hl, $c055
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $30
     jr z, jr_000_3382
 
@@ -9246,7 +9246,7 @@ Jump_000_33e9:
     cp $eb
     ret nz
 
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $10
     jr z, jr_000_3451
 
@@ -9278,7 +9278,7 @@ jr_000_3440:
     cp $15
     ret nz
 
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $20
     jr z, jr_000_3451
 
@@ -9366,7 +9366,7 @@ Call_000_3491:
     cp $31
     ret nc
 
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $40
     ret z
 
@@ -9377,7 +9377,7 @@ Call_000_3491:
     jr jr_000_34d6
 
 jr_000_34cc:
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $80
     ret z
 
@@ -9398,7 +9398,7 @@ jr_000_34d6:
     ld a, $02
     ld [$c04a], a
     ld hl, $ffb2
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     bit 6, a
     jr nz, jr_000_350e
 
@@ -9939,7 +9939,7 @@ Call_000_380d:
 
 
 jr_000_3836:
-    ld a, [$c016]
+    ld a, [wJoyPressed]
     and a
     ret z
 
@@ -10033,8 +10033,8 @@ Call_000_38df:
     ldh [$ff8a], a
     call Call_000_03ef
     call Call_000_0392
-    call Call_000_02fc
-    ld a, [$c016]
+    call Game_SaveInput
+    ld a, [wJoyPressed]
     and $09
     jr nz, jr_000_38ff
 
@@ -10079,8 +10079,8 @@ jr_000_3927:
     ldh [$ff8a], a
     call Call_000_03ef
     call Call_000_0392
-    call Call_000_02fc
-    ld a, [$c016]
+    call Game_SaveInput
+    ld a, [wJoyPressed]
     and $09
     jp nz, Jump_000_0150
 
@@ -10269,8 +10269,8 @@ Jump_000_3a75:
     call Call_000_03ef
 
 jr_000_3a98:
-    call Call_000_02fc
-    ld a, [$c016]
+    call Game_SaveInput
+    ld a, [wJoyPressed]
     cp $08
     jp z, Jump_000_3bb9
 
@@ -10281,7 +10281,7 @@ jr_000_3a98:
     jp z, Jump_000_3baa
 
 Jump_000_3aad:
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $07
     cp $07
     jp z, Jump_000_0150
@@ -10296,7 +10296,7 @@ Jump_000_3aad:
 
     ld hl, $3adf
     push hl
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     cp $20
     jr z, jr_000_3afd
 
@@ -10313,16 +10313,16 @@ Jump_000_3aad:
 
 
 jr_000_3adf:
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     push af
     xor a
-    ld [$c015], a
+    ld [wJoyHeld], a
     call Call_000_0994
     call Call_000_0b3c
     call Call_000_0ae2
     call Call_000_0a8a
     pop af
-    ld [$c015], a
+    ld [wJoyHeld], a
 
 Jump_000_3af7:
     call Call_000_0392
@@ -10537,12 +10537,12 @@ Jump_000_3be1:
 Jump_000_3c10:
     call Call_000_0374
     ldh [$ff9a], a
-    call Call_000_02fc
-    ld a, [$c016]
+    call Game_SaveInput
+    ld a, [wJoyPressed]
     bit 3, a
     jr z, jr_000_3c73
 
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $07
     cp $07
     jp z, Jump_000_0150
@@ -10922,8 +10922,8 @@ jr_000_3e05:
 
     ld a, $00
     ldh [$ffb5], a
-    call Call_000_02fc
-    ld a, [$c016]
+    call Game_SaveInput
+    ld a, [wJoyPressed]
     cp $10
     jp z, Jump_000_3d9b
 
@@ -10985,8 +10985,8 @@ jr_000_3e05:
     xor a
     ldh [$ff8a], a
     call Call_000_03ef
-    call Call_000_02fc
-    ld a, [$c016]
+    call Game_SaveInput
+    ld a, [wJoyPressed]
     cp $40
     jp z, Jump_000_1fd7
 

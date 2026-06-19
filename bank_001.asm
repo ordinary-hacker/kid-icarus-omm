@@ -7209,7 +7209,7 @@ jr_001_5e95:
     nop
     rst RST_30
     nop
-    ld [$ff00], a
+    ld [rP1], a
     ldh a, [$ffd3]
     nop
     rst RST_38

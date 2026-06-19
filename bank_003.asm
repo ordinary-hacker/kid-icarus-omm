@@ -7394,7 +7394,7 @@ jr_003_6e57:
     or a
     jr nz, jr_003_6e62
 
-    ld hl, $c016
+    ld hl, wJoyPressed
     res 1, [hl]
 
 jr_003_6e62:
@@ -7483,8 +7483,8 @@ Jump_003_6ede:
 jr_003_6ede:
     pop af
     xor a
-    ld [$c015], a
-    ld [$c016], a
+    ld [wJoyHeld], a
+    ld [wJoyPressed], a
     ret
 
 
@@ -7635,7 +7635,7 @@ jr_003_6fb2:
     jp Jump_003_6eda
 
 
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     cp $08
     jp nz, Jump_003_6ede
 
@@ -7877,7 +7877,7 @@ Call_003_7111:
     cp $01
     jr z, jr_003_713f
 
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $40
     jr z, jr_003_713f
 
@@ -8032,7 +8032,7 @@ jr_003_719c:
     stop
 
     call Call_003_7422
-    ld a, [$c016]
+    ld a, [wJoyPressed]
     bit 0, a
     jr z, jr_003_720b
 
@@ -8078,7 +8078,7 @@ jr_003_720b:
     and $0f
     jr nz, jr_003_7243
 
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $80
     jr z, jr_003_724c
 
@@ -8100,7 +8100,7 @@ jr_003_7243:
 
 jr_003_724c:
     ld b, $01
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     ld c, a
     and $30
     jr nz, jr_003_7264
@@ -8187,7 +8187,7 @@ jr_003_72c1:
     cp $10
     jr c, jr_003_72d2
 
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     bit 0, a
     jr nz, jr_003_72d2
 
@@ -8298,7 +8298,7 @@ jr_003_7356:
     or a
     jr nz, jr_003_7371
 
-    ld hl, $c016
+    ld hl, wJoyPressed
     bit 0, [hl]
     jr z, jr_003_7371
 
@@ -8380,11 +8380,11 @@ jr_003_73bf:
 
 
     call Call_003_75c6
-    ld a, [$c016]
+    ld a, [wJoyPressed]
     bit 0, a
     jp nz, Jump_003_71f9
 
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $40
     ret nz
 
@@ -8418,7 +8418,7 @@ jr_003_73f9:
     jp nz, Jump_003_7243
 
 jr_003_73ff:
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $80
     ret nz
 
@@ -8452,7 +8452,7 @@ Call_003_7422:
     or a
     jp z, Jump_000_30f8
 
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     bit 5, a
     jr nz, jr_003_7460
 
@@ -8636,11 +8636,11 @@ jr_003_7534:
 
 
     call Call_003_7422
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     bit 7, a
     jr nz, jr_003_7573
 
-    ld a, [$c016]
+    ld a, [wJoyPressed]
     bit 0, a
     jr nz, jr_003_755f
 
@@ -8709,7 +8709,7 @@ jr_003_75a5:
     ret nz
 
     ld b, $01
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     ld c, a
     and $30
     jr nz, jr_003_75b6
@@ -8736,7 +8736,7 @@ Call_003_75c6:
     or a
     jp nz, Jump_003_7659
 
-    ld a, [$c016]
+    ld a, [wJoyPressed]
     cp $04
     jr nz, jr_003_75f1
 
@@ -8763,7 +8763,7 @@ jr_003_75f1:
     bit 0, [hl]
     jr z, jr_003_75fb
 
-    ld a, [$c015]
+    ld a, [wJoyHeld]
 
 jr_003_75fb:
     and $02
@@ -8821,7 +8821,7 @@ jr_003_7628:
     jr z, jr_003_764e
 
     ld b, $40
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     and $40
     jr nz, jr_003_7651
 
@@ -8847,7 +8847,7 @@ Jump_003_7659:
     jr jr_003_76bf
 
 jr_003_7666:
-    ld a, [$c016]
+    ld a, [wJoyPressed]
     cp $04
     jr nz, jr_003_7676
 
@@ -8869,7 +8869,7 @@ jr_003_7676:
     cp $0e
     ret z
 
-    ld a, [$c016]
+    ld a, [wJoyPressed]
     ld b, a
     ldh a, [$ffb5]
     cp $01
@@ -9909,11 +9909,11 @@ jr_003_7bbc:
     ret
 
 
-    ld a, [$c016]
+    ld a, [wJoyPressed]
     bit 0, a
     ret z
 
-    ld a, [$c015]
+    ld a, [wJoyHeld]
     bit 5, a
     jr nz, jr_003_7c3f
 

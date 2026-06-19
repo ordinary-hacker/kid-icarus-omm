@@ -463,7 +463,7 @@ jr_007_49be:
     rst RST_38
     ldh a, [rBGP]
     nop
-    ld de, $ff00
+    ld de, rP1
     jr nz, @+$01
 
     db $10
@@ -5657,7 +5657,7 @@ jr_007_5e9e:
     ld b, b
     db $fc
     ld b, b
-    jp Jump_000_0308
+    jp Game_PollInput
 
 
     nop
