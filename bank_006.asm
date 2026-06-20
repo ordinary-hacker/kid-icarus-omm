@@ -825,7 +825,7 @@ Call_006_43f8:
 
     db $22, $45
 
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jr nz, jr_006_4427
 
@@ -850,7 +850,7 @@ jr_006_4427:
 
     db $02, $01, $02, $03, $09, $08, $09, $0a
 
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jr nz, jr_006_4469
 
@@ -895,7 +895,7 @@ jr_006_4469:
     jp Jump_006_4526
 
 
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jr nz, jr_006_449f
 
@@ -943,7 +943,7 @@ jr_006_449f:
     jp Jump_006_4526
 
 
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jr nz, jr_006_449f
 
@@ -960,7 +960,7 @@ jr_006_449f:
 
     jr jr_006_448d
 
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jr nz, jr_006_44d8
 
@@ -986,7 +986,7 @@ jr_006_44d8:
     jp Jump_006_4526
 
 
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jp nz, Jump_006_4427
 
@@ -994,7 +994,7 @@ jr_006_44d8:
     ret
 
 
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jr nz, jr_006_44f7
 
@@ -1055,7 +1055,7 @@ Jump_006_4526:
     ret
 
 
-    ld a, [$c082]
+    ld a, [wPitHasSilverArmour]
     and $01
     add $1e
     ret
@@ -1102,7 +1102,7 @@ jr_006_4558:
     jp nz, Jump_006_463b
 
 Pit_TakeDamage:
-    ld a, [$c056]
+    ld a, [wPitInvincibilityCounter]
     and a
     ret nz
 
@@ -1111,7 +1111,7 @@ Pit_TakeDamage:
     ret nz
 
     ld a, $3c
-    ld [$c056], a
+    ld [wPitInvincibilityCounter], a
     ld a, $08
     call Call_000_0c55
     ld a, [wPitHP]
@@ -1125,7 +1125,7 @@ Pit_TakeDamage:
     cp $41
     jr c, jr_006_45ae
 
-    ld a, [$c082]
+    ld a, [wPitHasSilverArmour]
     or a
     jr nz, jr_006_45ae
 
@@ -1139,7 +1139,7 @@ Pit_TakeDamage:
 jr_006_45ae:
     ld de, $0030
     call Call_000_0cd1
-    ld a, [$c2ae]
+    ld a, [wPitBarrelAmount]
     and a
     ret z
 
@@ -1154,9 +1154,9 @@ jr_006_45be:
 
 
 jr_006_45c5:
-    ld hl, $5326
+    ld hl, Constant_HeartRewardTable
     ldh a, [$ff9d]
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     push af
     ld de, $0010
@@ -1175,7 +1175,7 @@ jr_006_45e0:
     ld a, $01
     call Call_000_0c55
     pop af
-    ld hl, $c1a6
+    ld hl, wHeartsOnesDigit
     add [hl]
     ld [hl], a
     cp $8a
@@ -1183,14 +1183,14 @@ jr_006_45e0:
 
     sub $0a
     ld [hl], a
-    ld hl, $c1a2
+    ld hl, wHeartsTensDigit
     inc [hl]
     ld a, [hl]
     cp $8a
     jr nz, jr_006_4612
 
     ld [hl], $80
-    ld hl, $c19e
+    ld hl, wHeartsHundredsDigit
     inc [hl]
     ld a, [hl]
     cp $8a
@@ -1198,8 +1198,8 @@ jr_006_45e0:
 
     ld a, $89
     ld [hl], a
-    ld [$c1a2], a
-    ld [$c1a6], a
+    ld [wHeartsTensDigit], a
+    ld [wHeartsOnesDigit], a
 
 jr_006_4612:
     jp Jump_006_63ab
@@ -1212,7 +1212,7 @@ Call_006_4615:
 
     call Call_000_03de
     ldh a, [$ff9e]
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     cp $ff
     ret z
@@ -1308,19 +1308,19 @@ jr_006_4689:
 
     call Pit_UseDroppedItem
     ld a, $01
-    ld [$c2b5], a
+    ld [wPitHasMap], a
     ret
 
 
     call Pit_UseDroppedItem
     ld a, $01
-    ld [$c2b4], a
+    ld [wPitHasTorch], a
     ret
 
 
     call Pit_UseDroppedItem
     ld a, $01
-    ld [$c2b3], a
+    ld [wPitHasPencil], a
     ret
 
 
@@ -1369,7 +1369,7 @@ jr_006_46dc:
 
 Jump_006_46ee:
     ld a, $ff
-    ld [$c080], a
+    ld [wPitHasWings], a
     ld [$c084], a
     ld a, $0c
     ldh [$ffb5], a
@@ -1382,7 +1382,7 @@ Jump_006_46ee:
 
 Call_006_4702:
     ld a, $ff
-    ld [$c081], a
+    ld [wPitHasLightArrows], a
     ld [$c084], a
     ld a, $0c
     ldh [$ffb5], a
@@ -1395,7 +1395,7 @@ Call_006_4702:
 
 Call_006_4716:
     ld a, $ff
-    ld [$c082], a
+    ld [wPitHasSilverArmour], a
     ld [$c084], a
     ld a, $0c
     ldh [$ffb5], a
@@ -1463,21 +1463,21 @@ Jump_006_4727:
     and a
     ld b, a
 
-    ld a, [$c2b6]
+    ld a, [wPitHasCreditCard]
     or a
     ret nz
 
     ld a, $01
-    ld [$c2b6], a
+    ld [wPitHasCreditCard], a
 
 jr_006_4780:
     call Pit_UseDroppedItem
     ret
 
 
-    ld hl, $c2ae
+    ld hl, wPitBarrelAmount
     ld b, $01
-    ld a, [$c2b2]
+    ld a, [wPitHasBarrel]
     and a
     jr z, jr_006_4797
 
@@ -1497,11 +1497,11 @@ jr_006_4797:
     ld [hl], a
     jr jr_006_4780
 
-    ld hl, $c2b0
+    ld hl, wPitKeyAmount
     ld b, $09
     jr jr_006_4797
 
-    ld hl, $c2b2
+    ld hl, wPitHasBarrel
     ld b, $01
     jr jr_006_4797
 
@@ -1513,7 +1513,7 @@ jr_006_4797:
     ld a, $0d
     call Call_000_0c55
     ldh a, [$ffa8]
-    ld [$c079], a
+    ld [wPitIsCursed], a
     ldh a, [$ffb5]
     cp $0b
     jr z, jr_006_47ca
@@ -1564,7 +1564,7 @@ jr_006_47ed:
     and $03
     ld c, a
     ld b, $00
-    ld hl, $c2b6
+    ld hl, wPitHasCreditCard
     add hl, bc
     ld [hl], $01
     ld hl, $ffac
@@ -1611,7 +1611,7 @@ jr_006_483c:
     or a
     jr z, jr_006_4868
 
-    ld a, [$c081]
+    ld a, [wPitHasLightArrows]
     or a
     jr nz, jr_006_484d
 
@@ -1625,7 +1625,7 @@ jr_006_484f:
     ld [$c07b], a
     ld hl, $ffba
     ld bc, $ffbc
-    ld a, [$c081]
+    ld a, [wPitHasLightArrows]
     or a
     jr nz, jr_006_4864
 
@@ -2267,7 +2267,7 @@ Call_006_4bae:
     cp $06
     jr z, jr_006_4c10
 
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jr nz, jr_006_4c10
 
@@ -2394,7 +2394,7 @@ Jump_006_4c57:
     cp $06
     jr z, jr_006_4cac
 
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jr nz, jr_006_4cac
 
@@ -2761,13 +2761,13 @@ jr_006_4dce:
     and a
     ret nz
 
-    ld a, [$c19e]
+    ld a, [wHeartsHundredsDigit]
     and $0f
     ld b, a
-    ld a, [$c1a6]
+    ld a, [wHeartsOnesDigit]
     and $0f
     ld c, a
-    ld a, [$c1a2]
+    ld a, [wHeartsTensDigit]
     and $0f
     swap a
     or c
@@ -2781,18 +2781,18 @@ jr_006_4e21:
     ret c
 
     or $80
-    ld [$c19e], a
+    ld [wHeartsHundredsDigit], a
     ld a, c
     swap a
 
 jr_006_4e2d:
     and $0f
     or $80
-    ld [$c1a2], a
+    ld [wHeartsTensDigit], a
     ld a, c
     and $0f
     or $80
-    ld [$c1a6], a
+    ld [wHeartsOnesDigit], a
     ld a, $03
     call Call_000_0c55
     ldh a, [$ff9f]
@@ -2893,7 +2893,7 @@ jr_006_4eb0:
 jr_006_4ebb:
     ld a, $1b
     call Call_000_0c52
-    ld a, [$c2b6]
+    ld a, [wPitHasCreditCard]
     and a
     ld a, [$c02e]
     jr nz, jr_006_4ed2
@@ -3724,185 +3724,28 @@ jr_006_5229:
     ld [$e808], sp
 
 jr_006_52f7:
-    ldh a, [rNR23]
-    ld bc, $f0f8
-    ld [$f801], sp
-    db $fc
-    db $10
-    jr jr_006_52f7
+    db $F0,$18,$01,$F8,$F0,$08,$01,$F8,$FC,$10,$18,$F4,$F4,$01,$00,$EC
+    db $FC,$0C,$14,$F4,$F4,$04,$04,$F0,$F8,$08,$04,$F8,$E8,$08,$F4,$F8
+    db $F4,$08,$04,$FC,$F8,$04,$08,$FD,$ED,$03,$FC,$FB,$F2,$05,$FE
 
-    db $f4
-    ld bc, $ec00
-    db $fc
-    inc c
-    inc d
-    db $f4
-    db $f4
-    inc b
-    inc b
-    ldh a, [$fff8]
-    ld [$f804], sp
-    add sp, $08
-    db $f4
+Constant_HeartRewardTable:
+    db $01 ; Small heart
+    db $05 ; Half big heart
+    db $0A ; Big heart
 
-    db $f8, $f4, $08, $04, $fc, $f8, $04, $08, $fd, $ed, $03, $fc, $fb, $f2, $05, $fe
-    db $01, $05, $0a, $01, $05, $05, $05
-
-    ld a, [bc]
-    dec b
-    ld a, [bc]
-    ld a, [bc]
-    dec b
-    dec b
-    dec b
-    dec b
-    ld a, [bc]
-    nop
-    dec b
-    ld bc, $0005
-    ld bc, $0501
-    dec b
-    ld bc, $0005
-    dec b
-
-    db $01, $05
-
-    ld a, [bc]
-    dec b
-    dec b
-    dec b
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-
-    db $05
-
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    ld bc, $0000
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-    nop
-
-    db $01, $01, $01, $01, $fa, $01, $01
-
-    ld bc, $0101
-    ld [bc], a
-    ld bc, $0202
-    ld bc, $0003
-    ld [bc], a
-    ld bc, $0101
-    ld bc, $0101
-    ld bc, $02f3
-    db $01
-    ld [bc], a
-
-    db $01, $01
-
-    db $01
-    db $01
-
-    db $01
-
-    ld bc, $0101
-    ld bc, $0001
-    nop
-    nop
-
-    db $01, $f5
-
-    nop
-    nop
-    nop
-    db $fc
-    ei
-
-    db $ff, $f9, $f7
-
-    cp $01
-
-    db $f8
-
-    db $fd
-
-    db $f6
-
-    db $f4
-    nop
-    nop
-    nop
-    ld bc, $0000
-
-    db $f1
-
-    ld bc, $0001
-    nop
-    ldh a, [$ffef]
-    xor $00
-    ld [bc], a
-    ld bc, $0202
-    ld [bc], a
-    ld [bc], a
-    ld [bc], a
-    ld [bc], a
-    ld [bc], a
-    ld [bc], a
-    ld bc, $0101
-    inc bc
-    ld [bc], a
-    ld [bc], a
-    ld bc, $ed02
-    db $ec
-    db $01
-    nop
+jr_006_5329:
+    db $01,$05,$05,$05,$0A,$05,$0A,$0A,$05,$05,$05,$05,$0A,$00
+    db $05,$01,$05,$00,$01,$01,$05,$05,$01,$05,$00,$05,$01,$05,$0A,$05
+    db $05,$05,$00,$00,$00,$00,$00,$00,$00,$05,$00,$00,$00,$00,$00,$00
+    db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$01,$00,$00,$00
+    db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00
+    db $00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$00,$01,$01
+    db $01,$01,$FA,$01,$01,$01,$01,$01,$02,$01,$02,$02,$01,$03,$00,$02
+    db $01,$01,$01,$01,$01,$01,$01,$F3,$02,$01,$02,$01,$01,$01,$01,$01
+    db $01,$01,$01,$01,$01,$00,$00,$00,$01,$F5,$00,$00,$00,$FC,$FB,$FF
+    db $F9,$F7,$FE,$01,$F8,$FD,$F6,$F4,$00,$00,$00,$01,$00,$00,$F1,$01
+    db $01,$00,$00,$F0,$EF,$EE,$00,$02,$01,$02,$02,$02,$02,$02,$02,$02
+    db $02,$01,$01,$01,$03,$02,$02,$01,$02,$ED,$EC,$01,$00
 
 Jump_006_53e4:
     ldh a, [$ff9d]
@@ -4799,13 +4642,13 @@ jr_006_58a4:
 
     push af
     ld hl, $5950
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     ldh [$ffa9], a
     pop af
     push af
     ld hl, $5958
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     ldh [$ffaa], a
     pop af
@@ -4813,7 +4656,7 @@ jr_006_58a4:
     add $04
     and $07
     ld hl, $5947
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     ldh [$ffa8], a
     pop af
@@ -4944,7 +4787,7 @@ Jump_006_5988:
     call Call_000_0448
     and $03
     ld hl, $599a
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     ldh [$ff9d], a
     xor a
@@ -5937,7 +5780,7 @@ Call_006_5f1d:
     ret
 
 
-    ld a, [$c056]
+    ld a, [wPitInvincibilityCounter]
     or a
     jr z, jr_006_5f60
 
@@ -6290,7 +6133,7 @@ jr_006_6129:
     ld a, [hl]
     inc [hl]
     ld hl, $61fb
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     cp $ff
     jp nz, Jump_000_0f20
@@ -6312,7 +6155,7 @@ jr_006_6129:
     jp Jump_006_5e91
 
 
-    ld a, [$c080]
+    ld a, [wPitHasWings]
     or a
     ret z
 
@@ -6326,7 +6169,7 @@ jr_006_616a:
     ld a, [hl]
     inc [hl]
     ld hl, $6206
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     cp $ff
     jr z, jr_006_616a
@@ -6341,8 +6184,8 @@ jr_006_616a:
     ret
 
 
-    ld a, [$c080]
-    ld hl, $c081
+    ld a, [wPitHasWings]
+    ld hl, wPitHasLightArrows
     and [hl]
     inc hl
     and [hl]
@@ -6826,9 +6669,9 @@ jr_006_63f7:
 
 
 jr_006_6411:
-    ld hl, $5326
+    ld hl, Constant_HeartRewardTable
     ldh a, [$ff9d]
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     cp $05
     jr nz, jr_006_63f7
@@ -7791,7 +7634,7 @@ jr_006_68cd:
     rrca
     and $0f
     ld hl, $694e
-    call Call_000_03e7
+    call Util_Lookup
     ldh a, [$ffa1]
     add l
     ldh [$ffa1], a
@@ -10630,7 +10473,7 @@ jr_006_775e:
     and [hl]
     ld [hl], a
     call Call_006_7e30
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     and a
     jp z, Jump_006_63ab
 
@@ -10645,7 +10488,7 @@ jr_006_775e:
     ret nz
 
     xor a
-    ld [$c079], a
+    ld [wPitIsCursed], a
     ld a, $02
     ldh [$ff9e], a
     ld a, $01
@@ -10670,7 +10513,7 @@ jr_006_775e:
     db $40, $78
 
     call Call_006_7e30
-    ld a, [$c048]
+    ld a, [wPitStrength]
     cp $07
     jp nc, Jump_006_63ab
 
@@ -10744,7 +10587,7 @@ jr_006_77da:
     call Call_000_0cb9
     ld a, $ff
     ld [$c074], a
-    ld hl, $c048
+    ld hl, wPitStrength
     inc [hl]
     ld a, [$c065]
     ld [$c067], a
@@ -10771,7 +10614,7 @@ jr_006_77da:
     ld a, d
 
     call Call_006_7e30
-    ld a, [$c07d]
+    ld a, [wPitCurrentWeapons]
     and a
     jr z, jr_006_7869
 
@@ -10796,15 +10639,15 @@ jr_006_7875:
     cp $41
     jr nz, jr_006_788e
 
-    ld a, [$c080]
+    ld a, [wPitHasWings]
     or a
     jr z, jr_006_7869
 
-    ld a, [$c081]
+    ld a, [wPitHasLightArrows]
     or a
     jr z, jr_006_7869
 
-    ld a, [$c082]
+    ld a, [wPitHasSilverArmour]
     or a
     jr z, jr_006_7869
 
@@ -10825,7 +10668,7 @@ jr_006_788e:
     and $0f
     dec a
     ld hl, $78bb
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     ldh [$ffa7], a
     ldh a, [$ffb5]
@@ -10962,21 +10805,21 @@ jr_006_794d:
     cp $41
     jr nz, jr_006_7987
 
-    ld a, [$c080]
+    ld a, [wPitHasWings]
     or a
     jr nz, jr_006_7977
 
     ld b, $12
 
 jr_006_7977:
-    ld a, [$c081]
+    ld a, [wPitHasLightArrows]
     or a
     jr nz, jr_006_797f
 
     ld c, $13
 
 jr_006_797f:
-    ld a, [$c082]
+    ld a, [wPitHasSilverArmour]
     or a
     jr nz, jr_006_7987
 
@@ -11062,7 +10905,7 @@ jr_006_79df:
     cp $13
     jr z, jr_006_7a23
 
-    ld a, [$c07d]
+    ld a, [wPitCurrentWeapons]
     and $03
     cp c
     ret z
@@ -11078,7 +10921,7 @@ jr_006_79df:
 
     ld a, $06
     ldh [$ff9e], a
-    ld hl, $c07d
+    ld hl, wPitCurrentWeapons
     ld a, [hl]
     and a
     jr z, jr_006_7a16
@@ -11095,7 +10938,7 @@ jr_006_7a16:
     ld a, c
     ldh [$ff90], a
     ld b, $00
-    ld hl, $c2b6
+    ld hl, wPitHasCreditCard
     add hl, bc
     ld [hl], $00
     ret
@@ -11163,7 +11006,7 @@ jr_006_7a5e:
     ldh a, [$ff90]
     dec a
     ld hl, $7a8a
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     call Call_000_0f20
     xor a
@@ -11253,7 +11096,7 @@ jr_006_7a5e:
     db $0b, $7b, $1b, $7b, $48, $7b, $6d, $7b, $7d, $7b, $13, $7b
 
     call Call_006_7e30
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     and a
     ret nz
 
@@ -11362,7 +11205,7 @@ jr_006_7b7d:
     jp nz, Jump_006_63ab
 
     call Call_006_7e30
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     and a
     ret nz
 
@@ -11468,7 +11311,7 @@ jr_006_7c0d:
 
 
 jr_006_7c42:
-    ld a, [$c2b6]
+    ld a, [wPitHasCreditCard]
     ldh [$ff8a], a
     call Call_006_7d41
     ret c
@@ -11480,7 +11323,7 @@ jr_006_7c42:
 
     ld a, $04
     ldh [$ff9e], a
-    ld a, [$c2b6]
+    ld a, [wPitHasCreditCard]
     and a
     jr nz, jr_006_7c5f
 
@@ -11490,7 +11333,7 @@ jr_006_7c42:
 
 jr_006_7c5f:
     xor a
-    ld [$c2b6], a
+    ld [wPitHasCreditCard], a
     ld a, $1f
     jp Jump_000_0f20
 
@@ -11708,10 +11551,10 @@ jr_006_7d66:
     inc hl
     inc hl
     inc hl
-    ld a, [$c1a2]
+    ld a, [wHeartsTensDigit]
     and $0f
     ld c, a
-    ld a, [$c19e]
+    ld a, [wHeartsHundredsDigit]
     and $0f
     swap a
     or c
@@ -11768,7 +11611,7 @@ jr_006_7d82:
     ld a, [hl]
     sub $0d
     ld e, a
-    ld hl, $c07d
+    ld hl, wPitCurrentWeapons
     ld a, [hl]
     and a
     jr z, jr_006_7dba
@@ -11783,7 +11626,7 @@ jr_006_7d82:
 jr_006_7dba:
     ld [hl], e
     ld d, $00
-    ld hl, $c2b6
+    ld hl, wPitHasCreditCard
     add hl, de
     ld [hl], $00
     jr jr_006_7e0c
@@ -11800,18 +11643,18 @@ jr_006_7dd1:
     ld [wPitHP], a
     jr jr_006_7e0c
 
-    ld hl, $c2b0
+    ld hl, wPitKeyAmount
     ld b, $09
     jr jr_006_7e04
 
-    ld hl, $c2b2
+    ld hl, wPitHasBarrel
     ld b, $01
     jr jr_006_7e04
 
-    ld hl, $c2b4
+    ld hl, wPitHasTorch
     jr jr_006_7dec
 
-    ld hl, $c2b3
+    ld hl, wPitHasPencil
 
 jr_006_7dec:
     ld b, $01
@@ -11821,9 +11664,9 @@ jr_006_7dec:
     ld b, $99
     jr jr_006_7e04
 
-    ld hl, $c2ae
+    ld hl, wPitBarrelAmount
     ld b, $01
-    ld a, [$c2b2]
+    ld a, [wPitHasBarrel]
     and a
     jr z, jr_006_7e04
 
@@ -11847,11 +11690,11 @@ jr_006_7e0c:
     swap a
     and $0f
     or $80
-    ld [$c19e], a
+    ld [wHeartsHundredsDigit], a
     ld a, c
     and $0f
     or $80
-    ld [$c1a2], a
+    ld [wHeartsTensDigit], a
 
 jr_006_7e23:
     pop hl
@@ -11983,7 +11826,7 @@ jr_006_7eba:
 
     ld [$db53], a
     ld hl, $7f1e
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     and $0f
     add a
@@ -12078,7 +11921,7 @@ Jump_006_7f5e:
 
     ld [$db53], a
     ld hl, $7f1e
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     and $0f
     add a

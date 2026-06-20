@@ -7321,7 +7321,7 @@ jr_003_6dee:
     db $28
 
 Call_003_6dfa:
-    ld hl, $c07d
+    ld hl, wPitCurrentWeapons
     ld a, [hl]
     cp c
     ret z
@@ -7347,7 +7347,7 @@ jr_003_6e0b:
     ldh [$ffad], a
     ldh [$ffae], a
     ldh [$ffaf], a
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jr nz, jr_003_6e57
 
@@ -7610,7 +7610,7 @@ jr_003_6f6b:
     ld hl, $c090
     dec [hl]
     ld hl, $353d
-    call Call_000_03e7
+    call Util_Lookup
     ld a, [$c092]
     add l
     ld [$c092], a
@@ -8122,7 +8122,7 @@ jr_003_7264:
 
 
 jr_003_7268:
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jr z, jr_003_7264
 
@@ -8131,7 +8131,7 @@ jr_003_7268:
 
     call Call_003_7422
     call Call_003_75c6
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jr z, jr_003_7295
 
@@ -8264,11 +8264,11 @@ jr_003_72ef:
     jr z, jr_003_73a3
 
 Jump_003_7334:
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jr nz, jr_003_734b
 
-    ld a, [$c080]
+    ld a, [wPitHasWings]
     or a
     jr nz, jr_003_7346
 
@@ -8294,7 +8294,7 @@ jr_003_7356:
     ld d, $00
     ld e, a
     push de
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jr nz, jr_003_7371
 
@@ -8448,7 +8448,7 @@ jr_003_741d:
 
 
 Call_003_7422:
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     or a
     jp z, Jump_000_30f8
 
@@ -8655,7 +8655,7 @@ jr_003_7534:
 jr_003_755f:
     ld a, $10
     ld [$c052], a
-    ld a, [$c080]
+    ld a, [wPitHasWings]
     or a
     ret nz
 
@@ -8759,7 +8759,7 @@ Call_003_75c6:
 
 
 jr_003_75f1:
-    ld hl, $c081
+    ld hl, wPitHasLightArrows
     bit 0, [hl]
     jr z, jr_003_75fb
 
@@ -8775,7 +8775,7 @@ jr_003_75fb:
     ret nz
 
     ld d, $18
-    ld a, [$c081]
+    ld a, [wPitHasLightArrows]
     or a
     jr nz, jr_003_7613
 
@@ -8787,7 +8787,7 @@ jr_003_75fb:
 
 jr_003_7613:
     ld [hl], d
-    ld a, [$c081]
+    ld a, [wPitHasLightArrows]
     or a
     jr z, jr_003_7621
 
@@ -8796,7 +8796,7 @@ jr_003_7613:
     jr jr_003_7628
 
 jr_003_7621:
-    ld a, [$c048]
+    ld a, [wPitStrength]
     inc a
     ld [$c054], a
 
@@ -9392,7 +9392,7 @@ jr_003_7947:
     jr c, jr_003_7945
 
     ld hl, $7978
-    call Call_000_03e7
+    call Util_Lookup
     ldh a, [$ff8c]
     cp $80
     jr nc, jr_003_7961
@@ -9798,7 +9798,7 @@ jr_003_7b23:
     jp Jump_000_3af7
 
 
-    ld a, [$c080]
+    ld a, [wPitHasWings]
     and a
     jr z, jr_003_7b70
 
@@ -9822,7 +9822,7 @@ jr_003_7b70:
     ld [$9de2], a
 
 jr_003_7b85:
-    ld a, [$c081]
+    ld a, [wPitHasLightArrows]
     and a
     jr z, jr_003_7b97
 
@@ -9846,7 +9846,7 @@ jr_003_7b97:
     ld [$9de4], a
 
 jr_003_7bac:
-    ld a, [$c082]
+    ld a, [wPitHasSilverArmour]
     and a
     jr z, jr_003_7bbc
 
@@ -9934,37 +9934,37 @@ jr_003_7c3f:
     xor $01
     ld [$c03a], a
     xor a
-    ld [$c079], a
+    ld [wPitIsCursed], a
     ld a, $10
     jp Jump_000_0c55
 
 
 Jump_003_7c50:
-    ld a, [$c080]
+    ld a, [wPitHasWings]
     cpl
-    ld [$c080], a
-    ld a, [$c081]
+    ld [wPitHasWings], a
+    ld a, [wPitHasLightArrows]
     cpl
-    ld [$c081], a
-    ld a, [$c082]
+    ld [wPitHasLightArrows], a
+    ld a, [wPitHasSilverArmour]
     cpl
-    ld [$c082], a
+    ld [wPitHasSilverArmour], a
     jr jr_003_7cb6
 
 Jump_003_7c67:
     ld a, $07
-    ld [$c048], a
+    ld [wPitStrength], a
     ld a, $99
     ld [wPitHammerAmount], a
     ld a, $09
-    ld [$c2b0], a
+    ld [wPitKeyAmount], a
     ld a, $01
-    ld [$c2b5], a
-    ld [$c2ae], a
-    ld [$c2b2], a
-    ld [$c2b3], a
-    ld [$c2b4], a
-    ld [$c2b6], a
+    ld [wPitHasMap], a
+    ld [wPitBarrelAmount], a
+    ld [wPitHasBarrel], a
+    ld [wPitHasPencil], a
+    ld [wPitHasTorch], a
+    ld [wPitHasCreditCard], a
     ldh [$ffad], a
     ldh [$ffaf], a
     inc a
@@ -9975,7 +9975,7 @@ Jump_003_7c67:
     ld a, $10
     ld [$c1ac], a
     ld a, $01
-    ld [$c07d], a
+    ld [wPitCurrentWeapons], a
     ld a, $02
     ld [$c07e], a
     ld a, $03

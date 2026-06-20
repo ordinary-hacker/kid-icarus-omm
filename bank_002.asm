@@ -2809,7 +2809,7 @@ jr_002_6bcd:
     add e
     ld bc, $0181
     add c
-    ld bc, $c081
+    ld bc, wPitHasLightArrows
     ret nz
 
     jr nc, jr_002_6c54

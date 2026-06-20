@@ -9978,27 +9978,27 @@ jr_007_75e0:
 
 Jump_007_762f:
     ld a, [$db00]
-    ld [$c2ae], a
+    ld [wPitBarrelAmount], a
     ld a, [$db01]
     ld [$c067], a
     ld a, [$db02]
-    ld [$c080], a
+    ld [wPitHasWings], a
     ld a, [$db03]
     ld [wPitHammerAmount], a
     ld a, [$db04]
-    ld [$c2b0], a
+    ld [wPitKeyAmount], a
     ld a, [$db05]
-    ld [$c2b2], a
+    ld [wPitHasBarrel], a
     ld a, [$db06]
-    ld [$c081], a
+    ld [wPitHasLightArrows], a
     ld a, [$db07]
-    ld [$c082], a
+    ld [wPitHasSilverArmour], a
     ld a, [$db08]
     ldh [$ff8f], a
     ld a, [$db09]
     ldh [$ff90], a
     ld a, [$db0b]
-    ld [$c2b6], a
+    ld [wPitHasCreditCard], a
 
 jr_007_766f:
     ld a, [$db0c]
@@ -10008,17 +10008,17 @@ jr_007_766f:
     ld a, [$db0e]
     ld [$c2b9], a
     ld a, [$db0f]
-    ld [$c07d], a
+    ld [wPitCurrentWeapons], a
     ld a, [$db10]
     ld [$c07e], a
     ld a, [$db11]
     ld [$c07f], a
     ld a, [$db12]
-    ld [$c19e], a
+    ld [wHeartsHundredsDigit], a
     ld a, [$db13]
-    ld [$c1a2], a
+    ld [wHeartsTensDigit], a
     ld a, [$db14]
-    ld [$c1a6], a
+    ld [wHeartsOnesDigit], a
     ld a, [$db15]
     ld [$c05b], a
     ld a, [$db16]
@@ -10046,7 +10046,7 @@ jr_007_766f:
     ld a, [$db21]
     ld [$c1bc], a
     ld a, [$db22]
-    ld [$c048], a
+    ld [wPitStrength], a
     ld hl, $c764
     ld b, $10
     ldh a, [$ff8f]
@@ -10092,27 +10092,27 @@ jr_007_771f:
     ldh [$ff8f], a
     ld a, e
     ldh [$ff90], a
-    ld a, [$c2ae]
+    ld a, [wPitBarrelAmount]
     ld [$db00], a
     ld a, [$c067]
     ld [$db01], a
-    ld a, [$c080]
+    ld a, [wPitHasWings]
     ld [$db02], a
     ld a, [wPitHammerAmount]
     ld [$db03], a
-    ld a, [$c2b0]
+    ld a, [wPitKeyAmount]
     ld [$db04], a
-    ld a, [$c2b2]
+    ld a, [wPitHasBarrel]
     ld [$db05], a
-    ld a, [$c081]
+    ld a, [wPitHasLightArrows]
     ld [$db06], a
-    ld a, [$c082]
+    ld a, [wPitHasSilverArmour]
     ld [$db07], a
     ldh a, [$ff8f]
     ld [$db08], a
     ldh a, [$ff90]
     ld [$db09], a
-    ld a, [$c2b6]
+    ld a, [wPitHasCreditCard]
     ld [$db0b], a
     ld a, [$c2b7]
     ld [$db0c], a
@@ -10120,17 +10120,17 @@ jr_007_771f:
     ld [$db0d], a
     ld a, [$c2b9]
     ld [$db0e], a
-    ld a, [$c07d]
+    ld a, [wPitCurrentWeapons]
     ld [$db0f], a
     ld a, [$c07e]
     ld [$db10], a
     ld a, [$c07f]
     ld [$db11], a
-    ld a, [$c19e]
+    ld a, [wHeartsHundredsDigit]
     ld [$db12], a
-    ld a, [$c1a2]
+    ld a, [wHeartsTensDigit]
     ld [$db13], a
-    ld a, [$c1a6]
+    ld a, [wHeartsOnesDigit]
     ld [$db14], a
     ld a, [$c05b]
     ld [$db15], a
@@ -10158,7 +10158,7 @@ jr_007_771f:
     ld [$db20], a
     ld a, [$c1bc]
     ld [$db21], a
-    ld a, [$c048]
+    ld a, [wPitStrength]
     ld [$db22], a
     ret
 
@@ -10827,7 +10827,7 @@ jr_007_7ae8:
     rst RST_38
 
 Jump_007_7b14:
-    ld a, [$c079]
+    ld a, [wPitIsCursed]
     and a
     ret nz
 

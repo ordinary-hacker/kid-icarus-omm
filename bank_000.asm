@@ -819,7 +819,7 @@ Jump_000_03de:
     ret
 
 
-Call_000_03e7:
+Util_Lookup:
     ld e, a
     ld d, $00
     add hl, de
@@ -2010,7 +2010,7 @@ Call_000_0994:
 
 
 jr_000_09ba:
-    ld a, [$c056]
+    ld a, [wPitInvincibilityCounter]
     and a
     jr z, jr_000_09c8
 
@@ -2084,7 +2084,7 @@ jr_000_0a07:
 Call_000_0a25:
     ld bc, $0000
 
-Call_000_0a28:
+Game_RenderHPBar:
     ld a, [wPitMaxHP]
     inc a
     add a
@@ -2180,7 +2180,7 @@ Jump_000_0a8a:
     and a
     ret z
 
-    ld a, [$c081]
+    ld a, [wPitHasLightArrows]
     or a
     jr nz, jr_000_0aba
 
@@ -2755,7 +2755,7 @@ Call_000_0d5f:
     push hl
     push de
     ld hl, $70f4
-    call Call_000_03e7
+    call Util_Lookup
     pop de
     ldh a, [$ff8f]
     ld [$3fff], a
@@ -4111,7 +4111,7 @@ Jump_000_13bd:
     and $0f
     add l
     ld hl, $13ab
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
 
 Call_000_13d5:
@@ -4630,7 +4630,7 @@ jr_000_180d:
 
 Call_000_181c:
     ld c, $f8
-    ld hl, $c080
+    ld hl, wPitHasWings
     ld a, [hl+]
     or a
     jr z, jr_000_1827
@@ -4861,7 +4861,7 @@ jr_000_1926:
     and $0f
     dec a
     ld hl, $195e
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     pop de
     pop hl
@@ -5080,17 +5080,17 @@ Call_000_1a49:
     ld [$c068], a
     ld [$c04e], a
     ld [$c04f], a
-    ld [$c056], a
+    ld [wPitInvincibilityCounter], a
     ld [$c0fc], a
     ldh [$ffb9], a
     ldh [$ffb5], a
     ld [$c072], a
     ld [$c08e], a
-    ld [$c2b5], a
-    ld [$c2b3], a
-    ld [$c2b4], a
+    ld [wPitHasMap], a
+    ld [wPitHasPencil], a
+    ld [wPitHasTorch], a
     ld [$c077], a
-    ld [$c079], a
+    ld [wPitIsCursed], a
     ld [$c07a], a
     ldh [$ffad], a
     ldh [$ffae], a
@@ -5485,7 +5485,7 @@ jr_000_1c78:
     ld a, $07
     ld [$3fff], a
     ld a, b
-    call Call_000_03e7
+    call Util_Lookup
     pop af
     ld [$3fff], a
     ret
@@ -5765,7 +5765,7 @@ jr_000_1d96:
     call Call_000_1a49
     call Call_000_377e
     ld a, $02
-    ld [$c096], a
+    ld [wPitCredits], a
     xor a
     ld [$c099], a
     ld [$c044], a
@@ -6076,7 +6076,7 @@ Jump_000_1ff1:
 
 
     xor a
-    ld hl, $c080
+    ld hl, wPitHasWings
     ld [hl+], a
     ld [hl+], a
     ld [hl+], a
@@ -7299,9 +7299,9 @@ Call_000_2939:
     ldh [$ffcc], a
     ld [$c160], a
     ld [$c085], a
-    ld [$c080], a
-    ld [$c081], a
-    ld [$c082], a
+    ld [wPitHasWings], a
+    ld [wPitHasLightArrows], a
+    ld [wPitHasSilverArmour], a
     call Call_000_1a49
     xor a
     ld [$c044], a
@@ -7623,7 +7623,7 @@ jr_000_2c06:
     ld a, $30
     ldh [$ffcd], a
     ld a, $ff
-    ld [$c080], a
+    ld [wPitHasWings], a
     xor a
     ldh [$ffce], a
     ldh [$ffb3], a
@@ -7632,7 +7632,7 @@ jr_000_2c06:
     ldh [$ffcc], a
     ld [$c160], a
     ld [$c085], a
-    ld hl, $c07d
+    ld hl, wPitCurrentWeapons
     ld [hl+], a
     ld [hl+], a
     ld [hl+], a
@@ -8761,7 +8761,7 @@ Jump_000_31ca:
     cp $02
     jr z, jr_000_31da
 
-    ld a, [$c081]
+    ld a, [wPitHasLightArrows]
     or a
     jr nz, jr_000_31da
 
@@ -8816,7 +8816,7 @@ jr_000_320a:
     cp $02
     jr z, jr_000_321d
 
-    ld a, [$c081]
+    ld a, [wPitHasLightArrows]
     or a
     jr nz, jr_000_321d
 
@@ -9200,7 +9200,7 @@ Call_000_33c5:
     call Call_000_3191
 
 jr_000_33d0:
-    ld hl, $c056
+    ld hl, wPitInvincibilityCounter
     ld a, [hl]
     and a
     jr z, jr_000_33d8
@@ -9516,7 +9516,7 @@ jr_000_3585:
     cp $07
     ret z
 
-    ld a, [$c056]
+    ld a, [wPitInvincibilityCounter]
     and a
     ret nz
 
@@ -9529,7 +9529,7 @@ jr_000_3585:
     jp z, Pit_Die
 
     ld a, $3c
-    ld [$c056], a
+    ld [wPitInvincibilityCounter], a
     ld a, $08
     call Call_000_0c55
     ret
@@ -9548,7 +9548,7 @@ jr_000_35c3:
     cp $07
     ret z
 
-    ld a, [$c2ae]
+    ld a, [wPitBarrelAmount]
     and a
     jr nz, jr_000_35e4
 
@@ -9575,10 +9575,10 @@ jr_000_35e4:
 
 jr_000_35f0:
     ld [wPitHP], a
-    ld a, [$c2ae]
+    ld a, [wPitBarrelAmount]
     sub $01
     daa
-    ld [$c2ae], a
+    ld [wPitBarrelAmount], a
     ld a, [$c07c]
     or a
     ret z
@@ -9699,18 +9699,18 @@ jr_000_3685:
     or a
     jr z, jr_000_36a1
 
-    ld a, [$c2b0]
+    ld a, [wPitKeyAmount]
     or a
     ret z
 
     dec a
-    ld [$c2b0], a
+    ld [wPitKeyAmount], a
     ld a, $01
     call Call_000_0c55
     call Call_000_37a3
 
 jr_000_36a1:
-    ld [hl], $01
+    ld [hl], $01 ; This causes the door to be closed
     ld de, $0030
     call Call_000_0cb9
     ld a, $1e
@@ -9963,11 +9963,11 @@ jr_000_3854:
     call Call_000_0c29
     call Call_000_02c8
     ld a, [$db02]
-    ld [$c080], a
+    ld [wPitHasWings], a
     ld a, [$db06]
-    ld [$c081], a
+    ld [wPitHasLightArrows], a
     ld a, [$db07]
-    ld [$c082], a
+    ld [wPitHasSilverArmour], a
     call Call_000_181c
     jr nc, jr_000_387f
 
@@ -9988,7 +9988,7 @@ jr_000_387f:
     ld a, $05
     ld [$3fff], a
     ld hl, $67ea
-    ld a, [$c096]
+    ld a, [wPitCredits]
     or a
     jr nz, jr_000_389f
 
@@ -10006,7 +10006,7 @@ jr_000_389f:
     ld [$c07c], a
     ld a, $ff
     ld [$c033], a
-    ld a, [$c096]
+    ld a, [wPitCredits]
     or a
     jr z, jr_000_3920
 
@@ -10044,9 +10044,9 @@ Call_000_38df:
 jr_000_38ff:
     ld a, $01
     call Call_000_0c55
-    ld a, [$c096]
+    ld a, [wPitCredits]
     dec a
-    ld [$c096], a
+    ld [wPitCredits], a
     add $80
     push af
 
@@ -10111,7 +10111,7 @@ Jump_000_396d:
     cp $41
     jr c, jr_000_398f
 
-    ld a, [$c080]
+    ld a, [wPitHasWings]
     or a
     jr nz, jr_000_398a
 
@@ -10183,7 +10183,7 @@ Call_000_39d0:
     rrca
     rrca
     ld hl, $39ed
-    call Call_000_03e7
+    call Util_Lookup
     ld a, l
     ldh [rOBP0], a
     ret
@@ -10602,11 +10602,11 @@ Jump_000_3c82:
 
 
 Call_000_3c8c:
-    ld a, [$c2b5]
+    ld a, [wPitHasMap]
     and a
     ret z
 
-    ld a, [$c2b4]
+    ld a, [wPitHasTorch]
     and a
     ret z
 
@@ -10692,7 +10692,7 @@ Call_000_3cf4:
     ldh [$ffae], a
     ldh [$ffaf], a
     ld [$c097], a
-    ld [$c056], a
+    ld [wPitInvincibilityCounter], a
     inc a
     ld [$c030], a
     ld a, $30
@@ -10725,7 +10725,7 @@ Call_000_3d55:
     push af
     call Call_000_0994
     ld bc, $f860
-    call Call_000_0a28
+    call Game_RenderHPBar
     pop af
 
 Jump_000_3d68:

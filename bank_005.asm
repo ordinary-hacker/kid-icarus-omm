@@ -5837,13 +5837,13 @@ jr_005_7632:
     db $5e, $7b, $03
 
     ld hl, $9c2f
-    ld a, [$c19e]
+    ld a, [wHeartsHundredsDigit]
     ld [hl+], a
-    ld a, [$c1a2]
+    ld a, [wHeartsTensDigit]
     ld [hl+], a
-    ld a, [$c1a6]
+    ld a, [wHeartsOnesDigit]
     ld [hl], a
-    ld a, [$c048]
+    ld a, [wPitStrength]
     inc a
     ld b, a
     ld a, $2d
@@ -5854,11 +5854,11 @@ jr_005_7652:
     dec b
     jr nz, jr_005_7652
 
-    ld a, [$c2b2]
+    ld a, [wPitHasBarrel]
     and a
     jr nz, jr_005_766e
 
-    ld a, [$c2ae]
+    ld a, [wPitBarrelAmount]
     and a
     jr z, jr_005_768a
 
@@ -5869,7 +5869,7 @@ jr_005_7652:
     jr jr_005_768a
 
 jr_005_766e:
-    ld a, [$c2ae]
+    ld a, [wPitBarrelAmount]
     and $0f
     or $80
     ld [$9ce9], a
@@ -5883,7 +5883,7 @@ jr_005_766e:
     ld [$9cc9], a
 
 jr_005_768a:
-    ld a, [$c2b0]
+    ld a, [wPitKeyAmount]
     and a
     jr z, jr_005_769f
 
@@ -5895,7 +5895,7 @@ jr_005_768a:
     ld [$9cc2], a
 
 jr_005_769f:
-    ld a, [$c2b6]
+    ld a, [wPitHasCreditCard]
     and a
     jr z, jr_005_76af
 
@@ -5963,7 +5963,7 @@ jr_005_76eb:
     ld [$9ccc], a
 
 jr_005_770d:
-    ld a, [$c2b3]
+    ld a, [wPitHasPencil]
     or a
     jr z, jr_005_771d
 
@@ -5973,7 +5973,7 @@ jr_005_770d:
     ld [$9ccf], a
 
 jr_005_771d:
-    ld a, [$c2b4]
+    ld a, [wPitHasTorch]
     or a
     jr z, jr_005_772d
 
@@ -5983,7 +5983,7 @@ jr_005_771d:
     ld [$9cd1], a
 
 jr_005_772d:
-    ld a, [$c2b5]
+    ld a, [wPitHasMap]
     and a
     ret z
 
@@ -6028,7 +6028,7 @@ jr_005_775a:
     pop de
     jr z, jr_005_7777
 
-    ld a, [$c2b3]
+    ld a, [wPitHasPencil]
     and a
     jr z, jr_005_777b
 
