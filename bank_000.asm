@@ -840,8 +840,7 @@ Jump_000_03ef:
     ld c, a
     jr jr_000_0409
 
-Call_000_03f9:
-Jump_000_03f9:
+UI_RenderMetaSprite:
     ldh a, [$ffcd]
     ld e, a
     ld a, b
@@ -1903,7 +1902,7 @@ Call_000_0908:
 
     xor a
     ldh [$ff8a], a
-    ld a, [$c2a8]
+    ld a, [wShopFirstItemSlot]
     cp $ff
     jr z, jr_000_0921
 
@@ -1912,7 +1911,7 @@ Call_000_0908:
     call Call_000_0bfc
 
 jr_000_0921:
-    ld a, [$c2a9]
+    ld a, [wShopSecondItemSlot]
     cp $ff
     jr z, jr_000_0931
 
@@ -1921,7 +1920,7 @@ jr_000_0921:
     call Call_000_0bfc
 
 jr_000_0931:
-    ld a, [$c2aa]
+    ld a, [wShopThirdItemSlot]
     cp $ff
     ret z
 
@@ -1934,20 +1933,20 @@ jr_000_0931:
     cp $ff
     jr nz, jr_000_0950
 
-    ld [$c2a8], a
-    ld [$c2a9], a
-    ld [$c2aa], a
+    ld [wShopFirstItemSlot], a
+    ld [wShopSecondItemSlot], a
+    ld [wShopThirdItemSlot], a
 
 jr_000_0950:
-    ld bc, $c2a8
+    ld bc, wShopFirstItemSlot
     ld a, [$c2ab]
     ld hl, $9a0a
     call Call_000_0971
-    ld bc, $c2a9
+    ld bc, wShopSecondItemSlot
     ld a, [$c2ac]
     ld hl, $9a0e
     call Call_000_0971
-    ld bc, $c2aa
+    ld bc, wShopThirdItemSlot
     ld a, [$c2ad]
     ld hl, $9a12
 
@@ -2049,7 +2048,7 @@ jr_000_09c8:
     ldh a, [$ffc3]
     ld c, a
     ld hl, $6220
-    call Call_000_03f9
+    call UI_RenderMetaSprite
     ldh a, [$ffaf]
     cp $03
     jr nz, jr_000_0a07
@@ -2059,7 +2058,7 @@ jr_000_09c8:
     ldh a, [$ffc5]
     ld c, a
     ld hl, $6220
-    call Call_000_03f9
+    call UI_RenderMetaSprite
 
 jr_000_0a07:
     ldh a, [$ffad]
@@ -2080,7 +2079,7 @@ jr_000_0a07:
     ld a, [hl+]
     ld h, [hl]
     ld l, a
-    jp Jump_000_03f9
+    jp UI_RenderMetaSprite
 
 
 Call_000_0a25:
@@ -2174,11 +2173,11 @@ Jump_000_0a8a:
     ld b, a
     ldh a, [$ffba]
     ld c, a
-    ld a, [$c07a]
+    ld a, [wPitIsUsingHammer]
     and a
     jr nz, jr_000_0acd
 
-    ld a, [$c04f]
+    ld a, [wPitAttackCooldown]
     and a
     ret z
 
@@ -2197,7 +2196,7 @@ Jump_000_0a8a:
     ldh [$ff8a], a
 
 jr_000_0ab7:
-    jp Jump_000_03f9
+    jp UI_RenderMetaSprite
 
 
 jr_000_0aba:
@@ -2478,7 +2477,7 @@ Jump_000_0bfc:
     ld a, [hl+]
     ld h, [hl]
     ld l, a
-    jp Jump_000_03f9
+    jp UI_RenderMetaSprite
 
 
 Jump_000_0c07:
@@ -2528,40 +2527,55 @@ jr_000_0c3e:
 
 Call_000_0c4c:
 Jump_000_0c4c:
-    call Call_000_0c55
+    call Audio_PlaySFX
 
 Call_000_0c4f:
 Jump_000_0c4f:
-    call Call_000_0c55
+    call Audio_PlaySFX
 
 Call_000_0c52:
 Jump_000_0c52:
-    call Call_000_0c55
+    call Audio_PlaySFX
 
-Call_000_0c55:
-Jump_000_0c55:
+; Plays a sound effect,
+; receives the sound ID through A
+Audio_PlaySFX:
     push bc
     push de
     push hl
+
     ld [$dd9e], a
     ld l, a
+
+    ; Switch to bank 5
     ld a, [$7fff]
     push af
     ld a, $05
     ld [$3fff], a
+
+    ; Grab the sound table entry corresponding
+    ; to the sound ID
+    ; Each entry is 4 bytes
     ld h, $00
     add hl, hl
     add hl, hl
-    ld de, $47b8
+    ld de, Constant_SoundTable
     add hl, de
+
     push hl
     pop de
+
+    ; Get the channel of the entry (1st byte)
     ld a, [de]
     inc de
     ld c, a
+
     ld b, $00
+
     ld hl, $dd00
     add hl, bc
+
+    ; Check whether the channel is free
     ld a, [hl]
     cp $ff
     jr z, jr_000_0c9b
@@ -2589,6 +2603,7 @@ jr_000_0c93:
     ld [$dd97], a
 
 jr_000_0c9b:
+    ; Load sound parameters
     xor a
     ld [hl+], a
     ld a, [de]
@@ -2600,13 +2615,18 @@ jr_000_0c9b:
     ld a, [de]
     inc de
     ld [hl], a
+
     ld de, $0014
     add hl, de
     xor a
     ld [hl], a
+
     ei
+
+    ; Restore the previous bank
     pop af
     ld [$3fff], a
+
     ld a, [$dd9e]
     inc a
     pop hl
@@ -2615,15 +2635,19 @@ jr_000_0c9b:
     ret
 
 
-Call_000_0cb9:
-Jump_000_0cb9:
-    ld hl, $c059
-    call Call_000_0cc2
+; Increases Pit's performance score by
+; the value at DE
+Pit_IncreasePerformance:
+    ld hl, wPitPerformanceLo
+    call Util_AddBCD
 
 Call_000_0cbf:
     ld hl, $c05e
 
-Call_000_0cc2:
+; Adds DE to a BCD
+; whose low byte is stored at HL.
+; Handles overflow.
+Util_AddBCD:
     ld a, [hl]
     add e
     daa
@@ -2632,8 +2656,10 @@ Call_000_0cc2:
     adc d
     daa
     ld [hl], a
-    ret nc
+    ret nc ; Return if not overflow
 
+    ; Overflow handling
+    ; sets max value
     ld [hl], $99
     dec hl
     ld [hl], $90
@@ -2930,7 +2956,7 @@ jr_000_0e2d:
     and $60
     swap a
     ldh [$ff8a], a
-    call Call_000_03f9
+    call UI_RenderMetaSprite
     pop hl
     pop bc
     dec hl
@@ -5081,7 +5107,7 @@ Call_000_1a49:
     ld [$c06c], a
     ld [$c068], a
     ld [wGameLastJumpQuality], a
-    ld [$c04f], a
+    ld [wPitAttackCooldown], a
     ld [wPitInvincibilityCounter], a
     ld [$c0fc], a
     ldh [hPitFacingTileType], a
@@ -5093,7 +5119,7 @@ Call_000_1a49:
     ld [wPitHasTorch], a
     ld [$c077], a
     ld [wPitIsCursed], a
-    ld [$c07a], a
+    ld [wPitIsUsingHammer], a
     ldh [$ffad], a
     ldh [$ffae], a
     ldh [$ffaf], a
@@ -5908,7 +5934,7 @@ jr_000_1ed3:
     ld [$c026], a
     ld a, $1f
     ld [$c027], a
-    ld a, $43
+    ld a, $43 ; This controls the music that plays at title screen
     call Call_000_0c4c
     call Call_000_2022
     ld a, $01
@@ -5990,7 +6016,7 @@ jr_000_1f38:
 
 jr_000_1f72:
     ld a, $4e
-    call Call_000_0c55
+    call Audio_PlaySFX
     xor a
     ld [$db24], a
     ld a, [$c000]
@@ -6068,7 +6094,7 @@ jr_000_1fe4:
     xor $01
     ld [$c000], a
     ld a, $10
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
 Jump_000_1ff1:
@@ -6085,7 +6111,7 @@ Jump_000_1ff1:
     ld [hl], a
     ld [$c067], a
     ld a, $01
-    call Call_000_0c55
+    call Audio_PlaySFX
     ld a, $ff
     ld [$c044], a
     ld a, [$c000]
@@ -7228,7 +7254,7 @@ jr_000_28ff:
 jr_000_290e:
     push af
     ld a, $10
-    call Call_000_0c55
+    call Audio_PlaySFX
     xor a
     ld [$c097], a
     call Call_000_377e
@@ -7453,7 +7479,7 @@ jr_000_29b2:
     ld a, $2a
     ld [$c029], a
     ld a, $4d
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
     call Call_000_080f
@@ -7783,7 +7809,7 @@ jr_000_2c06:
     ld c, a
     xor a
     ldh [$ff8a], a
-    jp Jump_000_03f9
+    jp UI_RenderMetaSprite
 
 
     nop
@@ -8869,7 +8895,7 @@ jr_000_324a:
 Jump_000_3250:
 jr_000_3250:
     xor a
-    ld [$c04f], a
+    ld [wPitAttackCooldown], a
     ret
 
 
@@ -9191,7 +9217,7 @@ Call_000_33a3:
 
 
 Call_000_33c5:
-    ld hl, $c04f
+    ld hl, wPitAttackCooldown
     ld a, [hl]
     and a
     jr z, jr_000_33d0
@@ -9322,7 +9348,7 @@ Jump_000_347d:
     ldh [$ffcd], a
     xor a
     ld [wGameLastJumpQuality], a
-    ld [$c04f], a
+    ld [wPitAttackCooldown], a
     ld [$c0fc], a
     call Call_000_05c5
     call Call_000_0287
@@ -9531,7 +9557,7 @@ jr_000_3585:
     ld a, $3c
     ld [wPitInvincibilityCounter], a
     ld a, $08
-    call Call_000_0c55
+    call Audio_PlaySFX
     ret
 
 
@@ -9606,7 +9632,7 @@ jr_000_3607:
     ld a, $05
     ld [$c057], a
     ld a, $10
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
 Game_SwitchRoom:
@@ -9706,13 +9732,13 @@ jr_000_3685:
     dec a
     ld [wPitKeyAmount], a
     ld a, $01
-    call Call_000_0c55
+    call Audio_PlaySFX
     call Call_000_37a3
 
 jr_000_36a1:
     ld [hl], $01 ; This causes the door to be closed
     ld de, $0030
-    call Call_000_0cb9
+    call Pit_IncreasePerformance
     ld a, $1e
     ld bc, $36b1
     jp Jump_000_138b
@@ -9777,7 +9803,7 @@ jr_000_3703:
     call Call_000_19e1
     xor a
     ld [$c07c], a
-    ld [$c04f], a
+    ld [wPitAttackCooldown], a
     ld hl, $da00
     ld a, [hl+]
     ld [$c034], a
@@ -9818,8 +9844,8 @@ jr_000_3703:
 
 Call_000_377e:
     xor a
-    ld [$c059], a
-    ld [$c05a], a
+    ld [wPitPerformanceLo], a
+    ld [wPitPerformanceHi], a
     ld [$c05e], a
     ld [$c05f], a
     ld [$c098], a
@@ -10043,7 +10069,7 @@ Call_000_38df:
 
 jr_000_38ff:
     ld a, $01
-    call Call_000_0c55
+    call Audio_PlaySFX
     ld a, [wPitCredits]
     dec a
     ld [wPitCredits], a
@@ -10752,9 +10778,9 @@ Jump_000_3d68:
     ld a, $40
     ldh [$ffbe], a
     ld a, $20
-    ld [$c04f], a
+    ld [wPitAttackCooldown], a
     ld a, $05
-    call Call_000_0c55
+    call Audio_PlaySFX
 
 Call_000_3d9b:
 Jump_000_3d9b:
@@ -10769,7 +10795,7 @@ jr_000_3d9b:
     dec [hl]
     dec [hl]
     dec [hl]
-    ld hl, $c04f
+    ld hl, wPitAttackCooldown
     dec [hl]
     ret nz
 
@@ -10781,7 +10807,7 @@ jr_000_3d9b:
     ld [$c02c], a
     jr jr_000_3d9b
 
-    ld hl, $c059
+    ld hl, wPitPerformanceLo
     ld de, $0010
     call Call_000_0cd4
     jr c, jr_000_3e05
@@ -10792,7 +10818,7 @@ jr_000_3d9b:
     jr nz, jr_000_3dd7
 
     ld a, $10
-    call Call_000_0c55
+    call Audio_PlaySFX
 
 jr_000_3dd7:
     pop af
@@ -11020,7 +11046,7 @@ jr_000_3e05:
 
 jr_000_3f70:
     ld a, $01
-    call Call_000_0c55
+    call Audio_PlaySFX
     ld a, $30
     ld [$c030], a
     jp Jump_000_3d9b

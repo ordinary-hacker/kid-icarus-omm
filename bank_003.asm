@@ -7390,7 +7390,7 @@ jr_003_6e20:
     jr jr_003_6e62
 
 jr_003_6e57:
-    ld a, [$c07a]
+    ld a, [wPitIsUsingHammer]
     or a
     jr nz, jr_003_6e62
 
@@ -7709,15 +7709,15 @@ jr_003_6ff7:
     ld a, $40
     ldh [$ffbe], a
     ld a, $20
-    ld [$c04f], a
+    ld [wPitAttackCooldown], a
     ld a, $05
-    call Call_000_0c55
+    call Audio_PlaySFX
     jp Jump_003_6eda
 
 
     ld hl, $ffbc
     dec [hl]
-    ld hl, $c04f
+    ld hl, wPitAttackCooldown
     dec [hl]
     jp nz, Jump_003_6ede
 
@@ -7869,7 +7869,7 @@ Call_003_70cc:
 
 
 Call_003_7111:
-    ld a, [$c04f]
+    ld a, [wPitAttackCooldown]
     and a
     jr nz, jr_003_7164
 
@@ -7926,7 +7926,7 @@ jr_003_7159:
 
 
 jr_003_7164:
-    ld a, [$c04f]
+    ld a, [wPitAttackCooldown]
     and $0f
     add a
     ld hl, $71af
@@ -8046,11 +8046,11 @@ Jump_003_71f9:
     ret nz
 
     xor a
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
 jr_003_720b:
-    call Call_003_75c6
+    call Pit_EquipHammer
     call Call_000_0fab
     jr z, jr_003_724c
 
@@ -8130,7 +8130,7 @@ jr_003_7268:
     jr jr_003_7264
 
     call Call_003_7422
-    call Call_003_75c6
+    call Pit_EquipHammer
     ld a, [wPitIsCursed]
     or a
     jr z, jr_003_7295
@@ -8227,7 +8227,7 @@ jr_003_72ef:
 
 
     call Call_003_7422
-    call Call_003_75c6
+    call Pit_EquipHammer
     call Call_000_0fab
     ldh [$ff8b], a
     jp z, Pit_LandOnSurface
@@ -8376,7 +8376,7 @@ jr_003_73bf:
     ret
 
 
-    call Call_003_75c6
+    call Pit_EquipHammer
     ld a, [wJoyPressed]
     bit 0, a
     jp nz, Jump_003_71f9
@@ -8684,7 +8684,7 @@ jr_003_7588:
 
 jr_003_758d:
     ld [$c053], a
-    call Call_003_75c6
+    call Pit_EquipHammer
     call Call_000_0fab
     jr z, jr_003_75a5
 
@@ -8728,31 +8728,39 @@ jr_003_75b6:
     jp Jump_000_0f19
 
 
-Call_003_75c6:
-    ld a, [$c07a]
+Pit_EquipHammer:
+    ; If Pit is already using the hammer, unequip it
+    ld a, [wPitIsUsingHammer]
     or a
-    jp nz, Jump_003_7659
+    jp nz, Pit_UnequipHammer
 
+    ; Ensure Select is pressed
     ld a, [wJoyPressed]
     cp $04
     jr nz, jr_003_75f1
 
+    ; If no hammers, nothing to equip, so return
     ld a, [wPitHammerAmount]
     or a
     ret z
 
-    ld a, [$c04f]
+    ; Check we are not in cooldown
+    ld a, [wPitAttackCooldown]
     or a
     ret nz
 
+    ; Set hammer as equipped
     ld a, $ff
-    ld [$c07a], a
+    ld [wPitIsUsingHammer], a
+
     xor a
     ld [$c04b], a
+
     ld a, $02
     ld [$c04a], a
+
     ld a, $10
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
 jr_003_75f1:
@@ -8766,7 +8774,7 @@ jr_003_75fb:
     and $02
     ret z
 
-    ld hl, $c04f
+    ld hl, wPitAttackCooldown
     ld a, [hl]
     and a
     ret nz
@@ -8830,10 +8838,10 @@ jr_003_7651:
     ld a, b
     ldh [$ffbe], a
     ld a, $05
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
-Jump_003_7659:
+Pit_UnequipHammer:
     ld a, [$c04b]
     or a
     jr z, jr_003_7666
@@ -8849,9 +8857,9 @@ jr_003_7666:
     jr nz, jr_003_7676
 
     xor a
-    ld [$c07a], a
+    ld [wPitIsUsingHammer], a
     ld a, $10
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
 jr_003_7676:
@@ -8937,7 +8945,7 @@ jr_003_76d8:
     ld de, $0001
     call Call_000_0cd1
     ld a, $0b
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
 Jump_003_76f0:
@@ -9716,7 +9724,7 @@ jr_003_7acd:
     ldh a, [hPitMovementState]
     cp $07
     ld a, $09
-    call nz, Call_000_0c55
+    call nz, Audio_PlaySFX
     ret
 
 
@@ -9933,7 +9941,7 @@ jr_003_7c3f:
     xor a
     ld [wPitIsCursed], a
     ld a, $10
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
 Jump_003_7c50:
@@ -9986,7 +9994,7 @@ Jump_003_7caf:
 
 jr_003_7cb6:
     ld a, $10
-    call Call_000_0c55
+    call Audio_PlaySFX
     call Call_000_02c8
     call Call_000_0a25
     ld a, [$c035]

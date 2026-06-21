@@ -1600,6 +1600,7 @@ jr_005_474c:
     ld [bc], a
     ld [bc], a
 
+Constant_SoundTable:
     db $00, $00, $f4, $48, $00, $00, $0b, $49, $00, $00, $22, $49, $19, $03, $37, $49
     db $19, $03, $44, $49, $00, $00, $4b, $49
 
@@ -6144,7 +6145,7 @@ Jump_005_77d8:
     and $0f
     or $80
     ld [$9870], a
-    ld hl, $c05a
+    ld hl, wPitPerformanceHi
     ld a, [hl]
     swap a
     and $0f
@@ -6253,7 +6254,7 @@ jr_005_7881:
 
 jr_005_78a3:
     ld a, $10
-    call Call_000_0c55
+    call Audio_PlaySFX
 
 jr_005_78a8:
     ld a, [$c06e]

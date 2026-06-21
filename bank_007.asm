@@ -10834,7 +10834,7 @@ Jump_007_7b14:
 jr_007_7b19:
     call Call_007_7b36
     xor a
-    ld [$c07a], a
+    ld [wPitIsUsingHammer], a
     inc a
     ld [$c04c], a
     ld a, $04

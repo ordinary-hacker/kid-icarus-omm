@@ -801,7 +801,7 @@ Jump_006_43e4:
     cp $05
     ret nz
 
-    ld a, [$c07a]
+    ld a, [wPitIsUsingHammer]
     and a
     ret z
 
@@ -829,7 +829,7 @@ Call_006_43f8:
     or a
     jr nz, jr_006_4427
 
-    ld a, [$c04f]
+    ld a, [wPitAttackCooldown]
     cp $0f
     jr nc, jr_006_4424
 
@@ -863,7 +863,7 @@ jr_006_4427:
     jr nz, jr_006_444d
 
     ld a, $04
-    call Call_000_0c55
+    call Audio_PlaySFX
 
 jr_006_444d:
     ld hl, $442c
@@ -873,7 +873,7 @@ jr_006_444d:
     swap a
     ld d, $00
     ld e, a
-    ld a, [$c04f]
+    ld a, [wPitAttackCooldown]
     cp $0f
     jr c, jr_006_4466
 
@@ -899,7 +899,7 @@ jr_006_4469:
     or a
     jr nz, jr_006_449f
 
-    ld a, [$c04f]
+    ld a, [wPitAttackCooldown]
     cp $0f
     jr nc, jr_006_4490
 
@@ -947,7 +947,7 @@ jr_006_449f:
     or a
     jr nz, jr_006_449f
 
-    ld a, [$c04f]
+    ld a, [wPitAttackCooldown]
     cp $0f
     jr nc, jr_006_4490
 
@@ -964,7 +964,7 @@ jr_006_449f:
     or a
     jr nz, jr_006_44d8
 
-    ld a, [$c04f]
+    ld a, [wPitAttackCooldown]
     cp $0f
     jr nc, jr_006_44d5
 
@@ -1113,7 +1113,7 @@ Pit_TakeDamage:
     ld a, $3c
     ld [wPitInvincibilityCounter], a
     ld a, $08
-    call Call_000_0c55
+    call Audio_PlaySFX
     ld a, [wPitHP]
     sub [hl]
     ld [wPitHP], a
@@ -1173,7 +1173,7 @@ Jump_006_45dd:
 jr_006_45e0:
     call Call_000_0cbf
     ld a, $01
-    call Call_000_0c55
+    call Audio_PlaySFX
     pop af
     ld hl, wHeartsOnesDigit
     add [hl]
@@ -1277,12 +1277,12 @@ Jump_006_463b:
 
 Pit_UseDroppedItem:
     ld a, $10
-    call Call_000_0c55
+    call Audio_PlaySFX
 
 jr_006_4671:
     call Call_006_63ab
     ld de, $0010
-    jp Jump_000_0cb9
+    jp Pit_IncreasePerformance
 
 
     call Pit_UseDroppedItem
@@ -1328,7 +1328,7 @@ jr_006_4689:
     ld a, $ff
     ld [$c04d], a
     ld a, $01
-    call Call_000_0c55
+    call Audio_PlaySFX
     jr jr_006_4671
 
     call Pit_UseDroppedItem
@@ -1511,7 +1511,7 @@ jr_006_4797:
     jr nz, jr_006_47cf
 
     ld a, $0d
-    call Call_000_0c55
+    call Audio_PlaySFX
     ldh a, [$ffa8]
     ld [wPitIsCursed], a
     ldh a, [hPitMovementState]
@@ -1571,7 +1571,7 @@ jr_006_47ed:
     add hl, bc
     ld [hl], $00
     ld a, $0d
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
     ld hl, $5385
@@ -1580,7 +1580,7 @@ jr_006_47ed:
 
 
 Call_006_4815:
-    ld a, [$c07a]
+    ld a, [wPitIsUsingHammer]
     and a
     jr z, jr_006_483c
 
@@ -1607,7 +1607,7 @@ Call_006_482e:
 
 
 jr_006_483c:
-    ld a, [$c04f]
+    ld a, [wPitAttackCooldown]
     or a
     jr z, jr_006_4868
 
@@ -1660,7 +1660,7 @@ jr_006_4886:
     and a
     ret z
 
-    ld a, [$c04f]
+    ld a, [wPitAttackCooldown]
     and a
     ret z
 
@@ -1834,7 +1834,7 @@ Jump_006_4951:
     ldh [$ff92], a
 
 jr_006_495d:
-    ld a, [$c07a]
+    ld a, [wPitIsUsingHammer]
     and a
     ret z
 
@@ -2164,7 +2164,7 @@ jr_006_4b33:
 
 jr_006_4b46:
     xor a
-    ld [$c07a], a
+    ld [wPitIsUsingHammer], a
     ld a, [wPitHammerAmount]
     sub $01
     daa
@@ -2756,7 +2756,7 @@ jr_006_4dce:
     db $38, $38, $00, $38, $38, $36
 
     xor a
-    ld [$c04f], a
+    ld [wPitAttackCooldown], a
     ldh a, [$ff9e]
     and a
     ret nz
@@ -2794,7 +2794,7 @@ jr_006_4e2d:
     or $80
     ld [wHeartsOnesDigit], a
     ld a, $03
-    call Call_000_0c55
+    call Audio_PlaySFX
     ldh a, [$ff9f]
     swap a
     and $0f
@@ -2886,7 +2886,7 @@ jr_006_4eb0:
     jr nz, jr_006_4ea9
 
     ld a, $0d
-    call Call_000_0c55
+    call Audio_PlaySFX
     ret
 
 
@@ -2928,7 +2928,7 @@ jr_006_4ee1:
     ldh [$ff9d], a
     xor a
     ldh [$ff9e], a
-    ld [$c04f], a
+    ld [wPitAttackCooldown], a
     ld a, $02
     call Call_000_0c52
     ld de, $0000
@@ -2955,8 +2955,8 @@ jr_006_4ee1:
 
 Jump_006_4f14:
 jr_006_4f14:
-    call Call_000_0c55
-    call Call_000_0cb9
+    call Audio_PlaySFX
+    call Pit_IncreasePerformance
     ld a, $02
     ldh [$ff9e], a
     ld b, $01
@@ -2976,7 +2976,7 @@ jr_006_4f14:
     jr jr_006_4f5e
 
     ld a, $08
-    call Call_000_0c55
+    call Audio_PlaySFX
     ld b, $06
     ld a, $03
     jr jr_006_4f5e
@@ -3003,10 +3003,10 @@ jr_006_4f14:
 Jump_006_4f59:
 jr_006_4f59:
     ld a, $02
-    call Call_000_0c55
+    call Audio_PlaySFX
 
 jr_006_4f5e:
-    call Call_000_0c55
+    call Audio_PlaySFX
     ld hl, $c07b
     ld a, [$c04c]
     or a
@@ -3039,7 +3039,7 @@ jr_006_4f85:
     ld a, $02
     ldh [$ff9e], a
     ld de, $0050
-    call Call_000_0cb9
+    call Pit_IncreasePerformance
 
 Jump_006_4f92:
     ld a, [$c054]
@@ -3054,7 +3054,7 @@ Jump_006_4f92:
 
 jr_006_4f9e:
     xor a
-    ld [$c04f], a
+    ld [wPitAttackCooldown], a
     ld [$c054], a
     ret
 
@@ -5007,7 +5007,7 @@ Jump_006_5a7c:
 
     call Call_000_0c29
     ld a, $4d
-    call Call_000_0c55
+    call Audio_PlaySFX
     ld a, $17
     ld [$c08e], a
     ld a, $07
@@ -5409,7 +5409,7 @@ jr_006_5d48:
     ld a, $03
     ld [$c085], a
     ld a, $13
-    call Call_000_0c55
+    call Audio_PlaySFX
     jp Jump_006_63ab
 
 
@@ -5837,7 +5837,7 @@ jr_006_5f70:
     add hl, de
     ld [hl], $18
     ld a, $4e
-    call Call_000_0c55
+    call Audio_PlaySFX
     ldh a, [$ffa5]
     inc a
     cp $07
@@ -5884,7 +5884,7 @@ jr_006_5f70:
     ld a, $50
     ldh [$ffa8], a
     ld a, $4d
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
     ld hl, $ffa8
@@ -7013,7 +7013,7 @@ jr_006_65e9:
 
     ld b, $01
     call Call_006_66ab
-    ld a, [$c04f]
+    ld a, [wPitAttackCooldown]
     cp $08
     jr nz, jr_006_6605
 
@@ -7289,7 +7289,7 @@ jr_006_672c:
     ldh a, [hPitMovementState]
     cp $07
     ld a, $07
-    call nz, Call_000_0c55
+    call nz, Audio_PlaySFX
     ld hl, $ffa5
     dec [hl]
     jr nz, jr_006_6752
@@ -7485,7 +7485,7 @@ jr_006_6835:
     jr nz, jr_006_6852
 
     ld a, $0a
-    call Call_000_0c55
+    call Audio_PlaySFX
 
 jr_006_6852:
     ld hl, $ff9f
@@ -8178,7 +8178,7 @@ jr_006_6bcd:
     cp [hl]
     jr nz, jr_006_6be5
 
-    ld a, [$c04f]
+    ld a, [wPitAttackCooldown]
     cp $11
     jr c, jr_006_6be5
 
@@ -10422,7 +10422,7 @@ jr_006_773d:
     ld a, $01
     ldh [$ff9e], a
     ld a, $0c
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
     ld hl, $ffa5
@@ -10492,7 +10492,7 @@ jr_006_775e:
     ld a, $02
     ldh [$ff9e], a
     ld a, $01
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
     ret
@@ -10555,10 +10555,10 @@ jr_006_77da:
     ret nz
 
     ld a, $ff
-    ld [$c2a8], a
-    ld [$c2aa], a
+    ld [wShopFirstItemSlot], a
+    ld [wShopThirdItemSlot], a
     ld a, $11
-    ld [$c2a9], a
+    ld [wShopSecondItemSlot], a
     ld [$c074], a
     ld a, $03
     ldh [$ff9e], a
@@ -10584,7 +10584,7 @@ jr_006_77da:
     ld a, $04
     ldh [$ff9e], a
     ld de, $0100
-    call Call_000_0cb9
+    call Pit_IncreasePerformance
     ld a, $ff
     ld [$c074], a
     ld hl, wPitStrength
@@ -10592,7 +10592,7 @@ jr_006_77da:
     ld a, [$c065]
     ld [$c067], a
     ld a, $10
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
     ret
@@ -10797,7 +10797,7 @@ jr_006_794d:
     xor a
     ldh [$ff8f], a
     ldh [$ff90], a
-    ld hl, $c2a8
+    ld hl, wShopFirstItemSlot
     ld b, $0e
     ld c, $0f
     ld d, $10
@@ -10827,11 +10827,11 @@ jr_006_797f:
 
 jr_006_7987:
     ld a, b
-    ld [$c2a8], a
+    ld [wShopFirstItemSlot], a
     ld a, c
-    ld [$c2a9], a
+    ld [wShopSecondItemSlot], a
     ld a, d
-    ld [$c2aa], a
+    ld [wShopThirdItemSlot], a
     ld a, $09
     jp Jump_000_0f20
 
@@ -10844,7 +10844,7 @@ jr_006_7987:
     ldh [$ff9e], a
     ld [$c07c], a
     ld a, $ff
-    ld hl, $c2a8
+    ld hl, wShopFirstItemSlot
     ld [hl+], a
     ld [hl+], a
     ld [hl], a
@@ -10870,7 +10870,7 @@ jr_006_79ae:
     ret c
 
     ld c, $01
-    ld hl, $c2a8
+    ld hl, wShopFirstItemSlot
     cp $68
     jr c, jr_006_79df
 
@@ -10960,19 +10960,19 @@ jr_006_7a23:
     ld h, a
     ld b, [hl]
     push hl
-    ld hl, $c2a8
+    ld hl, wShopFirstItemSlot
     ld a, $ff
-    ld [$c2a8], a
-    ld [$c2a9], a
-    ld [$c2aa], a
+    ld [wShopFirstItemSlot], a
+    ld [wShopSecondItemSlot], a
+    ld [wShopThirdItemSlot], a
     pop hl
     ld [hl], b
     ld a, $07
     ldh [$ff9e], a
     ld de, $0100
-    call Call_000_0cb9
+    call Pit_IncreasePerformance
     ld a, $10
-    call Call_000_0c55
+    call Audio_PlaySFX
     ldh a, [$ff90]
     or a
     jr z, jr_006_7a5e
@@ -11167,7 +11167,7 @@ Call_006_7b42:
 
 jr_006_7b66:
     ld a, $10
-    call Call_000_0c55
+    call Audio_PlaySFX
     jr jr_006_7b1b
 
     ld a, $46
@@ -11263,7 +11263,7 @@ Jump_006_7be9:
     jr z, jr_006_7bfd
 
     ld a, $0e
-    ld [$c2a8], a
+    ld [wShopFirstItemSlot], a
     ld a, $30
     ld [$c2ab], a
 
@@ -11273,7 +11273,7 @@ jr_006_7bfd:
     jr z, jr_006_7c0d
 
     ld a, $0f
-    ld [$c2aa], a
+    ld [wShopThirdItemSlot], a
     ld a, $30
     ld [$c2ad], a
 
@@ -11283,7 +11283,7 @@ jr_006_7c0d:
     ret z
 
     ld a, $10
-    ld [$c2a9], a
+    ld [wShopSecondItemSlot], a
     ld a, $30
     ld [$c2ac], a
     ret
@@ -11299,7 +11299,7 @@ jr_006_7c0d:
     jr nz, jr_006_7c42
 
     ld a, $01
-    call Call_000_0c55
+    call Audio_PlaySFX
     ld a, $05
     ldh [$ff9e], a
     call Call_000_0448
@@ -11501,7 +11501,7 @@ jr_006_7cee:
     dec a
     ldh [$ffa5], a
     ld a, $0a
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
 jr_006_7d3c:
@@ -11523,7 +11523,7 @@ Call_006_7d41:
     cp $58
     ret c
 
-    ld hl, $c2a8
+    ld hl, wShopFirstItemSlot
     cp $68
     jr c, jr_006_7d66
 
@@ -11700,7 +11700,7 @@ jr_006_7e23:
     pop hl
     ld [hl], $ff
     ld a, $01
-    call Call_000_0c55
+    call Audio_PlaySFX
     and a
     ret
 
@@ -11732,7 +11732,7 @@ Jump_006_7e3d:
     ld [$c074], a
     ld hl, $7e62
     call Call_000_03de
-    ld de, $c2a8
+    ld de, wShopFirstItemSlot
     ld b, $06
     call Call_000_03bf
 
@@ -11814,7 +11814,7 @@ Jump_006_7eaa:
     ld [$c04d], a
     call Call_000_0c29
     ld a, $13
-    jp Jump_000_0c55
+    jp Audio_PlaySFX
 
 
 Jump_006_7eb7:
