@@ -25,7 +25,7 @@ SECTION "ROM Bank $002", ROMX[$4000], BANK[$2]
 
     ret nz
 
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     ld a, b
     ld c, b
     ld a, h
@@ -2893,7 +2893,7 @@ jr_002_6c6c:
 
     ret nz
 
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     ld a, b
     ld c, b
     ld a, h
@@ -3391,7 +3391,7 @@ jr_002_6ea6:
 
     ret nz
 
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     ld l, b
     ld c, b
     ld [hl], a

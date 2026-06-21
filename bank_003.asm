@@ -7357,7 +7357,7 @@ jr_003_6e0b:
 jr_003_6e1c:
     jr z, jr_003_6e62
 
-    ldh a, [$ffb5]
+    ldh a, [hPitMovementState]
 
 jr_003_6e20:
     cp $07
@@ -7416,7 +7416,7 @@ jr_003_6e62:
     ld [$c051], a
 
 jr_003_6e7f:
-    ldh a, [$ffb5]
+    ldh a, [hPitMovementState]
     rst RST_08
 
     db $ef, $71, $ef, $71, $72, $72, $f4, $72, $c9, $73, $df, $73, $db, $34, $8d, $74
@@ -7507,7 +7507,7 @@ jr_003_6ef7:
 
 Jump_003_6efe:
     ld a, $20
-    ldh [$ffb4], a
+    ldh [hPitFacingDirection], a
     jr jr_003_6ede
 
     ld a, [$c011]
@@ -7520,22 +7520,22 @@ Jump_003_6efe:
 
 jr_003_6f0d:
     ld a, $20
-    ld [$c04e], a
+    ld [wGameLastJumpQuality], a
     ld a, $07
     ld [$c08e], a
     call Call_003_6fd0
-    ld hl, $c04e
+    ld hl, wGameLastJumpQuality
     ld a, [hl]
     or a
-    jp nz, Jump_003_72d2
+    jp nz, Pit_Jump
 
     xor a
-    ld [$c04e], a
+    ld [wGameLastJumpQuality], a
     jp Jump_003_6eda
 
 
     call Call_003_6fd0
-    ld hl, $c04e
+    ld hl, wGameLastJumpQuality
     ld a, [hl]
     cp $14
     jr z, jr_003_6f3b
@@ -7543,19 +7543,19 @@ jr_003_6f0d:
     inc [hl]
     ld d, $00
     ld e, [hl]
-    jp Jump_003_737c
+    jp Pit_FallDown
 
 
 jr_003_6f3b:
     call Call_000_0d26
-    ldh a, [$ffb4]
+    ldh a, [hPitFacingDirection]
     xor $20
-    ldh [$ffb4], a
+    ldh [hPitFacingDirection], a
     ldh a, [$ffb3]
     or a
     jr nz, jr_003_6f0d
 
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     cp $c0
     jr nc, jr_003_6f0d
 
@@ -7574,7 +7574,7 @@ jr_003_6f3b:
     jr z, jr_003_6f6b
 
     dec [hl]
-    ld hl, $ffb2
+    ld hl, hPitY
     dec [hl]
 
 jr_003_6f69:
@@ -7588,20 +7588,20 @@ jr_003_6f6b:
     jr nz, jr_003_6f69
 
     ld a, $08
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     ld [$c095], a
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     sub $08
     ld [$c090], a
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     sub $08
     ld [$c092], a
     xor a
-    ld [$c04e], a
+    ld [wGameLastJumpQuality], a
     jp Jump_003_6eda
 
 
-    ld hl, $c04e
+    ld hl, wGameLastJumpQuality
     ld a, [hl]
     cp $14
     jr z, jr_003_6fb2
@@ -7609,7 +7609,7 @@ jr_003_6f6b:
     push hl
     ld hl, $c090
     dec [hl]
-    ld hl, $353d
+    ld hl, Constant_ModeScriptTable
     call Util_Lookup
     ld a, [$c092]
     add l
@@ -7619,7 +7619,7 @@ jr_003_6f6b:
     inc [hl]
     ld d, $00
     ld e, [hl]
-    jp Jump_003_737c
+    jp Pit_FallDown
 
 
 jr_003_6fb2:
@@ -7639,12 +7639,12 @@ jr_003_6fb2:
     cp $08
     jp nz, Jump_003_6ede
 
-    jp Jump_000_0150
+    jp Game_Start
 
 
 Call_003_6fd0:
-    ld hl, $ffb0
-    ldh a, [$ffb4]
+    ld hl, hPitX
+    ldh a, [hPitFacingDirection]
     and $20
     jr z, jr_003_6fdb
 
@@ -7660,7 +7660,7 @@ jr_003_6fdb:
     ld a, $60
     ld [$c030], a
     ld a, $01
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     jp Jump_003_6eda
 
 
@@ -7670,7 +7670,7 @@ jr_003_6fdb:
     jr z, jr_003_6ff7
 
     dec [hl]
-    ld hl, $ffb0
+    ld hl, hPitX
     inc [hl]
     pop hl
     ret
@@ -7689,7 +7689,7 @@ jr_003_6ff7:
     jp nz, Jump_003_6ede
 
     ld a, $00
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     call Call_000_0f19
     ld a, $50
     ld [$c030], a
@@ -7701,7 +7701,7 @@ jr_003_6ff7:
     jp nz, Jump_003_6ede
 
     ld a, $04
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     ld a, $50
     ldh [$ffba], a
     ld a, $48
@@ -7747,9 +7747,9 @@ jr_003_7060:
     jp Jump_003_6ede
 
 
-    ld hl, $ffb0
+    ld hl, hPitX
     inc [hl]
-    ld hl, $ffb2
+    ld hl, hPitY
     dec [hl]
     jp nz, Jump_003_6ede
 
@@ -7757,11 +7757,11 @@ jr_003_7060:
 
 
     ld a, $0a
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     jp Jump_003_6eda
 
 
-    ld hl, $ffb0
+    ld hl, hPitX
     ld a, [hl]
     cp $40
     jr z, jr_003_7090
@@ -7775,7 +7775,7 @@ jr_003_708f:
     inc [hl]
 
 jr_003_7090:
-    ld hl, $ffb2
+    ld hl, hPitY
     ld a, [hl]
     cp $90
     jp z, Jump_003_6efe
@@ -7829,7 +7829,7 @@ Call_003_70cc:
     ld d, $00
     ld hl, $71af
     add hl, de
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     add [hl]
     ldh [$ffc3], a
     inc hl
@@ -7837,7 +7837,7 @@ Call_003_70cc:
     adc [hl]
     ldh [$ffc4], a
     dec hl
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     sub [hl]
     ldh [$ffc5], a
     inc hl
@@ -7850,7 +7850,7 @@ Call_003_70cc:
     and $3e
     ld e, a
     add hl, de
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     add [hl]
     ldh [$ffc7], a
     inc hl
@@ -7858,7 +7858,7 @@ Call_003_70cc:
     adc [hl]
     ldh [$ffc8], a
     dec hl
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     sub [hl]
     ldh [$ffc9], a
     inc hl
@@ -7873,7 +7873,7 @@ Call_003_7111:
     and a
     jr nz, jr_003_7164
 
-    ldh a, [$ffb5]
+    ldh a, [hPitMovementState]
     cp $01
     jr z, jr_003_713f
 
@@ -7881,15 +7881,15 @@ Call_003_7111:
     and $40
     jr z, jr_003_713f
 
-    ldh a, [$ffb5]
+    ldh a, [hPitMovementState]
     cp $0b
     jr z, jr_003_713f
 
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     ldh [$ffbf], a
     ldh a, [$ffb1]
     ldh [$ffc0], a
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     sub $0f
     ldh [$ffc1], a
     ldh a, [$ffb3]
@@ -7899,13 +7899,13 @@ Call_003_7111:
 
 
 jr_003_713f:
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     ldh [$ffc1], a
     ldh a, [$ffb3]
     ldh [$ffc2], a
-    ldh a, [$ffb4]
+    ldh a, [hPitFacingDirection]
     and a
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     jr z, jr_003_7159
 
     add $07
@@ -8038,9 +8038,9 @@ jr_003_719c:
 
 Jump_003_71f9:
     ld a, $02
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     ld a, $20
-    ld [$c04e], a
+    ld [wGameLastJumpQuality], a
     ld a, [$c077]
     and a
     ret nz
@@ -8073,7 +8073,7 @@ jr_003_720b:
     and a
     jr z, jr_003_724c
 
-    ld hl, $ffb2
+    ld hl, hPitY
     ld a, [hl]
     and $0f
     jr nz, jr_003_7243
@@ -8092,9 +8092,9 @@ jr_003_720b:
 Jump_003_7243:
 jr_003_7243:
     ld a, $03
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     xor a
-    ld [$c04e], a
+    ld [wGameLastJumpQuality], a
     ret
 
 
@@ -8117,7 +8117,7 @@ jr_003_724c:
 
 jr_003_7264:
     ld a, b
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     ret
 
 
@@ -8135,11 +8135,11 @@ jr_003_7268:
     or a
     jr z, jr_003_7295
 
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     ldh [$ff8f], a
     ldh a, [$ffb1]
     ldh [$ff90], a
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     add $0c
     ldh [$ff91], a
     ldh a, [$ffb3]
@@ -8148,7 +8148,7 @@ jr_003_7268:
     jr jr_003_7298
 
 jr_003_7295:
-    ld hl, $ffb0
+    ld hl, hPitX
 
 jr_003_7298:
     call Call_000_104f
@@ -8176,37 +8176,36 @@ jr_003_7298:
     jr nz, jr_003_72ef
 
 jr_003_72b9:
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     and $0f
     cp $09
     jr nc, jr_003_72ef
 
 jr_003_72c1:
-    ld hl, $c04e
+    ld hl, wGameLastJumpQuality
     ld a, [hl]
     cp $10
-    jr c, jr_003_72d2
+    jr c, Pit_Jump
 
     ld a, [wJoyHeld]
     bit 0, a
-    jr nz, jr_003_72d2
+    jr nz, Pit_Jump
 
     ld [hl], $0f
 
-Jump_003_72d2:
-jr_003_72d2:
+Pit_Jump:
     ld a, [hl]
     and a
     jp z, Jump_003_7243
 
     dec a
-    ld [$c04e], a
+    ld [wGameLastJumpQuality], a
     ld d, $00
     ld e, a
-    ld hl, $353d
+    ld hl, Constant_ModeScriptTable
     add hl, de
     ld b, [hl]
-    ld hl, $ffb2
+    ld hl, hPitY
     ld a, [hl]
     sub b
     ld [hl+], a
@@ -8231,13 +8230,13 @@ jr_003_72ef:
     call Call_003_75c6
     call Call_000_0fab
     ldh [$ff8b], a
-    jp z, Jump_003_73a3
+    jp z, Pit_LandOnSurface
 
     cp $04
     jp c, Jump_003_7334
 
     cp $0b
-    jp c, Jump_003_73a3
+    jp c, Pit_LandOnSurface
 
     cp $0f
     jp z, Jump_003_73ae
@@ -8249,9 +8248,9 @@ jr_003_72ef:
     jp z, Jump_003_7334
 
     cp $0e
-    jp nc, Jump_003_73a3
+    jp nc, Pit_LandOnSurface
 
-    ld a, [$c04e]
+    ld a, [wGameLastJumpQuality]
     cp $10
     jp nc, Jump_003_739f
 
@@ -8259,9 +8258,9 @@ jr_003_72ef:
     cp $f0
     jp z, Jump_003_73bf
 
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     and $0f
-    jr z, jr_003_73a3
+    jr z, Pit_LandOnSurface
 
 Jump_003_7334:
     ld a, [wPitIsCursed]
@@ -8278,17 +8277,17 @@ Jump_003_7334:
 
 jr_003_7346:
     ld a, $0b
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     ret
 
 
 jr_003_734b:
-    ld a, [$c04e]
+    ld a, [wGameLastJumpQuality]
     cp $20
     jr z, jr_003_7356
 
     inc a
-    ld [$c04e], a
+    ld [wGameLastJumpQuality], a
 
 jr_003_7356:
     ld d, $00
@@ -8305,7 +8304,7 @@ jr_003_7356:
     ld a, $0a
     ld [$c050], a
     ld a, $08
-    ld [$c04e], a
+    ld [wGameLastJumpQuality], a
 
 jr_003_7371:
     ld a, [$c050]
@@ -8313,17 +8312,16 @@ jr_003_7371:
     jr nz, jr_003_7391
 
     ld a, $03
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     pop de
 
-Jump_003_737c:
-jr_003_737c:
-    ld hl, $353d
+Pit_FallDown:
+    ld hl, Constant_ModeScriptTable
     add hl, de
     ld b, [hl]
     ld a, [hl]
     ld [$c053], a
-    ld hl, $ffb2
+    ld hl, hPitY
     ld a, [hl]
     add b
     ld [hl+], a
@@ -8338,32 +8336,31 @@ jr_003_7391:
     dec a
     ld [$c050], a
     ld a, $0a
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     pop de
     ld de, $0008
-    jr jr_003_737c
+    jr Pit_FallDown
 
 Jump_003_739f:
     ld a, d
     and a
     jr nz, jr_003_73bf
 
-Jump_003_73a3:
-jr_003_73a3:
+Pit_LandOnSurface:
     ld a, $00
-    ldh [$ffb5], a
-    ldh a, [$ffb2]
+    ldh [hPitMovementState], a
+    ldh a, [hPitY]
     and $f0
-    ldh [$ffb2], a
+    ldh [hPitY], a
     ret
 
 
 Jump_003_73ae:
     ld a, $00
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     ld a, [$c088]
     sub $10
-    ldh [$ffb2], a
+    ldh [hPitY], a
     ld a, $01
     ld [$c053], a
     ret
@@ -8372,10 +8369,10 @@ Jump_003_73ae:
 Jump_003_73bf:
 jr_003_73bf:
     ld a, $00
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     ld a, c
     sub $10
-    ldh [$ffb2], a
+    ldh [hPitY], a
     ret
 
 
@@ -8389,7 +8386,7 @@ jr_003_73bf:
     ret nz
 
     ld a, $00
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     ret
 
 
@@ -8422,7 +8419,7 @@ jr_003_73ff:
     and $80
     ret nz
 
-    ld hl, $ffb0
+    ld hl, hPitX
     call Call_000_104f
     ret z
 
@@ -8443,7 +8440,7 @@ jr_003_73ff:
 
 jr_003_741d:
     ld a, $00
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     ret
 
 
@@ -8459,10 +8456,10 @@ Call_003_7422:
     bit 4, a
     ret z
 
-    ld hl, $ffb4
+    ld hl, hPitFacingDirection
     set 5, [hl]
-    ld hl, $ffb0
-    call Call_000_10c3
+    ld hl, hPitX
+    call Game_CheckCollisionRight
     ldh a, [$ffb8]
     and a
     ret z
@@ -8483,8 +8480,8 @@ Call_003_7422:
     ret nc
 
 jr_003_7454:
-    ldh [$ffb9], a
-    ld hl, $ffb0
+    ldh [hPitFacingTileType], a
+    ld hl, hPitX
     ld a, [hl]
     add $01
     ld [hl+], a
@@ -8495,10 +8492,10 @@ jr_003_7454:
 
 
 jr_003_7460:
-    ld hl, $ffb4
+    ld hl, hPitFacingDirection
     res 5, [hl]
-    ld hl, $ffb0
-    call Call_000_10dc
+    ld hl, hPitX
+    call Game_CheckCollisionLeft
     ldh a, [$ffb8]
     and a
     ret z
@@ -8519,8 +8516,8 @@ jr_003_7460:
     ret nc
 
 jr_003_7481:
-    ldh [$ffb9], a
-    ld hl, $ffb0
+    ldh [hPitFacingTileType], a
+    ld hl, hPitX
     ld a, [hl]
     sub $01
     ld [hl+], a
@@ -8579,14 +8576,14 @@ jr_003_7481:
     ld a, $04
     ld [$c08d], a
     ld b, a
-    ld hl, $ffb0
+    ld hl, hPitX
     ld de, $c089
     call Call_000_03bf
     ld a, [$c011]
     rrca
     jr c, jr_003_750d
 
-    ld hl, $ffb2
+    ld hl, hPitY
     ld a, [hl]
     sub $01
     ld [hl+], a
@@ -8604,7 +8601,7 @@ jr_003_750d:
     rrca
     rrca
     add $08
-    ld hl, $353d
+    ld hl, Constant_ModeScriptTable
     call Call_000_03de
     ld a, h
     add l
@@ -8623,13 +8620,13 @@ jr_003_750d:
     ld e, a
 
 jr_003_7534:
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     ld l, a
     ldh a, [$ffb1]
     ld h, a
     add hl, de
     ld a, l
-    ldh [$ffb0], a
+    ldh [hPitX], a
     ld a, h
     ldh [$ffb1], a
     ret
@@ -8664,7 +8661,7 @@ jr_003_755f:
     ret nz
 
     ld a, $03
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     ret
 
 
@@ -8704,7 +8701,7 @@ jr_003_758d:
     ret z
 
 jr_003_75a5:
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     and $07
     ret nz
 
@@ -8718,7 +8715,7 @@ jr_003_75a5:
 
 jr_003_75b6:
     ld a, b
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     ret
 
 
@@ -8727,7 +8724,7 @@ jr_003_75b6:
     ret nz
 
     ld a, $00
-    ldh [$ffb5], a
+    ldh [hPitMovementState], a
     jp Jump_000_0f19
 
 
@@ -8803,7 +8800,7 @@ jr_003_7621:
 jr_003_7628:
     ld de, $0001
     call Call_000_0cd1
-    ld hl, $ffb0
+    ld hl, hPitX
     ld de, $ffba
     ld a, [hl+]
     ld [de], a
@@ -8816,7 +8813,7 @@ jr_003_7628:
     inc de
     ld a, [hl]
     ld [de], a
-    ldh a, [$ffb5]
+    ldh a, [hPitMovementState]
     cp $01
     jr z, jr_003_764e
 
@@ -8826,7 +8823,7 @@ jr_003_7628:
     jr nz, jr_003_7651
 
 jr_003_764e:
-    ldh a, [$ffb4]
+    ldh a, [hPitFacingDirection]
     ld b, a
 
 jr_003_7651:
@@ -8871,7 +8868,7 @@ jr_003_7676:
 
     ld a, [wJoyPressed]
     ld b, a
-    ldh a, [$ffb5]
+    ldh a, [hPitMovementState]
     cp $01
     jr z, jr_003_7699
 
@@ -8891,21 +8888,21 @@ jr_003_769c:
     jr nz, jr_003_76bf
 
     ld [$c04a], a
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     sub $11
     ldh [$ffbc], a
     ldh a, [$ffb3]
     sbc $00
     ldh [$ffbd], a
     ld b, $f8
-    ldh a, [$ffb4]
+    ldh a, [hPitFacingDirection]
     and a
     jr z, jr_003_76b9
 
     ld b, $08
 
 jr_003_76b9:
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     add b
     ldh [$ffba], a
     ret
@@ -8914,21 +8911,21 @@ jr_003_76b9:
 jr_003_76bf:
     inc a
     ld [$c04a], a
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     sub $08
     ldh [$ffbc], a
     ldh a, [$ffb3]
     sbc $00
     ldh [$ffbd], a
     ld b, $f4
-    ldh a, [$ffb4]
+    ldh a, [hPitFacingDirection]
     and a
     jr z, jr_003_76d8
 
     ld b, $0c
 
 jr_003_76d8:
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     add b
     ldh [$ffba], a
     ld a, c
@@ -8955,9 +8952,9 @@ Jump_003_76f0:
     ld [hl+], a
     ldh a, [$ffcd]
     ld [hl+], a
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     ld [hl+], a
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     ld [hl+], a
     ldh a, [$ff9b]
     ld [hl+], a
@@ -9012,12 +9009,12 @@ jr_003_7738:
 
     db $69, $74, $07
 
-    ldh a, [$ffb4]
+    ldh a, [hPitFacingDirection]
     and $20
     jr z, jr_003_7784
 
     ld a, $28
-    ldh [$ffb0], a
+    ldh [hPitX], a
     ld a, $00
     ldh [$ffcb], a
     ld hl, $c960
@@ -9025,7 +9022,7 @@ jr_003_7738:
 
 jr_003_7784:
     ld a, $d8
-    ldh [$ffb0], a
+    ldh [hPitX], a
     ld a, $60
     ldh [$ffcb], a
     ld hl, $c96f
@@ -9035,7 +9032,7 @@ jr_003_778f:
     ld a, $30
     ldh [$ffcd], a
     ld a, $80
-    ldh [$ffb2], a
+    ldh [hPitY], a
     xor a
     ldh [$ffb1], a
     ld [$c0fc], a
@@ -9190,7 +9187,7 @@ Jump_003_784f:
     ld [$c065], a
 
 jr_003_786d:
-    ld hl, $c700
+    ld hl, wDoorTable
     ld a, [$c06c]
     add a
     ld b, a
@@ -9275,7 +9272,7 @@ jr_003_78c9:
 
 
 jr_003_78d0:
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     sub [hl]
     inc hl
     ldh a, [$ffb3]
@@ -9433,7 +9430,7 @@ jr_003_7961:
     db $01
 
 Jump_003_798d:
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     cp [hl]
     ret nz
 
@@ -9446,7 +9443,7 @@ jr_003_7991:
     inc hl
     ld a, [hl+]
     ldh [$ff8b], a
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     sub [hl]
     ld e, a
     inc hl
@@ -9465,7 +9462,7 @@ jr_003_7991:
     ld a, [hl]
     adc $00
     ldh [$ff8d], a
-    ldh a, [$ffb2]
+    ldh a, [hPitY]
     ld e, a
     ldh a, [$ffb3]
     ld d, a
@@ -9477,7 +9474,7 @@ Jump_003_79bd:
     and a
     ret z
 
-    ldh a, [$ffb5]
+    ldh a, [hPitMovementState]
     cp $07
     ret z
 
@@ -9596,7 +9593,7 @@ jr_003_7a47:
 
 jr_003_7a51:
     ld a, [hl+]
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     sub [hl]
     inc hl
     ldh a, [$ffb1]
@@ -9622,7 +9619,7 @@ jr_003_7a64:
     ret z
 
     ld e, a
-    ldh a, [$ffb0]
+    ldh a, [hPitX]
     sub [hl]
     inc hl
     ldh a, [$ffb1]
@@ -9716,7 +9713,7 @@ jr_003_7acd:
     and $3f
     ret nz
 
-    ldh a, [$ffb5]
+    ldh a, [hPitMovementState]
     cp $07
     ld a, $09
     call nz, Call_000_0c55

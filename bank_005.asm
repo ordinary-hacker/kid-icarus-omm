@@ -629,10 +629,10 @@ jr_005_431f:
     and a
     ldh a, [$ffee]
     ld c, $10
-    call z, Call_005_4406
+    call z, Audio_WriteSoundReg
     ld a, l
     ld c, $13
-    call Call_005_4406
+    call Audio_WriteSoundReg
     ld a, l
     cp $02
     jr c, jr_005_4342
@@ -658,7 +658,7 @@ jr_005_4344:
     ldh a, [$ffea]
     and $c0
     ld c, $11
-    call Call_005_4406
+    call Audio_WriteSoundReg
 
 jr_005_435a:
     ld a, h
@@ -668,7 +668,7 @@ jr_005_435a:
 jr_005_435f:
     ldh [$fff8], a
     ld c, $14
-    call Call_005_4406
+    call Audio_WriteSoundReg
 
 Jump_005_4366:
     ld a, [$dd9a]
@@ -771,7 +771,7 @@ Call_005_43c6:
     ldh a, [$fff7]
     add [hl]
     ld c, $13
-    jr jr_005_4406
+    jr Audio_WriteSoundReg
 
 Call_005_43ef:
     ld a, [$dd98]
@@ -788,12 +788,11 @@ Call_005_43fd:
 Jump_005_43fd:
 jr_005_43fd:
     ld c, $12
-    call Call_005_4406
+    call Audio_WriteSoundReg
     ldh a, [$fff8]
     ld c, $14
 
-Call_005_4406:
-jr_005_4406:
+Audio_WriteSoundReg:
     ld b, a
     ld a, [$dd9b]
     add c
@@ -806,9 +805,9 @@ jr_005_4406:
 jr_005_440f:
     ldh a, [$ffec]
     ld c, $12
-    jr jr_005_4406
+    jr Audio_WriteSoundReg
 
-jr_005_4415:
+Audio_SetWaveOutputLevel:
     ld a, e
     srl a
     add $02
@@ -857,7 +856,7 @@ jr_005_4444:
 
     ld a, [$dd98]
     cp $02
-    jr z, jr_005_4415
+    jr z, Audio_SetWaveOutputLevel
 
     ldh a, [$fff1]
     or e

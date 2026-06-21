@@ -10,6 +10,8 @@ DEF wPitHP       EQU $C046
 DEF wPitMaxHP    EQU $C047
 DEF wPitStrength EQU $C048
 
+DEF wGameLastJumpQuality EQU $C04E
+
 DEF wPitInvincibilityCounter EQU $C056
 
 DEF wPitIsCursed      EQU $C079
@@ -35,3 +37,13 @@ DEF wPitHasPencil     EQU $C2B3
 DEF wPitHasTorch      EQU $C2B4
 DEF wPitHasMap        EQU $C2B5
 DEF wPitHasCreditCard EQU $C2B6
+
+; (likely) Written at stage start
+; Each entry is two bytes, looking like:
+; [tile][room]
+
+; For example:
+; 79 00
+; Means:
+; Door at tile 79, belongs to room 0
+DEF wDoorTable EQU $C700

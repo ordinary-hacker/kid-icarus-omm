@@ -4573,7 +4573,7 @@ jr_007_5b40:
     ld [bc], a
     nop
     stop
-    ldh [$ffb0], a
+    ldh [hPitX], a
     ret nz
 
     ret nz
@@ -10792,10 +10792,10 @@ jr_007_7ad7:
 jr_007_7ae8:
     rst RST_38
     ld d, e
-    ldh [$ffb0], a
+    ldh [hPitX], a
     rst RST_38
     ld d, a
-    ldh [$ffb0], a
+    ldh [hPitX], a
     rst RST_38
     inc hl
     jr z, @+$42
