@@ -11157,7 +11157,7 @@ Call_006_7b42:
 
     xor a
     ldh [$ff8a], a
-    call Call_006_7d41
+    call Shop_Buy
     jr c, jr_006_7b7d
 
     ld a, $03
@@ -11313,7 +11313,7 @@ jr_006_7c0d:
 jr_006_7c42:
     ld a, [wPitHasCreditCard]
     ldh [$ff8a], a
-    call Call_006_7d41
+    call Shop_Buy
     ret c
 
     ld a, $03
@@ -11510,7 +11510,8 @@ jr_006_7d3c:
     ret
 
 
-Call_006_7d41:
+Shop_Buy:
+    ; Pit must be standing in the shop item row
     ldh a, [hPitY]
     cp $70
     ret c
@@ -11519,6 +11520,7 @@ Call_006_7d41:
     ccf
     ret c
 
+    ; Determine the slot in which Pit is in front of
     ldh a, [hPitX]
     cp $58
     ret c
@@ -11531,6 +11533,7 @@ Call_006_7d41:
     ret c
 
     inc hl
+
     cp $88
     jr c, jr_006_7d66
 
@@ -11538,6 +11541,7 @@ Call_006_7d41:
     ret c
 
     inc hl
+
     cp $a8
     ccf
     ret c
