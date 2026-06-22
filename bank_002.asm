@@ -524,7 +524,7 @@ jr_002_6206:
     ld e, [hl]
     ld e, d
     ld a, $22
-    call c, Call_000_0cd4
+    call c, Util_SubBCD
     call z, $435b
     sbc c
     add e

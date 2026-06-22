@@ -8050,7 +8050,7 @@ Jump_003_71f9:
 
 
 jr_003_720b:
-    call Pit_EquipHammer
+    call Pit_HandleWeaponControls
     call Call_000_0fab
     jr z, jr_003_724c
 
@@ -8130,7 +8130,7 @@ jr_003_7268:
     jr jr_003_7264
 
     call Call_003_7422
-    call Pit_EquipHammer
+    call Pit_HandleWeaponControls
     ld a, [wPitIsCursed]
     or a
     jr z, jr_003_7295
@@ -8227,7 +8227,7 @@ jr_003_72ef:
 
 
     call Call_003_7422
-    call Pit_EquipHammer
+    call Pit_HandleWeaponControls
     call Call_000_0fab
     ldh [$ff8b], a
     jp z, Pit_LandOnSurface
@@ -8376,7 +8376,7 @@ jr_003_73bf:
     ret
 
 
-    call Pit_EquipHammer
+    call Pit_HandleWeaponControls
     ld a, [wJoyPressed]
     bit 0, a
     jp nz, Jump_003_71f9
@@ -8543,7 +8543,7 @@ jr_003_7481:
     ld a, $01
     ld [$c08d], a
     ld a, $02
-    ld [$c04a], a
+    ld [wPitHammerState], a
     ld hl, $c030
     dec [hl]
     jp nz, Jump_000_0c07
@@ -8684,7 +8684,7 @@ jr_003_7588:
 
 jr_003_758d:
     ld [$c053], a
-    call Pit_EquipHammer
+    call Pit_HandleWeaponControls
     call Call_000_0fab
     jr z, jr_003_75a5
 
@@ -8728,146 +8728,182 @@ jr_003_75b6:
     jp Jump_000_0f19
 
 
-Pit_EquipHammer:
-    ; If Pit is already using the hammer, unequip it
+Pit_HandleWeaponControls:
+    ; If Pit is using hammer, process hammer controls instead
     ld a, [wPitIsUsingHammer]
     or a
-    jp nz, Pit_UnequipHammer
+    jp nz, .handle_hammer
 
-    ; Ensure Select is pressed
+    ; Select toggles hammer mode
     ld a, [wJoyPressed]
     cp $04
-    jr nz, jr_003_75f1
+    jr nz, .handle_bow
 
-    ; If no hammers, nothing to equip, so return
+    ; Exit if no hammers to equip
     ld a, [wPitHammerAmount]
     or a
     ret z
 
-    ; Check we are not in cooldown
+    ; Can't switch weapon during attack cooldown
     ld a, [wPitAttackCooldown]
     or a
     ret nz
 
-    ; Set hammer as equipped
+    ; Enable hammer mode
     ld a, $ff
     ld [wPitIsUsingHammer], a
 
+    ; Reset hammer attack timer
     xor a
-    ld [$c04b], a
+    ld [wPitHammerAttackTime], a
 
+    ; Set default hammer state
     ld a, $02
-    ld [$c04a], a
+    ld [wPitHammerState], a
 
+    ; Make equip sound
     ld a, $10
     jp Audio_PlaySFX
 
 
-jr_003_75f1:
+.handle_bow:
+    ; Light arrows use held-button firing,
+    ; while normal arrows use pressed-button firing instead
     ld hl, wPitHasLightArrows
     bit 0, [hl]
-    jr z, jr_003_75fb
+    jr z, .check_fire_button
 
     ld a, [wJoyHeld]
 
-jr_003_75fb:
+.check_fire_button:
+    ; B button
     and $02
     ret z
 
+    ; Wait for attack cooldown
     ld hl, wPitAttackCooldown
     ld a, [hl]
     and a
     ret nz
 
+    ; Light arrows always use a longer cooldown
     ld d, $18
     ld a, [wPitHasLightArrows]
     or a
-    jr nz, jr_003_7613
+    jr nz, .set_cooldown
 
+    ; Something else affecting normal arrows...
     ldh a, [$ffae]
     or a
-    jr nz, jr_003_7613
+    jr nz, .set_cooldown
 
+    ; Normal arrows have shorter cooldown
     ld d, $12
 
-jr_003_7613:
+.set_cooldown:
     ld [hl], d
+
+    ; Set arrow strength
     ld a, [wPitHasLightArrows]
     or a
-    jr z, jr_003_7621
+    jr z, .normal_arrow
 
+    ; 0xff indicates light arrow (likely)
     ld a, $ff
-    ld [$c054], a
-    jr jr_003_7628
+    ld [wPitPendingArrowStrength], a
+    jr .consume_ammo
 
-jr_003_7621:
+.normal_arrow:
     ld a, [wPitStrength]
     inc a
-    ld [$c054], a
+    ld [wPitPendingArrowStrength], a
 
-jr_003_7628:
+.consume_ammo:
+    ; Consume a single arrow
     ld de, $0001
-    call Call_000_0cd1
+    call Pit_SubArrowAmount
+
+    ; Build projectile spawn "request"
     ld hl, hPitX
     ld de, $ffba
+
     ld a, [hl+]
     ld [de], a
     inc de
+
     ld a, [hl+]
     ld [de], a
     inc de
+
     ld a, [hl+]
     ld [de], a
     inc de
+
     ld a, [hl]
     ld [de], a
+
+    ; Determine firing direction
     ldh a, [hPitMovementState]
     cp $01
-    jr z, jr_003_764e
+    jr z, .use_facing_direction
 
     ld b, $40
+
     ld a, [wJoyHeld]
     and $40
-    jr nz, jr_003_7651
+    jr nz, .store_direction
 
-jr_003_764e:
+.use_facing_direction:
     ldh a, [hPitFacingDirection]
     ld b, a
 
-jr_003_7651:
+.store_direction:
     ld a, b
     ldh [$ffbe], a
+
+    ; Arrow fired sound effect
     ld a, $05
     jp Audio_PlaySFX
 
 
-Pit_UnequipHammer:
-    ld a, [$c04b]
+.handle_hammer:
+    ; Check for no cooldown
+    ld a, [wPitHammerAttackTime]
     or a
-    jr z, jr_003_7666
+    jr z, .check_input
 
+    ; Continue active swing
     dec a
-    ld [$c04b], a
-    xor a
-    jr jr_003_76bf
+    ld [wPitHammerAttackTime], a
 
-jr_003_7666:
+    xor a
+    jr .update_attack_position
+
+.check_input:
+    ; Select exits hammer mode
     ld a, [wJoyPressed]
     cp $04
-    jr nz, jr_003_7676
+    jr nz, .idle_state
 
     xor a
     ld [wPitIsUsingHammer], a
+
     ld a, $10
     jp Audio_PlaySFX
 
 
-jr_003_7676:
-    ld a, [$c04a]
+.idle_state:
+    ; Preserve previous hammer state
+    ld a, [wPitHammerState]
     ld c, a
+
+    ; Default equipped state
     ld a, $02
-    ld [$c04a], a
-    ld a, [$c049]
+    ld [wPitHammerState], a
+
+    ; Ignore certain player states
+    ld a, [wPitAnimFrameCopy]
+
     cp $0d
     ret z
 
@@ -8876,74 +8912,100 @@ jr_003_7676:
 
     ld a, [wJoyPressed]
     ld b, a
+
+    ; Restrict for only when Pit is grounded
     ldh a, [hPitMovementState]
     cp $01
-    jr z, jr_003_7699
+    jr z, .check_attack_button
 
     bit 6, b
     ret nz
 
     cp $0b
-    jr z, jr_003_769c
+    jr z, .position_idle_hammer
 
-jr_003_7699:
+.check_attack_button:
     bit 7, b
     ret nz
 
-jr_003_769c:
+.position_idle_hammer:
     xor a
-    bit 1, b
-    jr nz, jr_003_76bf
 
-    ld [$c04a], a
+    ; B button
+    bit 1, b
+    jr nz, .update_attack_position
+
+    ; Idle hammer state
+    ld [wPitHammerState], a
+
+    ; Position hammer beside Pit
     ldh a, [hPitY]
     sub $11
     ldh [$ffbc], a
+
     ldh a, [$ffb3]
     sbc $00
     ldh [$ffbd], a
+
+    ; horixontal offset depends on facing
     ld b, $f8
+
     ldh a, [hPitFacingDirection]
     and a
-    jr z, jr_003_76b9
+    jr z, .idle_facing_offset
 
     ld b, $08
 
-jr_003_76b9:
+.idle_facing_offset:
     ldh a, [hPitX]
     add b
     ldh [$ffba], a
+
     ret
 
 
-jr_003_76bf:
+.update_attack_position:
+    ; Attack state
     inc a
-    ld [$c04a], a
+    ld [wPitHammerState], a
+
+    ; Position active swing hitbox
     ldh a, [hPitY]
     sub $08
     ldh [$ffbc], a
+
     ldh a, [$ffb3]
     sbc $00
     ldh [$ffbd], a
+
+    ; Larger horizontal reach
     ld b, $f4
+
     ldh a, [hPitFacingDirection]
     and a
-    jr z, jr_003_76d8
+    jr z, .attack_facing_offset
 
     ld b, $0c
 
-jr_003_76d8:
+.attack_facing_offset:
     ldh a, [hPitX]
     add b
     ldh [$ffba], a
+
+    ; Return if already attacking
     ld a, c
     and a
     ret nz
 
+    ; Begin hammer attack
     ld a, $04
-    ld [$c04b], a
+    ld [wPitHammerAttackTime], a
+
+    ; Hammer spends one arrow resource
     ld de, $0001
-    call Call_000_0cd1
+    call Pit_SubArrowAmount
+
+    ; Swing sound
     ld a, $0b
     jp Audio_PlaySFX
 
@@ -9890,7 +9952,7 @@ jr_003_7bbc:
     ld [$9c65], a
     ld a, $80
     ld [$9c66], a
-    ld hl, $c05f
+    ld hl, wPitArrowAmountHi
     ld a, [hl]
     swap a
     and $0f

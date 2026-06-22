@@ -10,9 +10,27 @@ DEF wPitHP       EQU $C046
 DEF wPitMaxHP    EQU $C047
 DEF wPitStrength EQU $C048
 
+; Current Pit animation frame
+; 0 = still
+; 1-3 = walking
+; 4 = On air
+; 5 = Looking up
+; 6 = Crouching
+
+; However it doesn't affect rendering,
+; likely a copy for rendering-unrelated logic to use
+DEF wPitAnimFrameCopy EQU $C049
+
+DEF wPitHammerState EQU $C04A ; 0 = idle, 1 = attacking, 2 = not sure, only used in init
+DEF wPitHammerAttackTime  EQU $C04B
+
 DEF wGameLastJumpQuality EQU $C04E
 
 DEF wPitAttackCooldown EQU $C04F
+
+; Set back to 0 when an arrow hits,
+; when shooting set to strength + 1
+DEF wPitPendingArrowStrength EQU $C054
 
 DEF wPitInvincibilityCounter EQU $C056
 
@@ -28,6 +46,13 @@ DEF wPitInvincibilityCounter EQU $C056
 
 DEF wPitPerformanceLo EQU $C059
 DEF wPitPerformanceHi EQU $C05A
+
+; Amount of arrows Pit has, seemingly for internal usage.
+; Has a massive value by default, and it increases when grabbing hearts.
+; Stored as BCD.
+
+DEF wPitArrowAmountLo EQU $C05E
+DEF wPitArrowAmountHi EQU $C05F
 
 DEF wPitIsCursed      EQU $C079
 

@@ -2035,7 +2035,7 @@ jr_000_09c8:
     ld a, $01
     ld [$3fff], a
     ld hl, $6b80
-    ld a, [$c049]
+    ld a, [wPitAnimFrameCopy]
     call Call_000_0bfc
     xor a
     ldh [$ff8a], a
@@ -2218,7 +2218,7 @@ jr_000_0acd:
     cp $05
     ret z
 
-    ld a, [$c04a]
+    ld a, [wPitHammerState]
     cp $02
     ret z
 
@@ -2642,7 +2642,7 @@ Pit_IncreasePerformance:
     call Util_AddBCD
 
 Call_000_0cbf:
-    ld hl, $c05e
+    ld hl, wPitArrowAmountLo
 
 ; Adds DE to a BCD
 ; whose low byte is stored at HL.
@@ -2666,11 +2666,12 @@ Util_AddBCD:
     ret
 
 
-Call_000_0cd1:
-Jump_000_0cd1:
-    ld hl, $c05e
+Pit_SubArrowAmount:
+    ld hl, wPitArrowAmountLo
 
-Call_000_0cd4:
+; Subtracts the BCD value at HL by DE,
+; handles underflow.
+Util_SubBCD:
     ld a, [hl]
     sub e
     daa
@@ -4239,7 +4240,7 @@ Call_000_143e:
     xor a
     ld [$c068], a
     ld de, $0001
-    jp Jump_000_0cd1
+    jp Pit_SubArrowAmount
 
 
 Call_000_1458:
@@ -5186,7 +5187,7 @@ Call_000_1af3:
     call Call_000_0876
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call Call_000_0a8a
     call Call_000_0a25
     call Call_000_0b3c
@@ -6192,7 +6193,7 @@ jr_000_203d:
     call Call_000_07bb
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6cca
     call Call_000_0a8a
     call Call_000_0a25
@@ -6259,7 +6260,7 @@ Jump_000_20df:
     call Call_000_07bb
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6cca
     call Call_000_0a8a
     call Call_000_0ae2
@@ -6327,7 +6328,7 @@ Jump_000_20df:
     call Call_000_07bb
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6cca
     call Call_000_0a8a
     call Call_000_0ae2
@@ -6466,7 +6467,7 @@ Jump_000_20df:
     call Call_000_080f
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6ccd
     call Call_000_0a8a
     call Call_000_0a25
@@ -6561,7 +6562,7 @@ Jump_000_20df:
     call Call_000_080f
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6ccd
     call Call_000_0a8a
     call Call_000_0ae2
@@ -6656,7 +6657,7 @@ Jump_000_20df:
     call Call_000_080f
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6ccd
     call Call_000_0a8a
 
@@ -6818,7 +6819,7 @@ jr_000_24bc:
     call Call_000_07bb
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6cca
     call Call_000_0a8a
     call Call_000_0ae2
@@ -6896,7 +6897,7 @@ jr_000_24bc:
     call Call_000_07bb
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6cca
     call Call_000_0a8a
     call Call_000_0a25
@@ -7003,7 +7004,7 @@ jr_000_2717:
     call Call_000_07bb
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6cca
     call Call_000_0a8a
     call Call_000_0ae2
@@ -7174,7 +7175,7 @@ jr_000_2823:
     call Call_000_080f
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6ccd
     call Call_000_0a8a
     call Call_000_0a25
@@ -7374,7 +7375,7 @@ jr_000_29b2:
     call Call_000_0876
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6ccd
     call Call_000_0a8a
     call Call_000_0a25
@@ -7455,7 +7456,7 @@ jr_000_29b2:
     call Call_000_080f
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6ccd
     call Call_000_0a8a
     call Call_000_0a25
@@ -7484,7 +7485,7 @@ jr_000_29b2:
 
     call Call_000_080f
     call Call_000_0dee
-    call Call_000_33c5
+    call Game_ReduceTimers
     call Call_000_0994
     call Call_000_0a25
     ld a, [$c011]
@@ -7588,7 +7589,7 @@ jr_000_29b2:
     call Call_000_08cd
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6ccd
     call Call_000_0a8a
     call Call_000_0a25
@@ -7692,7 +7693,7 @@ jr_000_2c06:
     call Call_000_0876
     call Call_000_0994
     call Call_000_1a0f
-    call Call_000_33c5
+    call Game_ReduceTimers
     call $6ccd
     call Call_000_0a8a
     call Call_000_0b3c
@@ -8752,7 +8753,7 @@ Call_000_3191:
     and $f0
     add $08
     call Call_000_1052
-    jp z, Jump_000_3250
+    jp z, Pit_ResetAttackCooldown
 
     cp $10
     jr z, jr_000_31af
@@ -8764,7 +8765,7 @@ jr_000_31af:
     ldh a, [$ffbc]
     and $0f
     cp $08
-    jp c, Jump_000_3250
+    jp c, Pit_ResetAttackCooldown
 
     jr jr_000_31c7
 
@@ -8776,7 +8777,7 @@ jr_000_31ba:
     jr z, jr_000_31c7
 
     cp $04
-    jp nc, Jump_000_3250
+    jp nc, Pit_ResetAttackCooldown
 
 jr_000_31c7:
     ld hl, $ffbc
@@ -8808,7 +8809,7 @@ jr_000_31e2:
     jr z, jr_000_3225
 
     call Call_000_3255
-    jr z, jr_000_3250
+    jr z, Pit_ResetAttackCooldown
 
     cp $10
     jr z, jr_000_31f2
@@ -8821,7 +8822,7 @@ jr_000_31f2:
     add $04
     and $0f
     cp $08
-    jr c, jr_000_3250
+    jr c, Pit_ResetAttackCooldown
 
     jr jr_000_320a
 
@@ -8833,7 +8834,7 @@ jr_000_31fe:
     jr z, jr_000_320a
 
     cp $04
-    jr nc, jr_000_3250
+    jr nc, Pit_ResetAttackCooldown
 
 jr_000_320a:
     ld hl, $ffba
@@ -8860,7 +8861,7 @@ jr_000_321d:
 
 jr_000_3225:
     call Call_000_3255
-    jr z, jr_000_3250
+    jr z, Pit_ResetAttackCooldown
 
     cp $10
     jr z, jr_000_3232
@@ -8873,7 +8874,7 @@ jr_000_3232:
     add $04
     and $0f
     cp $08
-    jr c, jr_000_3250
+    jr c, Pit_ResetAttackCooldown
 
     jr jr_000_324a
 
@@ -8885,15 +8886,14 @@ jr_000_323e:
     jr z, jr_000_324a
 
     cp $04
-    jr nc, jr_000_3250
+    jr nc, Pit_ResetAttackCooldown
 
 jr_000_324a:
     ld hl, $ffba
     jp Jump_000_31ca
 
 
-Jump_000_3250:
-jr_000_3250:
+Pit_ResetAttackCooldown:
     xor a
     ld [wPitAttackCooldown], a
     ret
@@ -9216,7 +9216,9 @@ Call_000_33a3:
     ret
 
 
-Call_000_33c5:
+Game_ReduceTimers:
+    ; Reduce attack cooldown
+    ; if not zero already
     ld hl, wPitAttackCooldown
     ld a, [hl]
     and a
@@ -9226,6 +9228,8 @@ Call_000_33c5:
     call Call_000_3191
 
 jr_000_33d0:
+    ; Reduce invincibility counter
+    ; if not zero already
     ld hl, wPitInvincibilityCounter
     ld a, [hl]
     and a
@@ -9422,7 +9426,7 @@ jr_000_34d6:
     ret z
 
     ld a, $02
-    ld [$c04a], a
+    ld [wPitHammerState], a
     ld hl, hPitY
     ld a, [wJoyHeld]
     bit 6, a
@@ -9781,7 +9785,7 @@ jr_000_36a1:
     call Call_000_0876
 
 jr_000_3703:
-    call Call_000_33c5
+    call Game_ReduceTimers
     call Call_000_1a0f
     call Call_000_380d
     ldh a, [hPitFacingTileType]
@@ -9846,8 +9850,8 @@ Call_000_377e:
     xor a
     ld [wPitPerformanceLo], a
     ld [wPitPerformanceHi], a
-    ld [$c05e], a
-    ld [$c05f], a
+    ld [wPitArrowAmountLo], a
+    ld [wPitArrowAmountHi], a
     ld [$c098], a
     ld hl, wDoorTable
     ld b, $64
@@ -10809,7 +10813,7 @@ jr_000_3d9b:
 
     ld hl, wPitPerformanceLo
     ld de, $0010
-    call Call_000_0cd4
+    call Util_SubBCD
     jr c, jr_000_3e05
 
     ld a, [$c011]
@@ -11074,11 +11078,11 @@ jr_000_3f70:
 Call_000_3fa4:
     call Call_000_0257
     ld hl, $c060
-    ld a, [$c05e]
+    ld a, [wPitArrowAmountLo]
     add [hl]
     daa
     ld [hl+], a
-    ld a, [$c05f]
+    ld a, [wPitArrowAmountHi]
     adc [hl]
     daa
     ld [hl+], a

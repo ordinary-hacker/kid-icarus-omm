@@ -797,7 +797,7 @@ jr_006_433a:
 
 Jump_006_43e4:
     call Call_006_43f8
-    ld [$c049], a
+    ld [wPitAnimFrameCopy], a
     cp $05
     ret nz
 
@@ -806,7 +806,7 @@ Jump_006_43e4:
     ret z
 
     ld a, $0d
-    ld [$c049], a
+    ld [wPitAnimFrameCopy], a
     ret
 
 
@@ -1138,7 +1138,7 @@ Pit_TakeDamage:
 
 jr_006_45ae:
     ld de, $0030
-    call Call_000_0cd1
+    call Pit_SubArrowAmount
     ld a, [wPitBarrelAmount]
     and a
     ret z
@@ -1584,7 +1584,7 @@ Call_006_4815:
     and a
     jr z, jr_006_483c
 
-    ld a, [$c04a]
+    ld a, [wPitHammerState]
     cp $01
     jr nz, jr_006_4868
 
@@ -1615,7 +1615,7 @@ jr_006_483c:
     or a
     jr nz, jr_006_484d
 
-    ld a, [$c054]
+    ld a, [wPitPendingArrowStrength]
     jr jr_006_484f
 
 jr_006_484d:
@@ -1838,7 +1838,7 @@ jr_006_495d:
     and a
     ret z
 
-    ld a, [$c04a]
+    ld a, [wPitHammerState]
     cp $01
     ret nz
 
@@ -2263,7 +2263,7 @@ Call_006_4bae:
     jp z, Jump_006_4c57
 
     ld hl, hPitX
-    ld a, [$c049]
+    ld a, [wPitAnimFrameCopy]
     cp $06
     jr z, jr_006_4c10
 
@@ -2390,7 +2390,7 @@ jr_006_4c4c:
 
 Jump_006_4c57:
     ld hl, hPitY
-    ld a, [$c049]
+    ld a, [wPitAnimFrameCopy]
     cp $06
     jr z, jr_006_4cac
 
@@ -3027,7 +3027,7 @@ jr_006_4f71:
 
     ld a, $0f
     ldh [$ffa6], a
-    ld a, [$c054]
+    ld a, [wPitPendingArrowStrength]
     cp $ff
     ret z
 
@@ -3042,20 +3042,20 @@ jr_006_4f85:
     call Pit_IncreasePerformance
 
 Jump_006_4f92:
-    ld a, [$c054]
+    ld a, [wPitPendingArrowStrength]
     sub b
     jr c, jr_006_4f9e
 
     jr z, jr_006_4f9e
 
-    ld [$c054], a
+    ld [wPitPendingArrowStrength], a
     ret
 
 
 jr_006_4f9e:
     xor a
     ld [wPitAttackCooldown], a
-    ld [$c054], a
+    ld [wPitPendingArrowStrength], a
     ret
 
 
@@ -6695,7 +6695,7 @@ Jump_006_642a:
 
 jr_006_6436:
     ld de, $0001
-    call Call_000_0cd1
+    call Pit_SubArrowAmount
     jp Jump_006_63ab
 
 
@@ -7603,7 +7603,7 @@ jr_006_68cd:
     ret nz
 
     ld de, $0001
-    call Call_000_0cd1
+    call Pit_SubArrowAmount
     ld a, $ff
     ldh [$ff9d], a
     ld hl, $c2a5
@@ -10523,7 +10523,7 @@ jr_006_775e:
     cp b
     jp nc, Jump_006_63ab
 
-    ld a, [$c05f]
+    ld a, [wPitArrowAmountHi]
     cp $10
     jr c, jr_006_77da
 
