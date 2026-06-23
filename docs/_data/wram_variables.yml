@@ -1,0 +1,279 @@
+- name: wJoyHeld
+  address: C015
+  purpose: "Stores buttons which have been held"
+  confidence: Extremely high
+  evidence: "Populated by a mask between currently pressed keys and the ones pressed before"
+  notes: None
+
+- name: wJoyPressed
+  address: C016
+  purpose: "Stores buttons which have been pressed"
+  confidence: Extremely high
+  evidence: "Populated by reading input registers"
+  notes: None
+
+- name: wUnusedC017
+  address: C017
+  purpose: "May have been for storing buttons held before"
+  confidence: High
+  evidence: "Populated with **wJoyHeld** before updating inputs"
+  notes: "Only written in one place of the whole code, then never read, therefore left unused"
+
+- name: wUnusedC018
+  address: C018
+  purpose: "May have been for storing buttons pressed before"
+  confidence: High
+  evidence: "Populated with **wJoyPressed** before updating inputs"
+  notes: "Only written in one place of the whole code, then never read, therefore left unused"
+
+- name: wPitHP
+  address: C046
+  purpose: "Store Pit's current HP"
+  confidence: Extremely high
+  evidence: "Manually editing visibly reflects in the game, reduced when taking damage, etc."
+  notes: None
+
+- name: wPitMaxHP
+  address: C047
+  purpose: "Store Pit's current max HP"
+  confidence: Extremely high
+  evidence: "Used to clamp healing, increased when getting upgrades in the game, etc."
+  notes: None
+
+- name: wPitStrength
+  address: C048
+  purpose: "Store Pit's current strength (Power Arrow count)"
+  confidence: Extremely high
+  evidence: "Used to determine arrow damage, manually editing is visibly seen in pause menu, etc."
+  notes: None
+
+- name: wPitAnimFrameCopy
+  address: C049
+  purpose: "Be a copy of Pit's current rendered frame for rendering-unrelated logic"
+  confidence: Medium
+  evidence: "It has one value per each frame, but direct editing doesn't affect rendering"
+  notes: "0 is still, 1-3 walking, 4 on air, 5 looking up, and 6 crouching"
+
+- name: wPitHammerState
+  address: C04A
+  purpose: "Whether Pit is actively swinging the hammer or not (and seemingly another state)"
+  confidence: High
+  evidence: "Value directly correlates to the expected"
+  notes: "0 if idle, 1 is swinging, 2 is only set at init (right after equipping the hammer)"
+
+- name: wPitHammerAttackTime
+  address: C04B
+  purpose: "A timer used as countdowwn for how long to keep the hammer as swinging"
+  confidence: Extremely high
+  evidence: "Manual editing allows to have the hammer infinitely swinging, etc."
+  notes: None
+
+- name: wGameLastJumpQuality
+  address: C04E
+  purpose: "Measure how much height the last jump gave"
+  confidence: Medium
+  evidence: "Value visibly correlates to how tall Pit jumps"
+  notes: None
+
+- name: wPitAttackCooldown
+  address: C04F
+  purpose: "Cooldown when throwing arrows"
+  confidence: Extremely high
+  evidence: "If not zero Pit won't fire arrows, clearly a timer that's reduced to 0"
+  notes: None
+
+- name: wPitPendingArrowStrength
+  address: C054
+  purpose: "Know how much damage the \"pending arrow\" (latest thrown arrow) must do"
+  confidence: High
+  evidence: "Set always to strength+1, so likely what's actually used when harming enemies"
+  notes: "Is set back to 0 after arrow hits"
+
+- name: wPitInvincibilityCounter
+  address: C056
+  purpose: "Timer for how much time Pit haves left invincible (after getting hit)"
+  confidence: Extremely high
+  evidence: "If not zero damage not taken, set when being hit, constantly decreased to 0"
+  notes: None
+
+- name: wPitPerformanceLo
+  address: C059
+  purpose: "Low byte of a BCD counter storing Pit's performance (used in Sacred Chambers to determine if Pit deserves a reward)"
+  confidence: Extremely high
+  evidence: "Increased at \"milestones\" such as killing enemies, entering rooms, etc."
+  notes: None
+
+- name: wPitPerformanceHi
+  address: C05A
+  purpose: "High byte of a BCD counter storing Pit's performance (used in Sacred Chambers to determine if Pit deserves a reward)"
+  confidence: Extremely high
+  evidence: "Increased at \"milestones\" such as killing enemies, entering rooms, etc."
+  notes: None
+
+- name: wPitArrowAmountLo
+  address: C05E
+  purpose: "Low byte of a BCD counter seemingly internally used to measure how much \"ammo\" Pit has, though purpose of this is unknown"
+  confidence: Low-Medium
+  evidence: "Decreased when throwing arrows, increased when collecting hearts, no clear usage"
+  notes: None
+
+- name: wPitArrowAmountHi
+  address: C05F
+  purpose: "High byte of a BCD counter seemingly internally used to measure how much \"ammo\" Pit has, though purpose of this is unknown"
+  confidence: Low-Medium
+  evidence: "Decreased when throwing arrows, increased when collecting hearts, no clear usage"
+  notes: None
+
+- name: wPitIsCursed
+  address: C079
+  purpose: "Store if Pit is under the eggplant curse"
+  confidence: Extremely high
+  evidence: "Manual editing produces visible changes"
+  notes: None
+
+- name: wPitIsUsingHammer
+  address: C07A
+  purpose: "Store if Pit has the hammer equipped"
+  confidence: Extremely high
+  evidence: "Manual editing produces visible changes"
+  notes: None
+
+- name: wPitCurrentWeapons
+  address: C07D
+  purpose: "Stores which weapons Pit possesses"
+  confidence: Extremely high
+  evidence: "Manual editing grants the weapons"
+  notes: None
+
+- name: wPitHasWings
+  address: C080
+  purpose: "Store if Pit currently has Pegasus Wings"
+  confidence: Extremely high
+  evidence: "Manual editing grants the wings"
+  notes: "Speculated to be also used for feathers around the map, with the difference being that if obtained through feathers it is cleared after some time"
+
+- name: wPitHasLightArrows
+  address: C081
+  purpose: "Store if Pit currently has Light Arrows"
+  confidence: Extremely high
+  evidence: "Manual editing grants the light arrows"
+  notes: None
+
+- name: wPitHasSilverArmour
+  address: C082
+  purpose: "Store if Pit has the silver armour"
+  confidence: Extremely high
+  evidence: "Manual editing clearly causes damage reduction to be applied"
+  notes: Something else controls the armour being rendered on Pit, this doesn't make it visible
+
+- name: wPitCredits
+  address: C096
+  purpose: "Store amount of credits that Pit has"
+  confidence: Extremely high
+  evidence: "Manual editing visibly grants more credits"
+  notes: None
+
+- name: wHeartsHundredsDigit
+  address: C19E
+  purpose: "The tile ID to use for the hundreds digit in the amount of hearts Pit possesses"
+  confidence: Extremely high
+  evidence: "Manual editing grants money"
+  notes: Operations such as granting money or spending directly act with this value, even if a tile ID
+
+- name: wHeartsTensDigit
+  address: C1A2
+  purpose: "The tile ID to use for the tens digit in the amount of hearts Pit possesses"
+  confidence: Extremely high
+  evidence: "Manual editing grants money"
+  notes: Operations such as granting money or spending directly act with this value, even if a tile ID
+
+- name: wHeartsOnesDigit
+  address: C1A6
+  purpose: "The tile ID to use for the ones digit in the amount of hearts Pit possesses"
+  confidence: Extremely high
+  evidence: "Manual editing grants money"
+  notes: Operations such as granting money or spending directly act with this value, even if a tile ID
+
+- name: wShopFirstItemSlot
+  address: C2A8
+  purpose: "Store an ID for the item being sold by the 1st slot in the current shop"
+  confidence: Extremely high
+  evidence: "Manual editing causes visible changes"
+  notes: "0 means chalice, 3 hammer, 4 key, 5 bottle, and 6 barrel"
+
+- name: wShopSecondItemSlot
+  address: C2A9
+  purpose: "Store an ID for the item being sold by the 2nd slot in the current shop"
+  confidence: Extremely high
+  evidence: "Manual editing causes visible changes"
+  notes: "0 means chalice, 3 hammer, 4 key, 5 bottle, and 6 barrel"
+
+- name: wShopThirdItemSlot
+  address: C2AA
+  purpose: "Store an ID for the item being sold by the 3rd slot in the current shop"
+  confidence: Extremely high
+  evidence: "Manual editing causes visible changes"
+  notes: "0 means chalice, 3 hammer, 4 key, 5 bottle, and 6 barrel"
+
+- name: wPitBarrelAmount
+  address: C2AE
+  purpose: "Store amount of charges inside the barrel"
+  confidence: Extremely high
+  evidence: "Manual editing causes visible changes"
+  notes: None
+
+- name: wPitHammerAmount
+  address: C2AF
+  purpose: "Store amount of hammers that Pit has"
+  confidence: Extremely high
+  evidence: "Manual editing causes visible changes"
+  notes: None
+
+- name: wPitKeyAmount
+  address: C2B0
+  purpose: "Store amount of keys that Pit has"
+  confidence: Extremely high
+  evidence: "Manual editing causes visible changes"
+  notes: None
+
+- name: wPitHasBarrel
+  address: C2B2
+  purpose: "Store if Pit possesses a barrel"
+  confidence: Extremely high
+  evidence: "Manual editing causes visible changes"
+  notes: None
+
+- name: wPitHasPencil
+  address: C2B3
+  purpose: "Store if Pit possesses a pencil"
+  confidence: Extremely high
+  evidence: "Manual editing causes visible changes"
+  notes: None
+
+- name: wPitHasTorch
+  address: C2B4
+  purpose: "Store if Pit possesses a torch"
+  confidence: Extremely high
+  evidence: "Manual editing causes visible changes"
+  notes: None
+
+- name: wPitHasMap
+  address: C2B5
+  purpose: "Store if Pit possesses a map"
+  confidence: Extremely high
+  evidence: "Manual editing causes visible changes"
+  notes: None
+
+- name: wPitHasCreditCard
+  address: C2B6
+  purpose: "Store if Pit possesses a credit card"
+  confidence: Extremely high
+  evidence: "Manual editing causes visible changes"
+  notes: None
+
+- name: wDoorTable
+  address: C700
+  purpose: "Store entries determining which tiles contain doors and to what rooms"
+  confidence: Medium-High
+  evidence: "Read when switching rooms, likely to identify the room to switch to"
+  notes: "Entries look like `[tile][room]`, each 2 bytes"

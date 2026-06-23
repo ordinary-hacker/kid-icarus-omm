@@ -1,0 +1,5 @@
+- name: Game_Start
+  purpose: "The first routine to run, could be the true game loop or only at the start/menu"
+  confidence: High
+  evidence: "Instantly called at boot"
+  notes: "Verify if it's the true game loop or only for menu"

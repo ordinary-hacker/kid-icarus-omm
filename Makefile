@@ -1,6 +1,6 @@
 IMAGE_DEPS = gfx/image_001_71a1.2bpp gfx/image_002_4000.2bpp gfx/image_002_7800.2bpp gfx/image_002_7f00.2bpp gfx/image_005_6b82.2bpp gfx/image_005_71be.2bpp gfx/image_005_72be.2bpp gfx/image_007_4000.2bpp gfx/image_007_752f.2bpp gfx/image_007_75af.2bpp
 
-all: game.gb
+all: build/game.gb
 
 %.2bpp: %.png
 	rgbgfx --colors embedded -o $@ $<
@@ -8,15 +8,15 @@ all: game.gb
 %.1bpp: %.png
 	rgbgfx -d 1 -o $@ $<
 
-game.o: game.asm bank_*.asm $(IMAGE_DEPS)
-	rgbasm -o game.o game.asm
+build/game.o: src/game.asm src/bank_*.asm $(IMAGE_DEPS)
+	rgbasm -I src -I include -o build/game.o src/game.asm
 
-game.gb: game.o
-	rgblink -n game.sym -m game.map -o $@ $<
+build/game.gb: build/game.o
+	rgblink -n build/game.sym -m build/game.map -o $@ $<
 	rgbfix -v -p 255 $@
 
 	@if which md5sum &>/dev/null; then md5sum $@; else md5 $@; fi
 
 clean:
-	rm -f game.o game.gb game.sym game.map
+	rm -f build/game.o build/game.gb build/game.sym build/game.map
 	find . \( -iname '*.1bpp' -o -iname '*.2bpp' \) -exec rm {} +

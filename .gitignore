@@ -3,4 +3,7 @@
 *.o
 *.sym
 gfx/*
+build/*
 !.gitkeep
+_site
+.jekyll-cache
