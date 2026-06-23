@@ -1,3 +1,7 @@
 title: "Kid Icarus: OMM"
 description: Contains documentation for all systems, functions and behaviours which have been identified in the game.
+
+url: "https://ordinary-hacker.github.io"
+baseurl: "/kid-icarus-omm"
+
 theme: just-the-docs
