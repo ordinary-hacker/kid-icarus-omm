@@ -3,3 +3,171 @@
   confidence: High
   evidence: "Instantly called at boot"
   notes: "Verify if it's the true game loop or only for menu"
+
+- name: Game_ClearWRAM
+  purpose: "Clears all the `WRAM` starting at *C010*"
+  confidence: Extremely high
+  evidence: "Code clearly for expected purpose"
+  notes: None
+
+- name: Util_Lookup
+  purpose: "Lookups the value at an specific entry of a table"
+  confidence: Extremely high
+  evidence: "Code clearly for expected purpose"
+  notes: "Receives index through reg[A] and table through reg[HL]"
+
+- name: Pit_MoveRight
+  purpose: "Move Pit to the right"
+  confidence: Extremely high
+  evidence: "Checks for collisions, updates Pit's position, etc."
+  notes: None
+
+- name: Pit_MoveLeft
+  purpose: "Move Pit to the left"
+  confidence: Extremely high
+  evidence: "Checks for collisions, updates Pit's position, etc."
+  notes: None
+
+- name: Game_CheckCollisionRight
+  purpose: "Check if Pit collides with anything to the right and record with what"
+  confidence: Extremely high
+  evidence: "Stores the type of tile collided with, does collision math"
+  notes: None
+
+- name: Game_CheckCollisionLeft
+  purpose: "Check if Pit collides with anything to the left and record with what"
+  confidence: Extremely high
+  evidence: "Stores the type of tile collided with, does collision math"
+  notes: None
+
+- name: Audio_PlaySFX
+  purpose: "Plays an specific sound effect from a given sound ID"
+  confidence: Extremely high
+  evidence: "Usage matches expected sound effects for each action, clearly parses audio-related data (e.g. channel)"
+  notes: "Uses sound ID as index to grab entry from **Constant_SoundTable**, receives ID through reg[A]"
+
+- name: Audio_WriteSoundReg
+  purpose: "Write an specified value to an specified sound register"
+  confidence: Extremely high
+  evidence: "Written offsets always end up being into I/O sound registers"
+  notes: None
+
+- name: Audio_SetWaveOutputLevel
+  purpose: "Set hardware volume level"
+  confidence: Extremely high
+  evidence: "Clamps given value into valid hardware volume values, writes to audio_reg[NR32]"
+  notes: "Receives volume level through reg[E]"
+
+- name: Game_SaveInput
+  purpose: "Save pressed and held inputs into other variables before polling for changes"
+  confidence: Extremely high
+  evidence: "Directly copies pressed and held variables (**wJoyPressed** and **wJoyHeld**) into other variables (**wUnusedC017** and **wUnusedC018**)"
+  notes: "The effects of this function are unused"
+
+- name: Game_PollInput
+  purpose: "Poll inputs and store held and pressed inputs"
+  confidence: Extremely high
+  evidence: "Directly accesses P1, and then stores held/pressed inputs"
+  notes: None
+
+- name: UI_RenderMetaSprite
+  purpose: "Copy a metasprite definition into OAM shadow memory"
+  confidence: Extremely high
+  evidence: "Clearly accesses OAM shadow memory, and uses data needed for rendering"
+  notes: "Receives object X position through reg[C], object Y position through reg[B], and a pointer to metasprite data through reg[HL]"
+
+- name: Game_RenderHPBar
+  purpose: "Render Pit's HP bar"
+  confidence: Extremely high
+  evidence: "Does math to know how many HP blocks to render, etc."
+  notes: None
+
+- name: Pit_IncreasePerformance
+  purpose: "Increase Pit's performance score"
+  confidence: Extremely high
+  evidence: "Calls **Util_AddBCD** with Pit's performance BCD counter as argument"
+  notes: "Receives amount of score to add through reg[DE]"
+
+- name: Util_AddBCD
+  purpose: "Adds a value to a BCD counter while handling overflow"
+  confidence: Extremely high
+  evidence: "Classic BCD addition math, clear handling of overflow present"
+  notes: "Receives amount to add through reg[DE], and receives the low byte of the BCD counter through reg[HL]"
+
+- name: Pit_SubArrowAmount
+  purpose: "Subtract the internal ammo/arrow amount BCD counter"
+  confidence: High
+  evidence: "Calls **Util_SubBCD** with the Pit ammo BCD counter as argument"
+  notes: "Receives amount of ammo to subtract from reg[DE]"
+
+- name: Util_SubBCD
+  purpose: "Subtract an specified value from an specified BCD counter while handling underflow"
+  confidence: Extremely high
+  evidence: "Does classic BCD subtraction math, clearly handles underflow"
+  notes: "Receives amount to subtract through reg[DE], and receives the low byte of BCD counter through reg[HL]"
+
+- name: Pit_ResetAttackCooldown
+  purpose: "Reset Pit's attack cooldown back to 0"
+  confidence: Extremely high
+  evidence: "Directly sets cooldown to zero and then returns"
+  notes: None
+
+- name: Game_ReduceTimers
+  purpose: "Reduce both Pit's invincibility and attacj cooldown timers"
+  confidence: Extremely high
+  evidence: "Direct reduction of suspected values, checks for values to not be 0 already"
+  notes: Likely called per "frame"
+
+- name: Pit_Die
+  purpose: "Handle Pit dying, this includes: reducing credits if any, show \"GAME OVER\" if no credits left, etc."
+  confidence: Extremely high
+  evidence: "Directly reduces Pit's credits, branches if none left, etc."
+  notes: None
+
+- name: Game_SwitchRoom
+  purpose: "Switch Pit to another room, corresponding to the entered door"
+  confidence: Extremely high
+  evidence: "Checks **wDoorTable** to see which room corresponds to the entered door, does checks to verify the door can be entered, etc."
+  notes: None
+
+- name: Pit_TakeDamage
+  purpose: "Cause Pit to take damage"
+  confidence: Extremely high
+  evidence: "Does checks based on whether Pit is wearing the Silver Armour, subtracts Pit's health, etc."
+  notes: None
+
+- name: Pit_UseDroppedItem
+  purpose: "Handle interaction with items dropped around the level when touching them (using them)"
+  confidence: Extremely high
+  evidence: "Clearly handles different behaviour depending on the item"
+  notes: None
+
+- name: Shop_Buy
+  purpose: "Make Pit buy an specific item from the shop"
+  confidence: Extremely high
+  evidence: "Checks for which item Pit is in front of, reduces amount of hearts, grants the item, etc."
+  notes: None
+
+- name: Pit_Jump
+  purpose: "Make Pit Jump (duh)"
+  confidence: Extremely high
+  evidence: "Elevates Pit, records how tall the jump was, etc."
+  notes: None
+
+- name: Pit_FallDown
+  purpose: "Causes Pit to fall down / applies gravity on Pit"
+  confidence: Extremely high
+  evidence: "Increases Pit's Y, etc."
+  notes: None
+
+- name: Pit_LandOnSurface
+  purpose: "Handle when Pit lands on any surface"
+  confidence: Extremely high
+  evidence: "Aligns Pit's Y, resets Pit's movement state"
+  notes: None
+
+- name: Pit_HandleWeaponControls
+  purpose: "Handle controls / inputs on what would be weapons (e.g. attacking)"
+  confidence: Extremely high
+  evidence: "Handles using Select to switch from bow to hammer, handles using B to attack / swing, etc."
+  notes: None

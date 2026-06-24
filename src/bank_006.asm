@@ -1222,7 +1222,7 @@ Call_006_4615:
     ld de, $525e
     add hl, de
     ld a, [hl+]
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ld a, [hl+]
     ldh [$ff8b], a
     ld a, [hl+]
@@ -1686,7 +1686,7 @@ Jump_006_48a6:
     and $80
     jr nz, jr_006_48ba
 
-    ld hl, $ff8a
+    ld hl, hSpriteFacingDirection
     ld a, [$525c]
     sub [hl]
     cp d
@@ -1784,7 +1784,7 @@ jr_006_490f:
     and a
     jr nz, jr_006_4902
 
-    ld hl, $ff8a
+    ld hl, hSpriteFacingDirection
     ld a, [$525c]
     sub [hl]
     cp d
@@ -1884,7 +1884,7 @@ jr_006_4984:
     ldh a, [$ffb1]
     ldh [$ffa0], a
     ld a, $f8
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ld a, $f0
     ldh [$ff8b], a
     ld a, $08
@@ -2277,7 +2277,7 @@ Call_006_4bae:
     and $80
     jr nz, jr_006_4bda
 
-    ld hl, $ff8a
+    ld hl, hSpriteFacingDirection
     ld a, [$5320]
     sub [hl]
     cp d
@@ -2339,7 +2339,7 @@ jr_006_4c10:
     and $80
     jr nz, jr_006_4c24
 
-    ld hl, $ff8a
+    ld hl, hSpriteFacingDirection
     ld a, [$5324]
     sub [hl]
     cp d
@@ -2435,7 +2435,7 @@ jr_006_4c83:
     and a
     jr nz, jr_006_4c77
 
-    ld hl, $ff8a
+    ld hl, hSpriteFacingDirection
     ld a, [$5320]
     sub [hl]
     cp d
@@ -2491,7 +2491,7 @@ jr_006_4cca:
     and a
     jr nz, jr_006_4c77
 
-    ld hl, $ff8a
+    ld hl, hSpriteFacingDirection
     ld a, [$5324]
     sub [hl]
     cp d
@@ -3925,7 +3925,7 @@ Jump_006_54a5:
     jr nz, jr_006_54d2
 
     ldh a, [$ff9f]
-    ld hl, $ffcb
+    ld hl, hCameraX
     sub [hl]
     ld d, a
     inc l
@@ -3946,7 +3946,7 @@ jr_006_54c9:
     jr jr_006_54e7
 
 jr_006_54d2:
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     ld hl, $ffa1
     sub [hl]
     ld d, a
@@ -4235,7 +4235,7 @@ jr_006_564e:
 
 
 Call_006_568b:
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     call Call_006_56c3
     call Call_000_1c3c
     call Call_006_56fd
@@ -4249,13 +4249,13 @@ Call_006_568b:
     inc a
 
 jr_006_56a2:
-    ld hl, $ff8a
+    ld hl, hSpriteFacingDirection
     add [hl]
     ret
 
 
 Call_006_56a7:
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     call Call_006_56c3
     call Call_000_1c55
     call Call_006_56fd
@@ -4269,7 +4269,7 @@ Call_006_56a7:
     inc a
 
 jr_006_56be:
-    ld hl, $ff8a
+    ld hl, hSpriteFacingDirection
     add [hl]
     ret
 
@@ -6986,7 +6986,7 @@ jr_006_65c0:
     jr nc, jr_006_65e9
 
     ld hl, $ff9f
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     sub [hl]
     cp $10
     jr c, jr_006_65de
@@ -7031,7 +7031,7 @@ jr_006_6605:
     and a
     jr nz, jr_006_661b
 
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     sub [hl]
     cp $10
     jr c, jr_006_662d
@@ -7045,7 +7045,7 @@ jr_006_6605:
 
 
 jr_006_661b:
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     sub [hl]
     cp $50
     jr c, jr_006_6626
@@ -7430,7 +7430,7 @@ jr_006_67ef:
     ldh [$ff8e], a
     ld hl, hPitX
     add [hl]
-    ld hl, $ff8a
+    ld hl, hSpriteFacingDirection
     ld [hl], a
     call Call_000_104f
     cp $01
@@ -7446,7 +7446,7 @@ jr_006_67ef:
 
     ld hl, $ff8c
     dec [hl]
-    ld hl, $ff8a
+    ld hl, hSpriteFacingDirection
     call Call_000_0fbf
     cp $01
     ret nz
@@ -7459,7 +7459,7 @@ jr_006_67ef:
     ldh a, [$ff8e]
     sra a
     add [hl]
-    ld hl, $ff8a
+    ld hl, hSpriteFacingDirection
     ld [hl], a
     call Call_000_0fab
     cp $01
@@ -7517,7 +7517,7 @@ jr_006_686a:
     and a
     jr nz, jr_006_688a
 
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     sub [hl]
     cp $10
     jr c, jr_006_689c
@@ -7531,7 +7531,7 @@ jr_006_686a:
 
 
 jr_006_688a:
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     sub [hl]
     cp $50
     jr c, jr_006_6895
@@ -7748,7 +7748,7 @@ Call_006_6969:
     ld a, [hl]
     adc $00
     ld [hl], a
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     add $90
     ldh [$ffa1], a
     ldh a, [$ffce]
@@ -7876,7 +7876,7 @@ jr_006_6a33:
     ld d, a
     sbc $00
     ld [hl-], a
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     sub [hl]
     cp $d8
     ret c
@@ -7922,7 +7922,7 @@ jr_006_6a6d:
     ret nz
 
     ldh a, [$ffa1]
-    ld hl, $ffcd
+    ld hl, hCameraY
     sub [hl]
     ldh a, [$ffa2]
     inc l
@@ -8022,7 +8022,7 @@ jr_006_6af6:
     dec [hl]
     ret nz
 
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     ld hl, $ff9f
     sub [hl]
     ldh a, [$ffcc]
@@ -8706,7 +8706,7 @@ jr_006_6e03:
     ldh a, [$ffa0]
     adc $00
     ldh [$ffa0], a
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     sub $04
     ldh [$ffa1], a
     ldh a, [$ffce]
@@ -8818,7 +8818,7 @@ jr_006_6e7e:
     ld d, a
     sbc $00
     ld [hl-], a
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     sub [hl]
     cp $f0
     ret c
@@ -8850,12 +8850,12 @@ jr_006_6e7e:
     srl a
     srl a
     ld b, a
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     add b
     ldh [$ffa1], a
     xor a
     ldh [$ffa2], a
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     add $a8
     ldh [$ff9f], a
     ldh a, [$ffcc]
@@ -8875,7 +8875,7 @@ jr_006_6e7e:
     ld a, [hl]
     sbc $00
     ld [hl-], a
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     sub [hl]
     ld b, a
     inc l
@@ -9858,7 +9858,7 @@ jr_006_7442:
     ld a, [hl]
     adc $00
     ld [hl-], a
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     sub [hl]
     cp $50
     jr c, jr_006_7488
@@ -9871,7 +9871,7 @@ jr_006_745a:
     ld a, [hl]
     sbc $00
     ld [hl-], a
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     sub [hl]
     cp $08
     jr c, jr_006_7488
@@ -9914,7 +9914,7 @@ jr_006_7488:
     and a
     jr z, jr_006_749f
 
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     ld hl, $ff9f
     sub [hl]
     cp $10
@@ -9945,7 +9945,7 @@ Jump_006_74ae:
     ldh [$ffa5], a
     ld a, $01
     ldh [$ff9e], a
-    ld hl, $ffcb
+    ld hl, hCameraX
     ld a, [hl+]
     add $a0
     ldh [$ff9f], a
@@ -10049,7 +10049,7 @@ Call_006_752b:
     cp $02
     jr nz, jr_006_7573
 
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     ld hl, $ff9f
     sub [hl]
     cp $10
@@ -10702,8 +10702,8 @@ jr_006_78cb:
     ld a, $05
     call Call_000_13d5
     ld a, $30
-    ldh [$ffcd], a
-    ldh [$ffcb], a
+    ldh [hCameraY], a
+    ldh [hCameraX], a
     ld a, $0a
     jp Jump_000_0f20
 
@@ -11156,7 +11156,7 @@ Call_006_7b42:
     jr nz, jr_006_7b66
 
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     call Shop_Buy
     jr c, jr_006_7b7d
 
@@ -11312,7 +11312,7 @@ jr_006_7c0d:
 
 jr_006_7c42:
     ld a, [wPitHasCreditCard]
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     call Shop_Buy
     ret c
 
@@ -11547,7 +11547,7 @@ Shop_Buy:
     ret c
 
 jr_006_7d66:
-    ldh a, [$ff8a]
+    ldh a, [hSpriteFacingDirection]
     and a
     jr nz, jr_006_7d82
 
@@ -11686,7 +11686,7 @@ jr_006_7e04:
     ld [hl], a
 
 jr_006_7e0c:
-    ldh a, [$ff8a]
+    ldh a, [hSpriteFacingDirection]
     and a
     jr nz, jr_006_7e23
 

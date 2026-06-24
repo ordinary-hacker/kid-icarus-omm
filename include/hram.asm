@@ -1,5 +1,13 @@
 ; HRAM labels discovered so far
 
+; Used when drawing a metasprite to determine whether it is facing left or right
+; 0x0 = Left
+; 0x20 = Right
+DEF hSpriteFacingDirection EQU $FF8A
+
+; Current OAM write offset
+DEF hOAMWriteOffset EQU $FF9A
+
 DEF hPitX EQU $FFB0
 DEF hPitY EQU $FFB2
 
@@ -23,3 +31,6 @@ DEF hPitMovementState EQU $FFB5
 ; 0xD = Other tiles which only collide at the top?
 ; 0x19 = Special handling tile (breakable blocks, snake pots)
 DEF hPitFacingTileType EQU $FFB9
+
+DEF hCameraX EQU $FFCB
+DEF hCameraY EQU $FFCD

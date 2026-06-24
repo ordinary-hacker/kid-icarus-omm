@@ -25,3 +25,8 @@ Ensure the resulting file as this MD5 hash: `23c7be98ac9a4d3b046ad1be3f0965e4`.
 ## Contributing & License
 
 See about these two in their respective files: [CONTRIBUTING.md](CONTRIBUTING.md) and [LICENSE](LICENSE).
+
+## References
+
+1. [mgbdis](https://github.com/mattcurrie/mgbdis): Used to generate this disassembly project.
+2. [Pan Docs](https://gbdev.io/pandocs/): Recommended docs for understanding the Game Boy.

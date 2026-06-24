@@ -792,6 +792,8 @@ jr_005_43fd:
     ldh a, [$fff8]
     ld c, $14
 
+; Receives value to write with A
+; Receives register offset with C
 Audio_WriteSoundReg:
     ld b, a
     ld a, [$dd9b]

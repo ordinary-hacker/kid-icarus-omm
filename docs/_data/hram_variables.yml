@@ -1,3 +1,17 @@
+- name: hSpriteFacingDirection
+  address: FF8A
+  purpose: "Used when drawing a metasprite to know whether it should be facing left or right"
+  confidence: Extremely high
+  evidence: "Manual inspection and usage in rendering to determine whether to flip the metasprite or not"
+  notes: "If value is 0x20, metasprite is facing right, if value is 0x0 metasprite is facing left"
+
+- name: hOAMWriteOffset
+  address: FF9A
+  purpose: "Store the current OAM write offset for rendering"
+  confidence: Extremely high
+  evidence: "Clearly used for expected purpose in rendering"
+  notes: None
+
 - name: hPitX
   address: FFB0
   purpose: "Contains Pit's current X position"
@@ -32,3 +46,17 @@
   confidence: Medium
   evidence: "No evidence of otherwise, value seems to follow a certain rule depending of what tile Pit collides with / faces"
   notes: "0x0 means solid wall, 0x1 is for non-solid decoration, 0x3 is also for decorations, 0x4 is for tiles to enter rooms in the stage (doors), 0x6 is for tiles which finish the stage (next stage doors), 0xA is for tiles which return from a room back to the main stage (exit doors), 0xC means tiles which only collide at the top (like clouds), 0xD means seemingly the same as before, 0x19 means the tile has more special behaviour (e.g. breakable tiles, snake pots)"
+
+- name: hCameraX
+  address: FFCB
+  purpose: "Contains the camera's current X position"
+  confidence: Extremely high
+  evidence: "Manual inspection, usage, etc."
+  notes: None
+
+- name: hCameraY
+  address: FFCD
+  purpose: "Contains the camera's current Y position"
+  confidence: Extremely high
+  evidence: "Manual inspection, usage, etc."
+  notes: None

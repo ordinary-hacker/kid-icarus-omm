@@ -354,7 +354,7 @@ Game_Start:
 
 menu_mainloop:
     call Call_000_0374
-    ldh [$ff9a], a
+    ldh [hOAMWriteOffset], a
     call Call_000_0266
     call Call_000_0392
     ld a, [$c044]
@@ -447,9 +447,9 @@ jr_000_01f1:
     jr jr_000_022b
 
 jr_000_0223:
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     ldh [rSCX], a
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     ldh [rSCY], a
 
 jr_000_022b:
@@ -711,7 +711,7 @@ jr_000_037a:
 
 
 Call_000_037f:
-    ld hl, $ff9a
+    ld hl, hOAMWriteOffset
     ld d, $00
     ld e, [hl]
     ld [hl], $00
@@ -841,13 +841,13 @@ Jump_000_03ef:
     jr jr_000_0409
 
 UI_RenderMetaSprite:
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     ld e, a
     ld a, b
     sub e
     add $10
     ld b, a
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     ld e, a
     ld a, c
     sub e
@@ -855,7 +855,7 @@ UI_RenderMetaSprite:
     ld c, a
 
 jr_000_0409:
-    ldh a, [$ff9a]
+    ldh a, [hOAMWriteOffset]
     cp $a0
     ret z
 
@@ -870,7 +870,7 @@ jr_000_0411:
     add b
     ld [de], a
     inc e
-    ldh a, [$ff8a]
+    ldh a, [hSpriteFacingDirection]
     bit 5, a
     jr nz, jr_000_0422
 
@@ -889,7 +889,7 @@ jr_000_0426:
     ld a, [hl+]
     ld [de], a
     inc e
-    ldh a, [$ff8a]
+    ldh a, [hSpriteFacingDirection]
     xor [hl]
     inc hl
     ld [de], a
@@ -900,7 +900,7 @@ jr_000_0426:
 
 jr_000_0437:
     ld a, e
-    ldh [$ff9a], a
+    ldh [hOAMWriteOffset], a
     ret
 
 
@@ -1315,7 +1315,7 @@ Call_000_0635:
     cp $09
     ret z
 
-    ld hl, $ffcd
+    ld hl, hCameraY
     ldh a, [rSCY]
     sub [hl]
     ret z
@@ -1444,7 +1444,7 @@ jr_000_06e8:
     ret
 
 
-    ld hl, $ffcb
+    ld hl, hCameraX
     ldh a, [rSCX]
     sub [hl]
     ret z
@@ -1594,7 +1594,7 @@ Call_000_07bb:
     cp $07
     ret z
 
-    ld hl, $ffcb
+    ld hl, hCameraX
     ldh a, [hPitX]
     sub [hl]
     cp $48
@@ -1610,7 +1610,7 @@ jr_000_07cd:
     inc [hl]
 
 jr_000_07d2:
-    ld hl, $ffcd
+    ld hl, hCameraY
     ldh a, [hPitY]
     sub [hl]
     ld c, a
@@ -1677,7 +1677,7 @@ Call_000_080f:
     or a
     jr nz, jr_000_0854
 
-    ld hl, $ffcb
+    ld hl, hCameraX
     ldh a, [hPitX]
     sub [hl]
     cp $48
@@ -1727,10 +1727,10 @@ jr_000_0849:
 
 jr_000_0854:
     ld a, $08
-    ldh [$ffcb], a
+    ldh [hCameraX], a
 
 jr_000_0858:
-    ld hl, $ffcd
+    ld hl, hCameraY
     ldh a, [hPitY]
     sub [hl]
     cp $38
@@ -1770,7 +1770,7 @@ Call_000_0876:
     or a
     jr nz, jr_000_08a6
 
-    ld hl, $ffcb
+    ld hl, hCameraX
     ldh a, [hPitX]
     sub [hl]
     cp $48
@@ -1796,7 +1796,7 @@ jr_000_0895:
 
 jr_000_08a1:
     ld a, $30
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ret
 
 
@@ -1809,10 +1809,10 @@ jr_000_08a6:
     jr z, jr_000_08a1
 
     ld a, $08
-    ldh [$ffcb], a
+    ldh [hCameraX], a
 
 jr_000_08b5:
-    ld hl, $ffcd
+    ld hl, hCameraY
     ldh a, [hPitY]
     sub [hl]
     cp $48
@@ -1845,7 +1845,7 @@ Call_000_08cd:
 
     jr jr_000_08ef
 
-    ld hl, $ffcb
+    ld hl, hCameraX
     ldh a, [hPitX]
     sub [hl]
     cp $48
@@ -1869,7 +1869,7 @@ jr_000_08e5:
     inc [hl]
 
 jr_000_08ef:
-    ld hl, $ffcd
+    ld hl, hCameraY
     ldh a, [hPitY]
     sub [hl]
     cp $48
@@ -1901,7 +1901,7 @@ Call_000_0908:
     ret z
 
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ld a, [wShopFirstItemSlot]
     cp $ff
     jr z, jr_000_0921
@@ -2027,7 +2027,7 @@ jr_000_09c5:
 jr_000_09c8:
     ld a, d
     or $10
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ldh a, [hPitY]
     ld b, a
     ldh a, [hPitX]
@@ -2038,7 +2038,7 @@ jr_000_09c8:
     ld a, [wPitAnimFrameCopy]
     call Call_000_0bfc
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ldh a, [$ffaf]
     and a
     jr z, jr_000_0a07
@@ -2160,7 +2160,7 @@ jr_000_0a7e:
 
 jr_000_0a81:
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ld hl, $c198
     jp Jump_000_03ef
 
@@ -2187,13 +2187,13 @@ Jump_000_0a8a:
 
     ld hl, $6eaa
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ldh a, [$ffbe]
     cp $40
     jr z, jr_000_0ab7
 
     ld hl, $6eaf
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
 
 jr_000_0ab7:
     jp UI_RenderMetaSprite
@@ -2202,18 +2202,18 @@ jr_000_0ab7:
 jr_000_0aba:
     ld hl, $6eb4
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ldh a, [$ffbe]
     cp $40
     jr z, jr_000_0ab7
 
     ld hl, $6ebd
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     jr jr_000_0ab7
 
 jr_000_0acd:
     ldh a, [hPitFacingDirection]
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ldh a, [hPitMovementState]
     cp $05
     ret z
@@ -2228,7 +2228,7 @@ jr_000_0acd:
 
 Call_000_0ae2:
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ld a, [$c160]
     ld b, a
     and a
@@ -2262,7 +2262,7 @@ Call_000_0b02:
     inc l
     ld b, [hl]
     inc l
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     sub b
     ld d, a
     ldh a, [$ffce]
@@ -2282,7 +2282,7 @@ Call_000_0b02:
 jr_000_0b22:
     ld c, [hl]
     inc l
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     sub c
     ld d, a
     ldh a, [$ffcc]
@@ -2400,7 +2400,7 @@ jr_000_0b94:
     inc l
     ld b, [hl]
     inc l
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     sub b
     ld d, a
     ldh a, [$ffce]
@@ -2412,7 +2412,7 @@ jr_000_0b94:
     cp $30
     ret c
 
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     sub c
     cp $30
     ret c
@@ -2422,7 +2422,7 @@ jr_000_0b94:
 jr_000_0bc5:
     ld c, [hl]
     inc l
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     sub c
     ld d, a
     ldh a, [$ffcc]
@@ -2444,7 +2444,7 @@ jr_000_0bc5:
 jr_000_0bdb:
     inc l
     ld a, [hl+]
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ld d, a
     inc l
     inc l
@@ -2482,7 +2482,7 @@ Jump_000_0bfc:
 
 Jump_000_0c07:
     ld a, $10
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ld a, [$c08b]
     ld b, a
     ld a, [$c089]
@@ -2858,7 +2858,7 @@ jr_000_0dc4:
     ldh a, [rLCDC]
     and $df
     ldh [rLCDC], a
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     cp $60
     jr nc, jr_000_0dd8
 
@@ -2888,7 +2888,7 @@ Call_000_0dee:
     ld a, [hl]
     inc [hl]
     push af
-    ld hl, $ffcd
+    ld hl, hCameraY
     and $02
     jr z, jr_000_0dfe
 
@@ -2899,7 +2899,7 @@ jr_000_0dfe:
     dec [hl]
 
 jr_000_0dff:
-    ld hl, $ffcb
+    ld hl, hCameraX
     pop af
     and $04
     jr z, jr_000_0e09
@@ -2956,7 +2956,7 @@ jr_000_0e2d:
     ld a, [$c011]
     and $60
     swap a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     call UI_RenderMetaSprite
     pop hl
     pop bc
@@ -3013,10 +3013,10 @@ jr_000_0e78:
     ldh [$ffb3], a
     ldh [$ffce], a
     ld a, [hl+]
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ldh [rSCX], a
     ld a, [hl+]
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     ldh [rSCY], a
     ld a, [hl+]
     ld h, [hl]
@@ -3511,7 +3511,7 @@ jr_000_10df:
     ld c, a
     ld a, [hl]
     ld d, a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
 
 Call_000_10f1:
     ld hl, $185d
@@ -3564,7 +3564,7 @@ Call_000_1125:
 
 Jump_000_112c:
     ld hl, $185d
-    ldh a, [$ff8a]
+    ldh a, [hSpriteFacingDirection]
     dec a
     cp $ff
     ret z
@@ -3659,11 +3659,11 @@ Jump_000_1197:
     ld a, [hl+]
     ld b, a
     ld a, [hl+]
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ld a, [hl+]
     ld c, a
     ld hl, $185d
-    ldh a, [$ff8a]
+    ldh a, [hSpriteFacingDirection]
     ld e, a
     ld d, $00
     add hl, de
@@ -3703,7 +3703,7 @@ jr_000_11c8:
     jp nz, Jump_000_1049
 
     ld hl, $185d
-    ldh a, [$ff8a]
+    ldh a, [hSpriteFacingDirection]
     inc a
     jr jr_000_1200
 
@@ -3732,7 +3732,7 @@ jr_000_11ed:
     add $0f
     ld c, a
     ld hl, $185d
-    ldh a, [$ff8a]
+    ldh a, [hSpriteFacingDirection]
     dec a
 
 jr_000_1200:
@@ -3749,7 +3749,7 @@ jr_000_1200:
 
 Jump_000_120c:
     ld a, [hl+]
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ld a, [hl+]
     sub d
     ld c, a
@@ -3759,7 +3759,7 @@ Jump_000_120c:
     ret z
 
     ld hl, $185d
-    ldh a, [$ff8a]
+    ldh a, [hSpriteFacingDirection]
     ld e, a
     ld d, $00
     add hl, de
@@ -4839,7 +4839,7 @@ jr_000_18ec:
 
     ld a, [hl]
     and $7f
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ld a, [hl-]
     and $0f
     ld d, $c9
@@ -4909,7 +4909,7 @@ jr_000_1942:
     push hl
     ld hl, $c764
     ld d, $00
-    ldh a, [$ff8a]
+    ldh a, [hSpriteFacingDirection]
     ld e, a
     add hl, de
     ld a, [hl]
@@ -5549,14 +5549,14 @@ Call_000_1c8b:
     ld h, a
     inc hl
     ld a, $02
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     jr jr_000_1cb8
 
 jr_000_1cb5:
     xor a
 
 Jump_000_1cb6:
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
 
 jr_000_1cb8:
     ld l, h
@@ -5600,7 +5600,7 @@ jr_000_1cdf:
     ld b, a
     ldh a, [$ff8b]
     ld c, a
-    ldh a, [$ff8a]
+    ldh a, [hSpriteFacingDirection]
     add c
     rst RST_08
     ld hl, sp+$1c
@@ -5798,8 +5798,8 @@ jr_000_1d96:
     xor a
     ld [$c099], a
     ld [$c044], a
-    ldh [$ffcb], a
-    ldh [$ffcd], a
+    ldh [hCameraX], a
+    ldh [hCameraY], a
     ldh [$ffcc], a
     ldh [$ffce], a
     ldh [$ffb1], a
@@ -5911,7 +5911,7 @@ jr_000_1e7c:
     ld [$c0fc], a
 
 jr_000_1ec9:
-    ld hl, $ffcd
+    ld hl, hCameraY
     inc [hl]
     ld a, [wJoyHeld]
     and $0b
@@ -5924,7 +5924,7 @@ jr_000_1ed3:
     ld bc, $1412
     call Call_000_0496
     xor a
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     call Call_000_0287
     ld hl, $06f0
     ld a, l
@@ -5987,7 +5987,7 @@ jr_000_1f38:
     ld c, $24
     ld hl, $39e3
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     call Call_000_03ef
     ld a, [wJoyHeld]
     and $26
@@ -6383,9 +6383,9 @@ Jump_000_20df:
     ld a, $18
     ldh [hPitX], a
     ld a, $30
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     xor a
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ldh [$ffb1], a
     ld [$c160], a
     ld [$c02c], a
@@ -6716,9 +6716,9 @@ jr_000_24bc:
     ld a, $80
     ldh [hPitY], a
     ld a, $30
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     xor a
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ldh [$ffb1], a
     ld [$c160], a
     ld [$c02c], a
@@ -7060,10 +7060,10 @@ jr_000_2717:
     ld a, $80
     ldh [hPitY], a
     ld a, $30
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     xor a
     ld [$c160], a
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ld [$c02c], a
     call Call_000_1a49
     ld a, $1a
@@ -7319,9 +7319,9 @@ Call_000_2939:
     ld a, $90
     ldh [hPitY], a
     ld a, $30
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     xor a
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ldh [$ffce], a
     ldh [$ffb3], a
     ldh [$ffb1], a
@@ -7423,9 +7423,9 @@ jr_000_29b2:
     ld a, $f0
     ldh [hPitY], a
     ld a, $70
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     xor a
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ldh [$ffce], a
     ldh [$ffb3], a
     ldh [$ffb1], a
@@ -7525,9 +7525,9 @@ jr_000_29b2:
     ld a, $f0
     ldh [hPitY], a
     ld a, $70
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     xor a
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ldh [$ffce], a
     ldh [$ffb1], a
     ldh [$ffb3], a
@@ -7597,12 +7597,12 @@ jr_000_29b2:
     call Call_000_380d
     ld a, [$c090]
     ld b, a
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     sub b
     ldh [$ffcf], a
     ld a, [$c092]
     ld b, a
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     sub b
     ldh [$ffd0], a
     ld a, [$c091]
@@ -7616,7 +7616,7 @@ jr_000_2c06:
     ldh [rWX], a
     ld a, [$c093]
     ld c, a
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     ld b, a
     ld a, $70
     sub b
@@ -7650,13 +7650,13 @@ jr_000_2c06:
     ld a, $b0
     ldh [hPitY], a
     ld a, $30
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     ld a, $ff
     ld [wPitHasWings], a
     xor a
     ldh [$ffce], a
     ldh [$ffb3], a
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ldh [$ffb1], a
     ldh [$ffcc], a
     ld [$c160], a
@@ -7734,11 +7734,11 @@ jr_000_2c06:
     ld a, $38
     ldh [hPitX], a
     ld a, $50
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     ld a, $ff
     ld [$c095], a
     xor a
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ldh [$ffb1], a
     ldh [$ffcc], a
     ld [$c160], a
@@ -7809,7 +7809,7 @@ jr_000_2c06:
     ld a, [$c090]
     ld c, a
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     jp UI_RenderMetaSprite
 
 
@@ -8727,7 +8727,7 @@ jr_000_317a:
     cp $02
     jr nz, jr_000_318a
 
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     sub [hl]
     cp $f8
     ret nc
@@ -8913,7 +8913,7 @@ Call_000_3255:
     ld a, [hl]
     adc $00
     ld d, a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ld a, c
     and $f0
     ld c, a
@@ -9345,11 +9345,11 @@ jr_000_3454:
     ld a, $60
 
 jr_000_3479:
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ld a, $30
 
 Jump_000_347d:
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     xor a
     ld [wGameLastJumpQuality], a
     ld [wPitAttackCooldown], a
@@ -9816,9 +9816,9 @@ jr_000_3703:
     ld a, [hl+]
     ld [$c02c], a
     ld a, [hl+]
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ld a, [hl+]
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     ld a, [hl+]
     ldh [hPitX], a
     ld a, [hl+]
@@ -9949,7 +9949,7 @@ Call_000_380d:
     cp $07
     ret nz
 
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     ld e, a
     ldh a, [hPitY]
     sub e
@@ -10030,8 +10030,8 @@ jr_000_389f:
     call Call_000_0496
     xor a
     ld [$c02c], a
-    ldh [$ffcd], a
-    ldh [$ffcb], a
+    ldh [hCameraY], a
+    ldh [hCameraX], a
     ld [$c0fc], a
     ld [$c07c], a
     ld a, $ff
@@ -10046,21 +10046,21 @@ jr_000_389f:
 
 jr_000_38c9:
     call Call_000_0374
-    ldh [$ff9a], a
+    ldh [hOAMWriteOffset], a
     ld a, $01
     ld [$3fff], a
     call Call_000_39d0
     ld hl, $7042
     ld bc, $6028
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
 
 Call_000_38df:
     call Call_000_03ef
     ld hl, $6bc0
     ld bc, $5048
     ld a, $10
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     call Call_000_03ef
     call Call_000_0392
     call Game_SaveInput
@@ -10099,14 +10099,14 @@ jr_000_3920:
 
 jr_000_3927:
     call Call_000_0374
-    ldh [$ff9a], a
+    ldh [hOAMWriteOffset], a
     ld a, $01
     ld [$3fff], a
     call Call_000_39d0
     ld bc, $5028
     ld hl, $706b
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     call Call_000_03ef
     call Call_000_0392
     call Game_SaveInput
@@ -10229,9 +10229,9 @@ Call_000_39f5:
     call Call_000_0c52
     xor a
     ld [$c0fc], a
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     ld [$c036], a
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     ld [$c037], a
     ldh a, [$ffce]
     ld [$c038], a
@@ -10282,7 +10282,7 @@ Call_000_3a42:
 Jump_000_3a75:
     call Call_000_037f
     call Call_000_0374
-    ldh [$ff9a], a
+    ldh [hOAMWriteOffset], a
     ld hl, $c03f
     inc [hl]
     bit 4, [hl]
@@ -10293,7 +10293,7 @@ Jump_000_3a75:
     jr nz, jr_000_3a98
 
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ld hl, $71f1
     ld bc, $5040
     call Call_000_03ef
@@ -10366,12 +10366,12 @@ jr_000_3afd:
 
     ld a, [$c02d]
     cp $02
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     jr z, jr_000_3b14
 
 jr_000_3b0c:
     dec a
-    ldh [$ffcb], a
+    ldh [hCameraX], a
 
 jr_000_3b0f:
     ld hl, $c040
@@ -10387,7 +10387,7 @@ jr_000_3b14:
     or a
     ret z
 
-    ld hl, $ffcb
+    ld hl, hCameraX
     dec [hl]
     inc hl
     dec [hl]
@@ -10400,12 +10400,12 @@ jr_000_3b23:
 
     ld a, [$c02d]
     cp $02
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     jr z, jr_000_3b3a
 
 jr_000_3b32:
     inc a
-    ldh [$ffcb], a
+    ldh [hCameraX], a
 
 jr_000_3b35:
     ld hl, $c040
@@ -10424,7 +10424,7 @@ jr_000_3b3a:
     cp b
     ret nc
 
-    ld hl, $ffcb
+    ld hl, hCameraX
     inc [hl]
     jr nz, jr_000_3b35
 
@@ -10439,7 +10439,7 @@ jr_000_3b51:
 
     ld a, [$c02d]
     cp $02
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     jr nz, jr_000_3b6a
 
     or a
@@ -10447,7 +10447,7 @@ jr_000_3b51:
 
 jr_000_3b62:
     dec a
-    ldh [$ffcd], a
+    ldh [hCameraY], a
 
 jr_000_3b65:
     ld hl, $c041
@@ -10464,7 +10464,7 @@ Jump_000_3b6d:
     or a
     ret z
 
-    ld hl, $ffcd
+    ld hl, hCameraY
     dec [hl]
     inc hl
     dec [hl]
@@ -10477,7 +10477,7 @@ Jump_000_3b79:
 
     ld a, [$c02d]
     cp $02
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     jr nz, jr_000_3b93
 
     cp $70
@@ -10485,7 +10485,7 @@ Jump_000_3b79:
 
 jr_000_3b8b:
     inc a
-    ldh [$ffcd], a
+    ldh [hCameraY], a
 
 jr_000_3b8e:
     ld hl, $c041
@@ -10504,7 +10504,7 @@ jr_000_3b93:
     cp b
     ret nc
 
-    ld hl, $ffcd
+    ld hl, hCameraY
     inc [hl]
     jr nz, jr_000_3b8e
 
@@ -10557,8 +10557,8 @@ Jump_000_3be1:
     ld [$c035], a
     xor a
     ld [hl], a
-    ldh [$ffcd], a
-    ldh [$ffcb], a
+    ldh [hCameraY], a
+    ldh [hCameraX], a
     ld [$c0fc], a
     ld [$c075], a
     ld [$c076], a
@@ -10566,7 +10566,7 @@ Jump_000_3be1:
 
 Jump_000_3c10:
     call Call_000_0374
-    ldh [$ff9a], a
+    ldh [hOAMWriteOffset], a
     call Game_SaveInput
     ld a, [wJoyPressed]
     bit 3, a
@@ -10594,9 +10594,9 @@ Jump_000_3c3f:
     ld a, [$c035]
     ld [$c02c], a
     ld a, [$c036]
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     ld a, [$c037]
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ld a, [$c038]
     ldh [$ffce], a
     ld a, [$c039]
@@ -10659,7 +10659,7 @@ Call_000_3c8c:
     ld a, $01
     ld [$3fff], a
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     jp Jump_000_03ef
 
 
@@ -10711,7 +10711,7 @@ Call_000_3cf4:
     ld [$c035], a
     xor a
     ld [hl], a
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     ldh [$ffce], a
     ldh [$ffcc], a
     ld [$c0fc], a
@@ -10726,7 +10726,7 @@ Call_000_3cf4:
     inc a
     ld [$c030], a
     ld a, $30
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ld a, $20
     ldh [hPitX], a
     ld a, $80
@@ -10739,7 +10739,7 @@ Call_000_3cf4:
 
 jr_000_3d43:
     call Call_000_0374
-    ldh [$ff9a], a
+    ldh [hOAMWriteOffset], a
     call Call_000_3d55
     ld hl, $c011
     inc [hl]
@@ -10829,7 +10829,7 @@ jr_000_3dd7:
     and $08
     jr nz, jr_000_3de7
 
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     ld bc, $1860
     ld hl, $3fe9
     call Call_000_03ef
@@ -11013,7 +11013,7 @@ jr_000_3e05:
     ld c, $44
     ld hl, $39e8
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     call Call_000_03ef
     call Game_SaveInput
     ld a, [wJoyPressed]

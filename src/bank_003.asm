@@ -7568,7 +7568,7 @@ jr_003_6f3b:
     and $01
     jr nz, jr_003_6ede
 
-    ld hl, $ffcd
+    ld hl, hCameraY
     ld a, [hl]
     or a
     jr z, jr_003_6f6b
@@ -7733,7 +7733,7 @@ jr_003_6ff7:
     ld hl, $70a3
     ld bc, $2050
     xor a
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     call Call_000_03ef
 
 jr_003_7060:
@@ -8563,7 +8563,7 @@ jr_003_7481:
     ld [$c08d], a
     ld hl, $c08b
     inc [hl]
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     ld e, a
     ld a, [hl]
     sub e
@@ -9018,9 +9018,9 @@ Jump_003_76f0:
     ld [hl+], a
     ld a, [$c02c]
     ld [hl+], a
-    ldh a, [$ffcb]
+    ldh a, [hCameraX]
     ld [hl+], a
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     ld [hl+], a
     ldh a, [hPitX]
     ld [hl+], a
@@ -9086,7 +9086,7 @@ jr_003_7738:
     ld a, $28
     ldh [hPitX], a
     ld a, $00
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ld hl, $c960
     jr jr_003_778f
 
@@ -9094,13 +9094,13 @@ jr_003_7784:
     ld a, $d8
     ldh [hPitX], a
     ld a, $60
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ld hl, $c96f
 
 jr_003_778f:
     call Call_000_05af
     ld a, $30
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     ld a, $80
     ldh [hPitY], a
     xor a
@@ -9279,7 +9279,7 @@ Jump_003_787e:
     cp $1f
     jp z, Jump_003_79bd
 
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     add a
     ld e, a
     ld d, $00
@@ -9367,7 +9367,7 @@ jr_003_78e0:
     ret z
 
     ld e, a
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     sub [hl]
     inc hl
     ldh a, [$ffce]
@@ -9426,7 +9426,7 @@ Jump_003_790c:
     inc l
     ldh a, [$ff8e]
     ld [hl+], a
-    ldh a, [$ff8a]
+    ldh a, [hSpriteFacingDirection]
     ld [hl], a
     inc l
     ld [hl], d
@@ -9584,7 +9584,7 @@ jr_003_79e4:
     ld [hl+], a
     xor a
     ld [hl+], a
-    ldh a, [$ffcd]
+    ldh a, [hCameraY]
     ld [hl+], a
     ldh a, [$ffce]
     ld [hl+], a
@@ -9607,7 +9607,7 @@ Jump_003_7a0b:
     call Call_003_7ab2
     ld a, [$c011]
     and $1f
-    ldh [$ff8a], a
+    ldh [hSpriteFacingDirection], a
     add a
     ld e, a
     ld d, $00
@@ -9738,7 +9738,7 @@ jr_003_7a83:
     ld [hl+], a
     ld [hl], $00
     inc l
-    ldh a, [$ff8a]
+    ldh a, [hSpriteFacingDirection]
     ld [hl], a
     inc l
     xor a
@@ -9822,8 +9822,8 @@ jr_003_7b0a:
     ld [$c02c], a
     ldh [rSCX], a
     ldh [rSCY], a
-    ldh [$ffcb], a
-    ldh [$ffcd], a
+    ldh [hCameraX], a
+    ldh [hCameraY], a
     ld hl, $9822
     ld b, $10
     ld d, $00
@@ -9854,9 +9854,9 @@ jr_003_7b23:
     ld bc, $0400
     call Call_000_03b6
     ld a, [$c036]
-    ldh [$ffcd], a
+    ldh [hCameraY], a
     ld a, [$c037]
-    ldh [$ffcb], a
+    ldh [hCameraX], a
     ld a, [$c043]
     ld [$c02c], a
     ld a, $03

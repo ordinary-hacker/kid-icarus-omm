@@ -5,3 +5,10 @@ url: "https://ordinary-hacker.github.io"
 baseurl: "/kid-icarus-omm"
 
 theme: just-the-docs
+
+color_scheme: dark
+
+callouts:
+  warning:
+    title: Warning
+    color: red

@@ -5,7 +5,10 @@ title: Progress
 
 # Progress
 
-Here we keep record of how this project has progressed. By this I mean: named instructions, identified `HRAM`/`WRAM` variables, properly commented instructions, etc.
+Here we keep record of how this project has progressed. By this I mean: named instructions, identified `HRAM`/`WRAM` variables, properly commented instructions, named constant data, etc.
+
+{: .warning }
+> Some functions have more speculated behaviours and purposes, read provided confidence rating and evidence before doing assumptions!
 
 ## Functions
 
@@ -29,4 +32,12 @@ Here we keep record of how this project has progressed. By this I mean: named in
 |:----:|:-------:|---------|:----------:|----------|-------|
 {% for var in site.data.hram_variables -%}
 | **{{ var.name }}** | *{{ var.address }}* | {{ var.purpose }} | {{ var.confidence }} | {{ var.evidence }} | {{ var.notes }} |
+{% endfor %}
+
+## Constants
+
+| Name | Purpose | Confidence | Evidence | Notes |
+|:----:|---------|:----------:|----------|-------|
+{% for const in site.data.constants -%}
+| **{{ const.name }}** | {{ const.purpose }} | {{ const.confidence }} | {{ const.evidence }} | {{ const.notes }} |
 {% endfor %}
