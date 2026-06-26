@@ -44,4 +44,14 @@ function updateFavicon() {
 
 document.addEventListener("visibilitychange", updateFavicon);
 updateFavicon();
+
+function showPopup(id) {
+    document.body.style.overflow = "hidden";
+    document.getElementById(id).hidden = false;
+}
+
+function hidePopup(id) {
+    document.body.style.overflow = "";
+    document.getElementById(id).hidden = true;
+}
 </script>

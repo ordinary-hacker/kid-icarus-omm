@@ -1,0 +1,28 @@
+<div id="{{ include.id }}" class="modal" hidden>
+    <div class="modal-backdrop"
+         onclick="hidePopup('{{ include.id }}')"></div>
+
+    <div class="modal-dialog"
+         role="dialog"
+         aria-modal="true"
+         {% if include.title %}
+         aria-labelledby="{{ include.id }}-title"
+         {% endif %}>
+
+        <button class="modal-close"
+                type="button"
+                aria-label="Close"
+                onclick="hidePopup('{{ include.id }}')">
+            <img src="{{ '/assets/images/feather.svg' | relative_url }}" alt="" width="40" height="32">
+        </button>
+
+        {% capture popup_content %}
+        {% include {{ include.file }} %}
+        {% endcapture %}
+
+        <div class="modal-body">
+            {{ popup_content | strip | markdownify }}
+        </div>
+
+    </div>
+</div>

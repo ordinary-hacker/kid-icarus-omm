@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -0.5 10 8" shape-rendering="crispEdges">
+<metadata>Made with Pixels to Svg https://codepen.io/shshaw/pen/XbxvNj</metadata>
+<path stroke="#000100" d="M6 0h2M8 2h1" />
+<path stroke="#000000" d="M8 0h1M3 1h1" />
+<path stroke="#000001" d="M9 0h1M1 2h1M5 5h1M3 6h1M0 7h1" />
+<path stroke="#010100" d="M4 1h1M2 2h1" />
+<path stroke="#010000" d="M5 1h1M9 1h1M4 5h1" />
+<path stroke="#fffefe" d="M6 1h1M6 3h1" />
+<path stroke="#fffffe" d="M7 1h2M3 2h2M5 4h1" />
+<path stroke="#fefffe" d="M5 2h1M4 4h1M1 5h1" />
+<path stroke="#909090" d="M6 2h1M3 4h1M2 5h1" />
+<path stroke="#fefeff" d="M7 2h1" />
+<path stroke="#010001" d="M1 3h1M7 3h1M1 7h1" />
+<path stroke="#ffffff" d="M2 3h1" />
+<path stroke="#919190" d="M3 3h1" />
+<path stroke="#909091" d="M4 3h1" />
+<path stroke="#fefefe" d="M5 3h1M1 4h1M3 5h1" />
+<path stroke="#000101" d="M0 4h1M6 4h1M0 5h1" />
+<path stroke="#909191" d="M2 4h1" />
+<path stroke="#010101" d="M0 6h1M2 6h1" />
+<path stroke="#fffeff" d="M1 6h1" />
+</svg>
