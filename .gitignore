@@ -7,3 +7,4 @@ build/*
 !.gitkeep
 _site
 .jekyll-cache
+.venv

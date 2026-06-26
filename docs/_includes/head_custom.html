@@ -1,0 +1,47 @@
+<link id="favicon" rel="icon" href="{{ '/assets/favicons/favicon_idle.svg' | relative_url }}" sizes="any">
+
+<script>
+const base = "{{ '/assets/favicons/' | relative_url }}";
+
+const idle = `${base}favicon_idle.svg`;
+
+const animFrames = [
+    `${base}favicon_anim1.svg`,
+    `${base}favicon_anim2.svg`,
+    `${base}favicon_anim3.svg`
+];
+
+const favicon = document.getElementById("favicon");
+
+let frame = 0;
+let interval = null;
+
+function startAnimation() {
+    if (interval) return;
+
+    favicon.href = animFrames[0];
+    frame = 1;
+
+    interval = setInterval(() => {
+        favicon.href = animFrames[frame];
+        frame = (frame + 1) % animFrames.length;
+    }, 250);
+}
+
+function stopAnimation() {
+    clearInterval(interval);
+    interval = null;
+    favicon.href = idle;
+}
+
+function updateFavicon() {
+    if (document.visibilityState === "visible") {
+        startAnimation();
+    } else {
+        stopAnimation();
+    }
+}
+
+document.addEventListener("visibilitychange", updateFavicon);
+updateFavicon();
+</script>

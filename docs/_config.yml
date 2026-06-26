@@ -8,6 +8,8 @@ theme: just-the-docs
 
 color_scheme: dark
 
+logo: "assets/images/logo.svg"
+
 callouts:
   warning:
     title: Warning

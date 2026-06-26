@@ -2,12 +2,6 @@ IMAGE_DEPS = gfx/image_001_71a1.2bpp gfx/image_002_4000.2bpp gfx/image_002_7800.
 
 all: build/game.gb
 
-%.2bpp: %.png
-	rgbgfx --colors embedded -o $@ $<
-
-%.1bpp: %.png
-	rgbgfx -d 1 -o $@ $<
-
 build/game.o: src/game.asm src/bank_*.asm $(IMAGE_DEPS)
 	rgbasm -I src -I include -o build/game.o src/game.asm
 
