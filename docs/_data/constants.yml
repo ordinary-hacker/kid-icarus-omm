@@ -1,17 +1,11 @@
 - name: Constant_SoundTable
-  purpose: "Store entries to be used for playing sound effects"
-  confidence: High
-  evidence: "Read by **Audio_PlaySFX**, and attempted to be parsed to extract sound channel, amoung other things"
-  notes: "Each entry is 4 bytes"
+  file: Constant_SoundTable.md
+  overview: ''
 
 - name: Constant_ModeScriptTable
-  purpose: "Likely used for setting the proper Pit state per \"stage\" of certain Pit actions such as jumping"
-  confidence: Medium-High
-  evidence: "Heavily used for logic that acts as response for input grouped with related state"
-  notes: "Still mostly unclear"
+  file: Constant_ModeScriptTable.md
+  overview: ''
 
 - name: Constant_HeartRewardTable
-  purpose: "Contain the amount of reward (hearts) each heart type gives"
-  confidence: Extremely high
-  evidence: "Manual editing causes visible effects"
-  notes: None
+  file: Constant_HeartRewardTable.md
+  overview: ''

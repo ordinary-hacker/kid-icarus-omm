@@ -1,37 +1,53 @@
 <link id="favicon" rel="icon" href="{{ '/assets/favicons/favicon_idle.svg' | relative_url }}" sizes="any">
 
 <script>
-const base = "{{ '/assets/favicons/' | relative_url }}";
+function setParam(key, value) {
+    const url = new URL(window.location);
+    url.searchParams.set(key, value);
+    history.replaceState({}, "", url);
+}
 
-const idle = `${base}favicon_idle.svg`;
+function getParam(key) {
+    return new URLSearchParams(window.location.search).get(key);
+}
 
-const animFrames = [
-    `${base}favicon_anim1.svg`,
-    `${base}favicon_anim2.svg`,
-    `${base}favicon_anim3.svg`
+function removeParam(key) {
+    const url = new URL(window.location);
+    url.searchParams.delete(key);
+    history.replaceState({}, "", url);
+}
+
+const faviconBase = "{{ '/assets/favicons/' | relative_url }}";
+
+let faviconIdle = `${faviconBase}favicon_idle.svg`;
+
+let faviconAnimFrames = [
+    `${faviconBase}favicon_anim1.svg`,
+    `${faviconBase}favicon_anim2.svg`,
+    `${faviconBase}favicon_anim3.svg`
 ];
 
 const favicon = document.getElementById("favicon");
 
-let frame = 0;
-let interval = null;
+let faviconFrame = 0;
+let faviconInterval = null;
 
 function startAnimation() {
-    if (interval) return;
+    if (faviconInterval) return;
 
-    favicon.href = animFrames[0];
-    frame = 1;
+    favicon.href = faviconAnimFrames[0];
+    faviconFrame = 1;
 
-    interval = setInterval(() => {
-        favicon.href = animFrames[frame];
-        frame = (frame + 1) % animFrames.length;
+    faviconInterval = setInterval(() => {
+        favicon.href = faviconAnimFrames[faviconFrame];
+        faviconFrame = (faviconFrame + 1) % faviconAnimFrames.length;
     }, 250);
 }
 
 function stopAnimation() {
-    clearInterval(interval);
-    interval = null;
-    favicon.href = idle;
+    clearInterval(faviconInterval);
+    faviconInterval = null;
+    favicon.href = faviconIdle;
 }
 
 function updateFavicon() {
@@ -48,10 +64,29 @@ updateFavicon();
 function showPopup(id) {
     document.body.style.overflow = "hidden";
     document.getElementById(id).hidden = false;
+
+    setParam("popup", id);
 }
 
 function hidePopup(id) {
     document.body.style.overflow = "";
     document.getElementById(id).hidden = true;
+
+    removeParam("popup");
 }
+
+window.addEventListener("DOMContentLoaded", () => {
+    const popupId = getParam("popup");
+    if (popupId) {
+        const el = document.getElementById(popupId);
+        if (el) {
+            document.body.style.overflow = "hidden";
+            el.hidden = false;
+        } else {
+            removeParam("popup");
+        }
+    }
+});
+
+const imagesBase = "{{ '/assets/images/' | relative_url }}";
 </script>

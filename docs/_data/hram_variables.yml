@@ -1,62 +1,35 @@
 - name: hSpriteFacingDirection
-  address: FF8A
-  purpose: "Used when drawing a metasprite to know whether it should be facing left or right"
-  confidence: Extremely high
-  evidence: "Manual inspection and usage in rendering to determine whether to flip the metasprite or not"
-  notes: "If value is 0x20, metasprite is facing right, if value is 0x0 metasprite is facing left"
+  file: hSpriteFacingDirection.md
+  overview: ''
 
 - name: hOAMWriteOffset
-  address: FF9A
-  purpose: "Store the current OAM write offset for rendering"
-  confidence: Extremely high
-  evidence: "Clearly used for expected purpose in rendering"
-  notes: None
+  file: hOAMWriteOffset.md
+  overview: ''
 
 - name: hPitX
-  address: FFB0
-  purpose: "Contains Pit's current X position"
-  confidence: Extremely high
-  evidence: "Manually editing it teleports Pit horizontally"
-  notes: None
+  file: hPitX.md
+  overview: ''
 
 - name: hPitY
-  address: FFB2
-  purpose: "Contains Pit's current Y position"
-  confidence: Extremely high
-  evidence: "Manually editing it teleports Pit vertically"
-  notes: None
+  file: hPitY.md
+  overview: ''
 
 - name: hPitFacingDirection
-  address: FFB4
-  purpose: "Determine whether Pit is facing left or right"
-  confidence: Extremely high
-  evidence: "Manually editing it changes where Pit is facing, it's used for the expected purpose"
-  notes: "If value is 0x20 then Pit is facing right, if 0x00 then Pit is facing left"
+  file: hPitFacingDirection.md
+  overview: ''
 
 - name: hPitMovementState
-  address: FFB5
-  purpose: "Now if Pit is ascending, descending, just walking, or not moving at all"
-  confidence: High
-  evidence: "Value affected by expected conditions, used as expected"
-  notes: "0 means not moving, 1 means walking, 2 means ascending, 3 means descending"
+  file: hPitMovementState.md
+  overview: ''
 
 - name: hPitFacingTileType
-  address: FFB9
-  purpose: "To identify the type of tile Pit is colliding with / facing horizontally"
-  confidence: Medium
-  evidence: "No evidence of otherwise, value seems to follow a certain rule depending of what tile Pit collides with / faces"
-  notes: "0x0 means solid wall, 0x1 is for non-solid decoration, 0x3 is also for decorations, 0x4 is for tiles to enter rooms in the stage (doors), 0x6 is for tiles which finish the stage (next stage doors), 0xA is for tiles which return from a room back to the main stage (exit doors), 0xC means tiles which only collide at the top (like clouds), 0xD means seemingly the same as before, 0x19 means the tile has more special behaviour (e.g. breakable tiles, snake pots)"
+  file: hPitFacingTileType.md
+  overview: ''
 
 - name: hCameraX
-  address: FFCB
-  purpose: "Contains the camera's current X position"
-  confidence: Extremely high
-  evidence: "Manual inspection, usage, etc."
-  notes: None
+  file: hCameraX.md
+  overview: ''
 
 - name: hCameraY
-  address: FFCD
-  purpose: "Contains the camera's current Y position"
-  confidence: Extremely high
-  evidence: "Manual inspection, usage, etc."
-  notes: None
+  file: hCameraY.md
+  overview: ''
