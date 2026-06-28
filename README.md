@@ -4,7 +4,7 @@ A work-in-progress disassembly of ***Kid Icarus: Of Myths and Monsters***.
 
 ## Progress
 
-This project keeps a general overview of what has been uncovered, usually grouped in either related individual functions or whole uncovered and documented systems.
+This project keeps a general overview of what has been uncovered, specifically by amount of functions / labels / variables and systems that have been documented / cleaned up, and with how much confidence.
 
 Take a look at it [here](https://ordinary-hacker.github.io/kid-icarus-omm/progress).
 
@@ -16,7 +16,7 @@ For every understood part of the game documentation is written on it, this docum
 
 1. Install [rgbds](https://github.com/gbdev/rgbds#installing-rgbds)
 2. Install [Python](https://www.python.org/downloads/)
-3. Place a file named `baserom.gb` in the root of this repository and run `tools/extract_gfx.py`.
+3. Place a file named `baserom.gb` in the root of this repository containing a copy of this game's *ROM*.
 4. Run `make`.
 5. The assembled game and a [BGB](http://bgb.bircd.org/) compatible `.sym` file will appear in the `build` folder.
 

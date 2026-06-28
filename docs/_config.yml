@@ -11,6 +11,10 @@ color_scheme: dark
 logo: "assets/images/logo.svg"
 
 callouts:
+  note:
+    title: Note
+    color: pink
+
   warning:
     title: Warning
     color: red
