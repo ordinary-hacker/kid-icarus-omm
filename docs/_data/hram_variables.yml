@@ -1,35 +1,44 @@
 - name: hSpriteFacingDirection
   file: hSpriteFacingDirection.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: hOAMWriteOffset
   file: hOAMWriteOffset.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: hPitX
   file: hPitX.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: hPitY
   file: hPitY.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: hPitFacingDirection
   file: hPitFacingDirection.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: hPitMovementState
   file: hPitMovementState.md
   overview: ''
+  confidence: 'high'
 
 - name: hPitFacingTileType
   file: hPitFacingTileType.md
   overview: ''
+  confidence: 'medium'
 
 - name: hCameraX
   file: hCameraX.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: hCameraY
   file: hCameraY.md
   overview: ''
+  confidence: 'unequivocal'

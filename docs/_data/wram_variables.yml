@@ -1,159 +1,199 @@
 - name: wJoyHeld
   file: wJoyHeld.md
   overview: ''
+  confidence: ''
 
 - name: wJoyPressed
   file: wJoyPressed.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wUnusedC017
   file: wUnusedC017.md
   overview: ''
+  confidence: 'high'
 
 - name: wUnusedC018
   file: wUnusedC018.md
   overview: ''
+  confidence: 'high'
 
 - name: wPitHP
   file: wPitHP.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitMaxHP
   file: wPitMaxHP.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitStrength
   file: wPitStrength.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitAnimFrameCopy
   file: wPitAnimFrameCopy.md
   overview: ''
+  confidence: 'medium'
 
 - name: wPitHammerState
   file: wPitHammerState.md
   overview: ''
+  confidence: 'high'
 
 - name: wPitHammerAttackTime
   file: wPitHammerAttackTime.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wGameLastJumpQuality
   file: wGameLastJumpQuality.md
   overview: ''
+  confidence: 'medium'
 
 - name: wPitAttackCooldown
   file: wPitAttackCooldown.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitPendingArrowStrength
   file: wPitPendingArrowStrength.md
   overview: ''
+  confidence: 'high'
 
 - name: wPitInvincibilityCounter
   file: wPitInvincibilityCounter.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitPerformanceLo
   file: wPitPerformanceLo.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitPerformanceHi
   file: wPitPerformanceHi.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitArrowAmountLo
   file: wPitArrowAmountLo.md
   overview: ''
+  confidence: 'low'
 
 - name: wPitArrowAmountHi
   file: wPitArrowAmountHi.md
   overview: ''
+  confidence: 'low'
 
 - name: wPitIsCursed
   file: wPitIsCursed.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitIsUsingHammer
   file: wPitIsUsingHammer.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitCurrentWeapons
   file: wPitCurrentWeapons.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitHasWings
   file: wPitHasWings.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitHasLightArrows
   file: wPitHasLightArrows.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitHasSilverArmour
   file: wPitHasSilverArmour.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitCredits
   file: wPitCredits.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wHeartsHundredsDigit
   file: wHeartsHundredsDigit.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wHeartsTensDigit
   file: wHeartsTensDigit.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wHeartsOnesDigit
   file: wHeartsOnesDigit.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wShopFirstItemSlot
   file: wShopFirstItemSlot.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wShopSecondItemSlot
   file: wShopSecondItemSlot.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wShopThirdItemSlot
   file: wShopThirdItemSlot.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitBarrelAmount
   file: wPitBarrelAmount.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitHammerAmount
   file: wPitHammerAmount.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitKeyAmount
   file: wPitKeyAmount.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitHasBarrel
   file: wPitHasBarrel.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitHasPencil
   file: wPitHasPencil.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitHasTorch
   file: wPitHasTorch.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitHasMap
   file: wPitHasMap.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wPitHasCreditCard
   file: wPitHasCreditCard.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: wDoorTable
   file: wDoorTable.md
   overview: ''
+  confidence: 'medium'

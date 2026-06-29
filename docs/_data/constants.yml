@@ -1,11 +1,14 @@
 - name: Constant_SoundTable
   file: Constant_SoundTable.md
   overview: ''
+  confidence: 'high'
 
 - name: Constant_ModeScriptTable
   file: Constant_ModeScriptTable.md
   overview: ''
+  confidence: 'medium'
 
 - name: Constant_HeartRewardTable
   file: Constant_HeartRewardTable.md
   overview: ''
+  confidence: 'unequivocal'

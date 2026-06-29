@@ -1,115 +1,144 @@
 - name: Game_Start
   file: Game_Start.md
   overview: ''
+  confidence: 'high'
 
 - name: Game_ClearWRAM
   file: Game_ClearWRAM.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Util_Lookup
   file: Util_Lookup.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Pit_MoveRight
   file: Pit_MoveRight.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Pit_MoveLeft
   file: Pit_MoveLeft.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Game_CheckCollisionRight
   file: Game_CheckCollisionRight.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Game_CheckCollisionLeft
   file: Game_CheckCollisionLeft.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Audio_PlaySFX
   file: Audio_PlaySFX.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Audio_WriteSoundReg
   file: Audio_WriteSoundReg.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Audio_SetWaveOutputLevel
   file: Audio_SetWaveOutputLevel.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Game_SaveInput
   file: Game_SaveInput.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Game_PollInput
   file: Game_PollInput.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: UI_RenderMetaSprite
   file: UI_RenderMetaSprite.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Game_RenderHPBar
   file: Game_RenderHPBar.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Pit_IncreasePerformance
   file: Pit_IncreasePerformance.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Util_AddBCD
   file: Util_AddBCD.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Pit_SubArrowAmount
   file: Pit_SubArrowAmount.md
   overview: ''
+  confidence: 'high'
 
 - name: Util_SubBCD
   file: Util_SubBCD.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Pit_ResetAttackCooldown
   file: Pit_ResetAttackCooldown.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Game_ReduceTimers
   file: Game_ReduceTimers.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Pit_Die
   file: Pit_Die.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Game_SwitchRoom
   file: Game_SwitchRoom.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Pit_TakeDamage
   file: Pit_TakeDamage.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Pit_UseDroppedItem
   file: Pit_UseDroppedItem.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Shop_Buy
   file: Shop_Buy.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Pit_Jump
   file: Pit_Jump.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Pit_FallDown
   file: Pit_FallDown.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Pit_LandOnSurface
   file: Pit_LandOnSurface.md
   overview: ''
+  confidence: 'unequivocal'
 
 - name: Pit_HandleWeaponControls
   file: Pit_HandleWeaponControls.md
   overview: ''
+  confidence: 'unequivocal'
