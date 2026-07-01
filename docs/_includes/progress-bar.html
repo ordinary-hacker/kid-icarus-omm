@@ -1,0 +1,19 @@
+<div class="progress-bar">
+
+{% for _ in (1..include.unequivocal) %}
+    <img data-tooltip="Unequivocal: {{ include.unequivocal_pct }}%" style="cursor:pointer" src="{{ '/assets/images/orange-brick.svg' | relative_url }}"  alt="">
+{% endfor %}
+
+{% for _ in (1..include.high) %}
+    <img data-tooltip="High: {{ include.high_pct }}%" style="cursor:pointer" src="{{ '/assets/images/red-brick.svg' | relative_url }}"  alt="">
+{% endfor %}
+
+{% for _ in (1..include.medium) %}
+    <img data-tooltip="Medium: {{ include.medium_pct }}%" style="cursor:pointer" src="{{ '/assets/images/green-brick.svg' | relative_url }}"  alt="">
+{% endfor %}
+
+{% for _ in (1..include.low) %}
+    <img data-tooltip="Low: {{ include.low_pct }}%" style="cursor:pointer" src="{{ '/assets/images/cyan-brick.svg' | relative_url }}"  alt="">
+{% endfor %}
+
+</div>

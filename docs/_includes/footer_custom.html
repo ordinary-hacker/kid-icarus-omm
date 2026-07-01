@@ -4,3 +4,36 @@ See how to make it be <a href="https://github.com/ordinary-hacker/kid-icarus-omm
 {% endcapture %}
 
 {{ footer_md | markdownify }}
+
+<div class="highlight" id="tooltip"></div>
+
+<script>
+const tooltip = document.getElementById("tooltip");
+
+let active = false;
+
+document.addEventListener("mouseover", (e) => {
+  const target = e.target.closest("[data-tooltip]");
+  if (!target) return;
+
+  active = true;
+  tooltip.textContent = target.dataset.tooltip;
+  tooltip.style.opacity = "1";
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (!active) return;
+
+  tooltip.style.left = e.clientX + "px";
+  tooltip.style.top = e.clientY + "px";
+});
+
+document.addEventListener("mouseout", (e) => {
+  const target = e.target.closest("[data-tooltip]");
+  if (!target) return;
+  if (e.relatedTarget && target.contains(e.relatedTarget)) return;
+
+  active = false;
+  tooltip.style.opacity = "0";
+});
+</script>

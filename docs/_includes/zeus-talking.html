@@ -1,0 +1,34 @@
+<div class="dialogue-box">
+    <img src="{{ '/assets/images/zeus.svg' | relative_url }}" alt="">
+
+    <div class="text" id="dialogueText"></div>
+</div>
+
+<script>
+const textEl = document.getElementById("dialogueText");
+
+const message = "{{ include.text }}";
+
+const typingSpeed = 100;
+const holdTime = 1000;
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function typeText() {
+    while (true) {
+        for (let i = 0; i <= message.length; i++) {
+            textEl.textContent = message.slice(0, i);
+            await sleep(typingSpeed);
+        }
+
+        await sleep(holdTime);
+
+        textEl.textContent = "";
+        await sleep(300);
+    }
+}
+
+typeText();
+</script>

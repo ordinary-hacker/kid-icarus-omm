@@ -1,0 +1,15 @@
+{% if include.unequivocal > 0 %}
+* {% conf unequivocal %}: <span style="display:inline-flex">{% for _ in (1..include.unequivocal) %}<img data-tooltip="Unequivocal: {{ include.unequivocal }}" style="cursor: pointer;" width="16" height="16" src="{{ '/assets/images/orange-brick.svg' | relative_url }}" alt="">{% endfor %}</span>
+{% endif %}
+
+{% if include.high > 0 %}
+* {% conf high %}: <span style="display:inline-flex">{% for _ in (1..include.high) %}<img data-tooltip="High: {{ include.high }}" style="cursor: pointer;" width="16" height="16" src="{{ '/assets/images/red-brick.svg' | relative_url }}" alt="">{% endfor %}</span>
+{% endif %}
+
+{% if include.medium > 0 %}
+* {% conf medium %}: <span style="display:inline-flex">{% for _ in (1..include.medium) %}<img data-tooltip="Medium: {{ include.medium }}" style="cursor: pointer;" width="16" height="16" src="{{ '/assets/images/green-brick.svg' | relative_url }}" alt="">{% endfor %}</span>
+{% endif %}
+
+{% if include.low > 0 %}
+* {% conf low %}: <span style="display:inline-flex">{% for _ in (1..include.low) %}<img data-tooltip="Low: {{ include.low }}" style="cursor: pointer;" width="16" height="16" src="{{ '/assets/images/cyan-brick.svg' | relative_url }}" alt="">{% endfor %}</span>
+{% endif %}
