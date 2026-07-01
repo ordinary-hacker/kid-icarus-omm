@@ -1,0 +1,57 @@
+{% assign low = 0 %}
+{% assign medium = 0 %}
+{% assign high = 0 %}
+{% assign unequivocal = 0 %}
+
+{% for item in include.collection %}
+    {% case item.confidence %}
+        {% when "low" %}
+            {% assign low = low | plus: 1 %}
+        {% when "medium" %}
+            {% assign medium = medium | plus: 1 %}
+        {% when "high" %}
+            {% assign high = high | plus: 1 %}
+        {% when "unequivocal" %}
+            {% assign unequivocal = unequivocal | plus: 1 %}
+    {% endcase %}
+{% endfor %}
+
+{% assign progressed = low | plus: medium | plus: high | plus: unequivocal %}
+
+{% if include.mode == "bar" %}
+    {% assign total = include.total %}
+
+    {% assign low_pct = low | times: 100.0 | divided_by: total %}
+    {% assign medium_pct = medium | times: 100.0 | divided_by: total %}
+    {% assign high_pct = high | times: 100.0 | divided_by: total %}
+    {% assign unequivocal_pct = unequivocal | times: 100.0 | divided_by: total %}
+
+    {% assign low_tiles = low_pct | ceil %}
+    {% assign medium_tiles = medium_pct | ceil %}
+    {% assign high_tiles = high_pct | ceil %}
+    {% assign unequivocal_tiles = unequivocal_pct | ceil %}
+
+### {{ include.title }} <small class="muted">({{ progressed }} / {{ total }})</small>
+
+{% include progress-bar.html
+    low=low_tiles
+    medium=medium_tiles
+    high=high_tiles
+    unequivocal=unequivocal_tiles
+    low_pct=low_pct
+    medium_pct=medium_pct
+    high_pct=high_pct
+    unequivocal_pct=unequivocal_pct
+%}
+{% endif %}
+
+{% if include.mode == "list" %}
+### {{ include.title }} <small class="muted">({{ progressed }} / *???*)</small>
+
+{% include progress-list.html
+    low=low
+    medium=medium
+    high=high
+    unequivocal=unequivocal
+%}
+{% endif %}
