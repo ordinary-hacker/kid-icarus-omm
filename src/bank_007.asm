@@ -10167,7 +10167,7 @@ Jump_007_77f7:
     ld hl, $6d00
     ld de, $d900
     ld b, $40
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $02
     ld [$db50], a
     ld a, $04
@@ -10185,7 +10185,7 @@ Jump_007_781e:
     ld hl, $6d00
     ld de, $d900
     ld b, $40
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $02
     ld [$db50], a
     ld a, $04
@@ -11192,7 +11192,7 @@ jr_007_7b73:
     jp Jump_007_7b2e
 
 
-    call Call_000_0c29
+    call Audio_Init
     ld de, $7a3b
     jp Jump_007_7b36
 

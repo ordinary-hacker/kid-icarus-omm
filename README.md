@@ -30,3 +30,4 @@ See about these two in their respective files: [CONTRIBUTING.md](CONTRIBUTING.md
 
 1. [mgbdis](https://github.com/mattcurrie/mgbdis): Used to generate this disassembly project.
 2. [Pan Docs](https://gbdev.io/pandocs/): Recommended docs for understanding the Game Boy.
+3. [BGB](https://bgb.bircd.org/): Extremely useful for this project.

@@ -8537,7 +8537,7 @@ jr_003_7481:
 
     xor a
     ld [$c044], a
-    call Call_000_0c29
+    call Audio_Init
     ld a, $3c
     ld [$c030], a
     ld a, $01
@@ -8552,7 +8552,7 @@ jr_003_7481:
     ld [$c030], a
     ld a, $02
     ld [$c08d], a
-    call Call_000_0c29
+    call Audio_Init
     ld a, $17
     call Call_000_0c4c
     ld hl, $c030
@@ -8578,7 +8578,7 @@ jr_003_7481:
     ld b, a
     ld hl, hPitX
     ld de, $c089
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, [$c011]
     rrca
     jr c, jr_003_750d

@@ -339,7 +339,7 @@ Game_Start:
     call Call_000_0365
     call Call_000_0374
     call Game_SaveInput
-    call Call_000_0c29
+    call Audio_Init
     ld a, $03
     ld [$c01b], a
     call Call_000_0278
@@ -732,7 +732,7 @@ Call_000_0392:
     ld hl, $c800
     ld de, $df00
     ld b, $a0
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $01
     ld [$c03e], a
     ret
@@ -767,18 +767,19 @@ jr_000_03b6:
     ret
 
 
-Call_000_03bf:
-Jump_000_03bf:
-jr_000_03bf:
+; HL = source
+; DE = destination
+; B = count
+Util_Memcpy:
     ld a, [hl+]
     ld [de], a
     inc de
     dec b
-    jr nz, jr_000_03bf
+    jr nz, Util_Memcpy
 
     ret
 
-
+    ; (seemingly) dead code
     pop hl
     push hl
     ld c, a
@@ -2499,8 +2500,7 @@ Jump_000_0c07:
     ret
 
 
-Call_000_0c29:
-Jump_000_0c29:
+Audio_Init:
     ld a, $80
     ldh [rNR52], a
     xor a
@@ -2508,7 +2508,7 @@ Jump_000_0c29:
     ld [$dd97], a
     ld a, $77
     ldh [rNR50], a
-    ld hl, $dd00
+    ld hl, wAudioChannels
     ld b, $06
     ld a, $ff
 
@@ -2572,7 +2572,7 @@ Audio_PlaySFX:
 
     ld b, $00
 
-    ld hl, $dd00
+    ld hl, wAudioChannels
     add hl, bc
 
     ; Check whether the channel is free
@@ -2840,7 +2840,7 @@ jr_000_0dab:
     dec b
     jr nz, jr_000_0dab
 
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $ff
     ld [$0000], a
     ret
@@ -4173,7 +4173,7 @@ Jump_000_13d5:
     jp Jump_000_0c4c
 
 
-    call Call_000_0c29
+    call Audio_Init
     ld a, $1d
     jp Jump_000_0c52
 
@@ -4190,7 +4190,7 @@ Jump_000_13d5:
     jp Jump_000_0c4c
 
 
-    jp Jump_000_0c29
+    jp Audio_Init
 
 
     ld a, $3b
@@ -4217,7 +4217,7 @@ Jump_000_13d5:
     jp Jump_000_0c4c
 
 
-    call Call_000_0c29
+    call Audio_Init
     ld a, $4a
     jp Jump_000_0c4f
 
@@ -4423,7 +4423,7 @@ Call_000_15b4:
     ld hl, $5000
     ld de, $8800
     ld b, $b0
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $70c0
     ld bc, $0750
     call Call_000_03b6
@@ -4437,7 +4437,7 @@ Call_000_15b4:
     ld hl, $5000
     ld de, $8800
     ld b, $c0
-    call Call_000_03bf
+    call Util_Memcpy
     ld b, $80
     xor a
 
@@ -4451,74 +4451,74 @@ jr_000_1603:
     ld [$3fff], a
     ld hl, $6d22
     ld b, $c0
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $07
     ld [$3fff], a
     ld hl, $5080
     ld b, $20
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $51d0
     ld b, $20
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $05
     ld [$3fff], a
     ld hl, $6de2
     ld b, $20
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $6c82
     ld b, $10
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $6e02
     ld b, $b0
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $6bd2
     ld b, $20
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $07
     ld [$3fff], a
     ld hl, $4f00
     ld b, $90
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $5300
     ld b, $40
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $05
     ld [$3fff], a
     ld hl, $6bf2
     ld b, $10
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $6ed2
     ld b, $10
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $6ec2
     ld b, $10
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $6ea2
     ld b, $20
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $07
     ld [$3fff], a
     ld hl, $51f0
     ld de, $8c90
     ld b, $40
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $02
     ld [$3fff], a
     ld hl, $4420
     ld b, $10
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $4520
     ld de, $8dd0
     ld b, $10
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $4ce0
     ld de, $8ce0
     ld b, $20
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $4de0
     ld de, $8de0
     ld b, $20
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $07
     ld [$3fff], a
     ld hl, $5100
@@ -4533,26 +4533,26 @@ jr_000_1603:
     ld [$3fff], a
     ld hl, $4f00
     ld b, $e0
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $02
     ld [$3fff], a
     ld hl, $7060
     ld b, $20
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $5800
     ld de, $9000
     ld b, $c0
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $6d80
     ld bc, $0350
     call Call_000_03b6
     ld hl, $5c80
     ld de, $9480
     ld b, $30
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $5ae0
     ld b, $20
-    jp Jump_000_03bf
+    jp Util_Memcpy
 
 
     ld a, $02
@@ -4563,10 +4563,10 @@ jr_000_1603:
     call Call_000_03b6
     ld hl, $6580
     ld b, $c0
-    call Call_000_03bf
+    call Util_Memcpy
     ld hl, $7060
     ld b, $20
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $07
     ld [$3fff], a
     ld hl, $51e0
@@ -5095,12 +5095,12 @@ Call_000_1a2e:
     ld [$c087], a
     ld de, $ff9d
     ld b, $10
-    call Call_000_03bf
+    call Util_Memcpy
     call $4006
     pop de
     ld hl, $ff9d
     ld b, $10
-    jp Jump_000_03bf
+    jp Util_Memcpy
 
 
 Call_000_1a49:
@@ -5782,7 +5782,7 @@ jr_000_1d96:
     ld hl, $6ef0
     ld de, $c198
     ld b, $25
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $80
     ld [$c1ac], a
     ld a, $81
@@ -5885,7 +5885,7 @@ jr_000_1e7c:
     ld [$3fff], a
     ld de, $c100
     ld b, $14
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, l
     ldh [$ff9f], a
     ld a, h
@@ -7501,7 +7501,7 @@ jr_000_29b2:
 
 
     call Call_000_02c8
-    call Call_000_0c29
+    call Audio_Init
     call Call_000_0365
     ld a, $44
     ld [$c065], a
@@ -9582,7 +9582,7 @@ jr_000_35c3:
     and a
     jr nz, jr_000_35e4
 
-    call Call_000_0c29
+    call Audio_Init
     ld a, $07
     ldh [hPitMovementState], a
     ldh a, [hPitX]
@@ -9990,7 +9990,7 @@ jr_000_383b:
     ld [$c02d], a
 
 jr_000_3854:
-    call Call_000_0c29
+    call Audio_Init
     call Call_000_02c8
     ld a, [$db02]
     ld [wPitHasWings], a
@@ -10223,7 +10223,7 @@ Call_000_39d0:
     db $97, $93
 
 Call_000_39f5:
-    call Call_000_0c29
+    call Audio_Init
     call Call_000_02c8
     ld a, $0e
     call Call_000_0c52
@@ -10256,13 +10256,13 @@ Call_000_39f5:
     ld b, $50
 
 Call_000_3a42:
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, $01
     ld [$3fff], a
     ld hl, $71a1
     ld de, $8800
     ld b, $50
-    call Call_000_03bf
+    call Util_Memcpy
     call Call_000_0287
     call Call_000_0374
     call Call_000_0392
@@ -10533,10 +10533,10 @@ Jump_000_3bb9:
     ld hl, $d900
     ld de, $8800
     ld b, $50
-    call Call_000_03bf
+    call Util_Memcpy
 
 Jump_000_3bd9:
-    call Call_000_0c29
+    call Audio_Init
     ld a, $0e
     call Call_000_0c52
 
@@ -10690,7 +10690,7 @@ jr_000_3cd3:
 
 
     call Call_000_02c8
-    call Call_000_0c29
+    call Audio_Init
     ld a, $14
     call Call_000_0c4f
     ld a, $03

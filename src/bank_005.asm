@@ -26,7 +26,7 @@ Jump_005_400f:
     ld [$dd96], a
     ld hl, $dd9c
     inc [hl]
-    ld hl, $dd00
+    ld hl, wAudioChannels
 
 Jump_005_401d:
     push hl
@@ -221,29 +221,25 @@ jr_005_4116:
 
     jr jr_005_40e5
 
-    nop
-    ld bc, $3512
-    adc d
-    call $ffee
-    rst RST_38
-    cp $ed
-    jp z, $3285
+; From this point it's data
+; Waveform samples,
+; 16 bytes each
 
-    ld de, $0100
-    inc hl
-    ld b, l
-    ld h, a
-    adc c
-    xor e
-    call $feef
-    call c, $98ba
-    halt
-    ld d, h
-    ld [hl-], a
-    db $10
+WaveTable_0::
+    db $00, $01, $12, $35, $8a, $cd, $ee, $ff
+    db $ff, $fe, $ed, $ca, $85, $32, $11, $00
 
-    db $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff, $00, $00, $00, $00, $00, $00, $00, $00
-    db $ff, $ee, $dd, $cc, $bb, $aa, $99, $88, $77, $66, $55, $44, $33, $22, $11, $00
+WaveTable_1::
+    db $01, $23, $45, $67, $89, $ab, $cd, $ef
+    db $fe, $dc, $ba, $98, $76, $54, $32, $10
+
+WaveTable_2::
+    db $ff, $ff, $ff, $ff, $ff, $ff, $ff, $ff
+    db $00, $00, $00, $00, $00, $00, $00, $00
+
+WaveTable_3::
+    db $ff, $ee, $dd, $cc, $bb, $aa, $99, $88
+    db $77, $66, $55, $44, $33, $22, $11, $00
 
 Call_005_415e:
 Jump_005_415e:

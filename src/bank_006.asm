@@ -4087,7 +4087,7 @@ jr_006_54e7:
     ld hl, $da00
     ld de, $da02
     ld b, $fe
-    call Call_000_03bf
+    call Util_Memcpy
     ld b, $09
     ld hl, $c210
     ld de, $575f
@@ -5005,7 +5005,7 @@ Jump_006_5a7c:
     jp Jump_006_5e91
 
 
-    call Call_000_0c29
+    call Audio_Init
     ld a, $4d
     call Audio_PlaySFX
     ld a, $17
@@ -5693,7 +5693,7 @@ Call_006_5ec6:
     ld hl, $c090
     ld de, $ff8f
     ld b, $04
-    call Call_000_03bf
+    call Util_Memcpy
     call Call_000_1c8b
     ld [$c094], a
     ret
@@ -5707,7 +5707,7 @@ Call_006_5ed8:
     ld hl, $c090
     ld de, $ff8f
     ld b, $04
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, [$c094]
     ldh [$ff8b], a
     call Call_000_1d0c
@@ -5716,7 +5716,7 @@ Call_006_5ed8:
     ld hl, $ff8f
     ld de, $c090
     ld b, $04
-    call Call_000_03bf
+    call Util_Memcpy
     ld a, [$c091]
     ldh [$ff9f], a
     ld a, [$c093]
@@ -5895,7 +5895,7 @@ jr_006_5f70:
     dec [hl]
     jp nz, Jump_000_0dea
 
-    call Call_000_0c29
+    call Audio_Init
     ld a, $2b
     jp Jump_000_0c4c
 
@@ -11738,7 +11738,7 @@ Jump_006_7e3d:
     call Call_000_03de
     ld de, wShopFirstItemSlot
     ld b, $06
-    call Call_000_03bf
+    call Util_Memcpy
 
 Jump_006_7e4e:
     xor a
@@ -11816,7 +11816,7 @@ jr_006_7e9f:
 Jump_006_7eaa:
     ld a, $01
     ld [$c04d], a
-    call Call_000_0c29
+    call Audio_Init
     ld a, $13
     jp Audio_PlaySFX
 

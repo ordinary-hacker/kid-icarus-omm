@@ -105,3 +105,5 @@ DEF wPitHasCreditCard EQU $C2B6
 ; Means:
 ; Door at tile 79, belongs to room 0
 DEF wDoorTable EQU $C700
+
+DEF wAudioChannels EQU $DD00

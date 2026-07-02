@@ -10,7 +10,7 @@ Containing this type of data, it's accessed roughly *~40* times across the whole
 
 ## Evidence
 
-Hard evidence revealing that this label is for this purpose would be the function that populates it, **Game_PollInput**.
+Hard evidence revealing that this label is for this purpose would be the function that populates it, [Game_PollInput]({{ '/functions.html?popup=Game_PollInput' | relative_url }}){: target="_blank" rel="noopener noreferrer"}.
 
 Please read it's entry, as it explains how it updates this value.
 

@@ -1,6 +1,6 @@
 - name: Constant_SoundTable
   file: Constant_SoundTable.md
-  overview: ''
+  overview: 'Table defining entries'
   confidence: 'high'
 
 - name: Constant_ModeScriptTable
@@ -10,5 +10,5 @@
 
 - name: Constant_HeartRewardTable
   file: Constant_HeartRewardTable.md
-  overview: ''
+  overview: 'Table defining the amount of hearts (currency) that each heart (the ones dropped) type gives when collected'
   confidence: 'unequivocal'
