@@ -43,4 +43,4 @@ They must describe behavior, e.g. `clear_wram_loop`, `handle_bow`.
 
 ## A.I. usage
 
-There are no rough restrictions against using A.I. for this project, however, all code, docs, and content that eventually gets into this repository **must be made by a human**, with at most the support of an A.I.
+A.I. usage is allowed and there's no obligatory disclosure, however, humans **must** manually verify that the result is of quality.
